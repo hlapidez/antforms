@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<project default="test">
+	<property file="properties.txt"/>
+	<taskdef name="antform" classname="com.sardak.antform.AntForm" classpath="lib/antform.jar"/>	
+	<taskdef name="antmenu" classname="com.sardak.antform.AntMenu" classpath="lib/antform.jar"/>	
+
+	<!-- test the taskdef  with a mail-like user form -->
+	<target name="test">
+		<echo>antforms test...</echo>
+		<antform title="Some title" height="600" width="800" okMessage="OK" resetMessage="Cancel" save="properties.txt">
+			<label>This is a label with a bit of text.It specifies a message to the user and explains how to use the form and what semantics are associated to the various property fields.</label>
+			<selectionProperty label="Recipient: " property="recipient" values="address1@somewhere.com; address2@somewhere.com; address4@somewhere.com" separator=";"/>
+			<textProperty label="Subject : " property="subject" />
+			<multilineTextProperty label="Message body: " property="body"/>			
+			<booleanProperty label="Send immediately: " property="send"/>
+		</antform>
+		<antcall target="other"/>
+	</target>
+
+
+	<!-- test the taskdef  with a mail-like user form for non-editable properties -->
+	<target name="testne">
+		<echo>antforms test -> non editable properties...</echo>
+		<antform title="Some title" height="600" width="800" okMessage="OK" resetMessage="Cancel" save="properties.txt">
+			<label>A short message text for assisting users in filling out the form</label>
+			<selectionProperty label="Recipient: " property="recipient" values="address1@somewhere.com; address2@somewhere.com; address4@somewhere.com" separator=";" editable="false"/>
+			<textProperty label="Subject : " property="subject"  editable="false"/>
+			<multilineTextProperty label="Message body: " property="body" editable="false"/>			
+			<booleanProperty label="Send immediately: " property="send" editable="false"/>
+		</antform>
+		<antcall target="other"/>
+	</target>
+
+	<!-- test the antmenu task -->
+	<target name="testmenu">
+		<antmenu title="a simple menu" width="600" height="300">
+			<link label="Echo 1" target="echo1"/>
+			<link label="Echo 2" target="echo2"/>
+			<link label="Echo 3" target="echo3"/>
+			<link label="End" target="end"/>
+		</antmenu>
+	</target>
+	<!-- password fields -->
+	<target name="password">
+		<antform title="a login form" width="600" height="300">
+			<label>A Simple login form</label>
+			<textProperty label="login :" property="login"/>
+			<textProperty label="password :" property="password" password="true"/>
+			
+		</antform>
+		<antcall target="login"/>
+	</target>
+
+	<target name="login">
+		<echo>Login: ${login}</echo>
+		<echo>Password: ${password}</echo>
+	</target>
+	
+
+	<!-- echo something -->
+	<target name="echo1">
+		<echo>Echo 1</echo>
+		<antcall target="testmenu"/>
+	</target>
+	<!-- echo something -->
+	<target name="echo2">
+		<echo>Echo 2</echo>
+		<antcall target="testmenu"/>
+	</target>
+	<!-- echo something -->
+	<target name="echo3">
+		<echo>Echo 3</echo>
+		<antcall target="testmenu"/>
+	</target>
+		<!-- echo something -->
+	<target name="end">
+		<echo>The End.</echo>
+	</target>
+
+	<!-- check wether the properties were correctly modified -->
+	<target name="other" if="send">
+		<echo>subject: ${subject}</echo>
+		<echo>recipient: ${recipient}</echo>
+		<echo>body: ${body}</echo>		
+	</target>
+
+	<!-- fail a test due to unset properties -->
+	<target name="fail">
+		<echo>test destined to fail</echo>
+		<antform>
+			<textproperty label="a label"/>
+		</antform>
+	</target>
+
+	<path id="home">
+		<fileset dir="c:/downloads"/>
+	</path>
+	<target name="dirContents">
+		<pathconvert refid="home" property="homecontents" pathSep=","/>			
+		<echo>${homecontents}</echo>
+		<antform title="a login form" width="900" height="300">
+			<label>A list  of files</label>
+			<selectionProperty label="Files: " property="files" values="${homecontents}" separator=","/>
+		</antform>
+	</target>
+	
+</project>
+
