@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+AntForms build script 
+author: René Ghosh
+Date: 07/01/2005.
+-->
+<project name="antform" default="package">
+	<!-- build properties -->
+	<property name="bin" value="bin"/>
+	<property name="src" value="src"/>
+	<property name="lib" value="lib"/>
+	<property name="doc" value="doc"/>
+	<property name="version" value="1.2.1"/>
+	
+	<!-- clean up the class folder -->
+	<target name="clean">
+		<mkdir dir="${bin}"/>
+		<delete>
+			<fileset dir="${bin}" includes="**/*.*"/>
+		</delete>
+	</target>
+
+	<!-- generate the  javadoc from the java source code into the ${doc}/api folder -->
+	<target name="doc">
+		<mkdir dir="${doc}/api"/>
+		<javadoc sourcepath="${src}" destdir="${doc}/api" packagenames="*" />
+	</target>
+
+	<!-- compile antform classes -->
+	<target name="compile">
+		<mkdir dir="${bin}"/>
+		<javac srcdir="${src}" destdir="${bin}" classpath="${lib}/ant.jar"/>
+	</target>
+
+	<!-- construct the antform jar file -->
+	<target name="jar" depends="compile">
+		<mkdir dir="${lib}"/>
+		<jar destfile="${lib}/antform.jar" basedir="${bin}"/>
+	</target>
+
+	<!-- package the application for deployment, with sources -->
+	<target name="package-src" depends="clean,doc,jar">
+		<zip destfile="antform-src-${version}.zip" update="false">
+			<fileset dir="." includes="LICENSE build.xml test.xml doc/**/*.* src/**/*.java lib/antform.jar" excludes="*.zip"/>
+		</zip>			
+	</target>
+	
+	<!-- package the application for deployment, without sources -->
+	<target name="package-bin" depends="clean,doc,jar">
+		<zip destfile="antform-bin-${version}.zip" update="false">
+			<fileset dir="." includes="LICENSE test.xml doc/**/*.* lib/antform.jar" excludes="*.zip"/>
+		</zip>			
+	</target>
+
+	<!-- generate all packages -->
+	<target name="package" depends="package-src, package-bin"/>
+
+</project>
