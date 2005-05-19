@@ -1,0 +1,41 @@
+<project default="test">
+	<path id="runtime.cp">
+		<pathelement location="bin/"/>
+		<fileset dir="lib" includes="antform.jar"/>
+	</path>
+	<taskdef name="antform" classname="com.sardak.antform.AntForm"
+		classpathref="runtime.cp"/>
+	<taskdef name="antmenu" classname="com.sardak.antform.AntMenu"
+		classpathref="runtime.cp"/>
+		<!-- use the ant-contrib module for tests -->
+	
+<taskdef resource="net/sf/antcontrib/antcontrib.properties">
+	  <classpath>
+	    <pathelement location="olib/ant-contrib.jar"/>
+	  </classpath>
+</taskdef>
+
+<target name="test">
+<antmenu>
+<link label="1" target="echo-p" />
+</antmenu>
+
+<property name="p" value="a" />	
+<antmenu>
+<link label="2" target="echo-p" />
+</antmenu>
+</target>
+<target name="echo-p">
+<echo message="p = ${p}" />
+</target>
+
+<target name="hs">
+<antform title="form1">
+<table label="" property="p"
+data="AAAAAAAAAAAAAAAAAAAAAAAA,BBBBBBBBBBBBBBBBBBBBBBBB,CCCCCCCCCCCCCCCCCCCC,DDDDDDDDDDDDDDDDDD"
+columns="a,b,c,d" columnSeparator="," rowSeparator=";" width="100" height="300"/>
+</antform>
+	
+</target>
+
+</project>
