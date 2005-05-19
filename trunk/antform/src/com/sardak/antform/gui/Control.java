@@ -1,32 +1,85 @@
+ /***************************************************************************\*
+ *                                                                            *
+ *    AntForm form-based interaction for Ant scripts                          *
+ *    Copyright (C) 2005 René Ghosh                                           *
+ *                                                                            *
+ *   This library is free software; you can redistribute it and/or modify it  *
+ *   under the terms of the GNU Lesser General Public License as published by *
+ *   the Free Software Foundation; either version 2.1 of the License, or (at  *
+ *   your option) any later version.                                          *
+ *                                                                            *
+ *   This library is distributed in the hope that it will be useful, but      *
+ *   WITHOUT ANY WARRANTY; without even the implied warranty of               *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser  *
+ *   General Public License for more details.                                 *
+ *                                                                            *
+ *   You should have received a copy of the GNU Lesser General Public License *
+ *   along with this library; if not, write to the Free Software Foundation,  *
+ *   Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA              *
+ \****************************************************************************/
 package com.sardak.antform.gui;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 
-import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import com.sardak.antform.AntCallBack;
+import com.sardak.antform.style.HexConverter;
+import com.sardak.antform.types.AntMenuItem;
+import com.sardak.antform.util.MnemonicsUtil;
+import com.sardak.antform.util.StyleUtil;
 
 /**
  * Frame for holding the user form
  * @author René Ghosh
  */
-public class Control {
+public class Control implements ActionListener{
 	private static final boolean TESTMODE = false;
 	private static final boolean VERBOSE = false;
-	private JFrame frame;
+	private CallBackDialog dialog;
 	private JTabbedPane tabbedPane;	
 	private Properties properties = new Properties();
-	private AntCallBack antCallBack;
-	private ControlPanel panel = new ControlPanel(this);
+	private CallBack callBack;
+	private ControlPanel panel;
+	private JMenuBar menuBar;
+	private HashSet usedLetters;
 	private int width=-1, height= -1;
+	private String title, image;
+	private JScrollPane scrollPane;
+	private boolean firstShow = true;
+	private List menuItems;
+		
+	/**
+	 * Process actionEvents
+	 */
+	public void actionPerformed(ActionEvent e) {
+		String actionCommand = e.getActionCommand();
+		if ((actionCommand!=null)&&(actionCommand.trim().length()>0)) {
+			executeTeleport(actionCommand);
+		}
+	}
 	
 	/**
 	 * set window width
@@ -52,27 +105,57 @@ public class Control {
 	/**
 	 * Constructor	 
 	 */
-	public Control(final AntCallBack antCallBack, String title){
-		this.antCallBack=antCallBack;
-		frame = new JFrame(title){
-			public void dispose() {
-				if (VERBOSE) {
-					System.out.println("closing...");
-				}
-				super.dispose();
-				if (antCallBack!=null) {
-					antCallBack.callback(null);
-				}
-			}
-		};		
-		panel.setTitle(title);		
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
-		if (TESTMODE) {
-			test(panel);
-		}
-		frame.getContentPane().add(panel);				
+	public Control(final CallBack antCallBack, String title, String image,
+			boolean tabbed){
+		init(antCallBack, title, image, tabbed);
 	}
 	
+	/**
+	 * Manually set the callback method, title and image
+	 */
+	public void init(final CallBack antCallBack, String title, String image,
+			boolean tabbed){
+		this.callBack=antCallBack;
+		if (dialog==null) {
+			dialog = new CallBackDialog();		
+			dialog.setCallBack(antCallBack);
+			dialog.setTitle(title);
+			this.title=title;
+			this.image=image;					
+			newPanel(tabbed);
+			init();
+			getPanel().init();
+		}		
+	}
+	
+	/**
+	 * Initialize the control
+	 */
+	public void init() {
+		menuItems = new ArrayList();
+		usedLetters = new HashSet();
+	}
+	
+	/**
+	 * Create and setup a new Panel
+	 */
+	public void newPanel(boolean tabbed) {
+		panel = new ControlPanel(this,tabbed);			
+		JPanel container = new JPanel();
+		container.setBorder(null);
+		container.setLayout(new BorderLayout());
+		container.setBackground(Color.WHITE);
+		dialog.setContentPane(container);		
+		if (title!=null) {
+			panel.setTitle(title);
+		}
+		if (image!=null) {
+			panel.setImage(image);
+		}		
+		scrollPane = new JScrollPane(panel);
+		dialog.getContentPane().add(scrollPane, BorderLayout.CENTER);		
+	}
+
 	/**
 	 * set the frame look and feel
 	 * @param lookAndFeel
@@ -89,15 +172,15 @@ public class Control {
 		} catch (UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
-		SwingUtilities.updateComponentTreeUI(frame);
-		
+		SwingUtilities.updateComponentTreeUI(dialog);
 	}
+	
 	/**
 	 * set the frame title
 	 * @param title
 	 */
 	public void setTitle(String title){
-		frame.setTitle(title);
+		dialog.setTitle(title);
 	}
 	
 	/**
@@ -105,66 +188,81 @@ public class Control {
 	 *
 	 */
 	public void pack(){
-		frame.pack();
+		dialog.pack();
 	}
+	
 	/**
 	 * show the frame
-	 *
 	 */
 	public void show(){
-		//center the frame
-		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();		
-		pack();
-		if (width!=-1) {
-			frame.setSize(width, frame.getHeight());
-		}
-		if (height!=-1) {
-			frame.setSize(frame.getWidth(), height);
-		}
-		frame.setLocation(
-				(int) (d.getWidth()/2.0-frame.getWidth()/2.0),
-				(int) (d.getHeight()/2.0-frame.getHeight()/2.0)
-				);
-		frame.show();
+		if (firstShow) {						
+			pack();			
+			if (width!=-1) {
+				dialog.setSize(width, dialog.getHeight());				
+			}
+			if (height!=-1) {
+				dialog.setSize(dialog.getWidth(), height);				
+			}	
+			center();
+			if ((height==-1)&&(width==-1)) {
+				pack();
+				pack();
+			} else {
+				
+			}			
+			firstShow = false;			
+			dialog.show();			
+		} else {
+			dialog.show();
+		}					
 	}
+	
 	/**
-	 * test the control panel interface
-	 * @param panel
+	 * Center the dialog
 	 */
-	private static void test(ControlPanel panel) {
-		panel.addTextProperty("Login: ", "login",40, false, true);
-		panel.addConstrainedProperty("Login Type: ", "type", new String[] {"remote", "telnet", "ssh"}, false);
-		panel.addMultiLineTextProperty("Description: ", "description", 40,5, false);
-		panel.addBooleanProperty("Remember me: ", "remember", false);
-		Properties props = new Properties();
-		props.setProperty("login", "<LOGIN>");
-		props.setProperty("type", "ssh");
-		props.setProperty("description", "<DESCRIPTION>");
-		props.setProperty("remember", "true");
-		panel.setProperties(props);			
-		panel.show();
+	private void center() {
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		Dimension size = dialog.getSize();
+		dialog.setLocation(d.width/2-size.width/2,d.height/2-size.height/2);
+	}
+
+	/**
+	 * Close the control panel and store properties
+	 * @param properties
+	 */
+	public void close(Properties properties, String message) {		
+		this.properties = properties;
+		close(message);
 	}
 	
 	/**
 	 * Close the control panel and store properties
 	 * @param properties
 	 */
-	public void close(Properties properties) {
-		if (TESTMODE) {
-			properties.list(System.out);
-		}
-		this.properties = properties;
-		frame.dispose();
+	public void close(String message) {				
+		dialog.dispose(message);
+//		getPanel().init();
 	}
 	
 	/**
 	 * execute a target link
 	 */
-	public void executeLink(String target){
-		antCallBack.callback(target);		
-		frame.dispose();
+	public void executeLink(String target){		
+		callBack.callbackCommand(target);
+		dialog.dispose(true);
+//		getPanel().init();
 	}
 	
+	/**
+	 * execute a target link
+	 */
+	public void executeTeleport(String target){
+		if (callBack!=null) {
+			callBack.callbackLink(target);
+		}
+		dialog.dispose(false);
+//		getPanel().init();
+	}
 
 	/**
 	 * @return the properties.
@@ -191,18 +289,78 @@ public class Control {
 		}
 		setProperties(props);
 	}
-	public static void main(String[] args) {
-		try {
-			System.out.println(UIManager.getSystemLookAndFeelClassName());
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			Control c = new Control(null, "title");			
-			ControlPanel panel = new ControlPanel(c);
-			c.getPanel().addLabel("this is a label of text");
-			test(panel);
-			c.show();
-		} catch (Exception e) {
-			e.printStackTrace();
+	
+
+	/**
+	 * add menu item to menu bar
+	 */
+	public void addMenuItem(AntMenuItem menuItem) {
+		this.usedLetters=panel.getUsedLetters();
+		if (menuBar==null) {
+			menuBar = new JMenuBar();
+			dialog.setJMenuBar(menuBar);					
 		}
+		String name = menuItem.getName();
+		JMenu menu = new JMenu(name);
+		menuItems.add(menu);
+		String sToUse = MnemonicsUtil.newMnemonic(name, usedLetters);
+		if (sToUse!=null) {
+			menu.setMnemonic(sToUse.charAt(0));
+		}
+		menuBar.add(menu);
+		addMenuItems(menuItem, menu);
+	}
+	
+	/**
+	 * add menu item to menu bar
+	 */
+	public void addMenuItems(AntMenuItem parentItem, JMenuItem parentMenuItem) {
+		HashSet usedLetters = new HashSet(); 
+		for (Iterator iter = parentItem.getSubProperties().iterator(); iter.hasNext();) {
+			AntMenuItem newItem = (AntMenuItem) iter.next();
+			String name = newItem.getName();
+			String sToUse = MnemonicsUtil.newMnemonic(name, usedLetters);					
+			if (newItem.getSubProperties().size()>0) {
+				JMenu newMenu = new JMenu(name);
+				if (sToUse!=null) {
+					newMenu.setMnemonic(sToUse.charAt(0));
+				}				
+				parentMenuItem.add(newMenu);
+				addMenuItems(newItem, newMenu);
+				menuItems.add(newMenu);
+			} else {
+				JMenuItem newMenuItem = new JMenuItem(name);			
+				if (sToUse!=null) {
+					newMenuItem.setMnemonic(sToUse.charAt(0));
+				}				
+				parentMenuItem.add(newMenuItem);
+				menuItems.add(newMenuItem);
+				newMenuItem.addActionListener(this);
+				newMenuItem.setActionCommand(newItem.getTarget());
+			}
+		}		
+	}
+
+	/**
+	 * set the form stylesheet
+	 * @param title
+	 * @throws IOException
+	 * @throws FileNotFoundException
+	 */
+	public void setStyleSheet(String styleSheet) throws FileNotFoundException, IOException{
+		Properties props = new Properties();
+		props.load(new FileInputStream(new File(styleSheet)));		
+		Color background = HexConverter.translate(props.getProperty("background.color"), Color.GRAY);
+		Color foreground = HexConverter.translate(props.getProperty("color"), Color.BLACK);		
+		List banners = new ArrayList();
+		StyleUtil.styleComponents("menu", props, menuItems);		
+	}
+
+	/**
+	 * set a property to "false" only if it's set
+	 */
+	public void setFalse(String propertyName) {
+		callBack.setFalse(propertyName);
 	}
 	
 }
