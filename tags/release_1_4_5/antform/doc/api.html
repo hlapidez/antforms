@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en">
+  <head>
+    <title>AntForm home</title>
+    <meta http-equiv="Content-Type"
+    content="text/html;charset=ISO-8859-1"></meta>
+    <link rel="stylesheet" href="style/style.css"
+    type="text/css" />
+  </head>
+  <body>
+    <table cellpadding="0" cellspacing="0" width="100%" border="0">
+      <tr>
+        <td colspan="2" valign="bottom">
+          <a href="http://antforms.sourceforge.net/">
+            <img border="0" src="images/logo.jpg" alt="logo" />
+          </a>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" colspan="2" height="1">
+          <img src="images/pix.gif" width="100%" height="1"
+          alt="pix" />
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" align="center">
+          <table border="0" cellpadding="0" cellspacing="5">
+            <tr>
+              <td>
+                <table class="menu" width="200" border="0"
+                cellpadding="2" cellspacing="0" align="right">
+                <tr>
+	<th class="menuTitle">Main</th>
+</tr>
+<tr>
+	<td>
+		&nbsp;&nbsp;<a class="menuitem" href="index.html">About</a>&nbsp;&nbsp;
+	</td>
+</tr>
+<tr>
+	<td>
+		&nbsp;&nbsp;<a class="menuitem" href="installation.html">Installation &amp; samples</a>&nbsp;&nbsp;
+	</td>
+</tr>
+<tr>
+	<td>
+		&nbsp;&nbsp;<a class="menuitem" href="documentation.html">Documentation</a>&nbsp;&nbsp;
+	</td>
+</tr>
+<tr>
+	<td>
+		&nbsp;&nbsp;<a class="menuitem" href="api.html">Using the API</a>&nbsp;&nbsp;
+	</td>
+</tr>
+<tr>
+	<td>
+		&nbsp;&nbsp;<a class="menuitem" href="usageaf.html">Usage - AntForm</a>&nbsp;&nbsp;
+	</td>
+</tr>
+<tr>
+	<td>
+		&nbsp;&nbsp;<a class="menuitem" href="usageam.html">Usage - AntMenu</a>&nbsp;&nbsp;
+	</td>
+</tr>
+<tr>
+	<td>
+		&nbsp;&nbsp;<a class="menuitem" href="stylesheets.html">Usage - stylesheets</a>&nbsp;&nbsp;
+	</td>
+</tr>
+<tr>
+	<td>
+		&nbsp;&nbsp;<a class="menuitem" href="screenshots.html">Screenshots</a>&nbsp;&nbsp;
+	</td>
+</tr>
+<tr>
+	<td>
+		&nbsp;&nbsp;<a class="menuitem" href="download.html">Downloading</a>&nbsp;&nbsp;
+	</td>
+</tr>
+<tr>
+	<td>
+		&nbsp;&nbsp;<a class="menuitem" href="ackowledgements.html">Acknowledgements</a>&nbsp;&nbsp;
+	</td>
+</tr>
+<tr><td class="spacer">&nbsp;</td></tr>
+<tr>
+	<th class="menuTitle">News</th>
+</tr>
+<tr>
+	<td>
+		&nbsp;&nbsp;<a class="menuitem" href="news.html">Recent</a>&nbsp;&nbsp;
+	</td>
+</tr>
+<tr><td class="spacer">&nbsp;</td></tr>
+</table>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <table width="200" border="0" cellpadding="2"
+                cellspacing="0" align="right">
+                  <tr>
+                    <td align="left">
+                      <a href="http://www.opensource.org/docs/definition.php"><img src="images/open_source_button.png" alt="open source" border="0" /></a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+		      <a href="http://www.vim.org"><img border="0"                         src="images/vim_created.gif" alt="created with vim" /></a>
+                    </td>
+                  </tr>
+		  <tr>
+			<td><a href="http://validator.w3.org/check?uri=referer"><img
+					src="images/valid-xhtml10.png" border="0"
+	  alt="Valid XHTML 1.0!" height="31" width="88" /></a></td>
+		  </tr>
+		  <tr>
+
+			  <td><a href="http://jigsaw.w3.org/css-validator/check/referer"><img
+					  style="border:0;width:88px;height:31px"
+					  src="images/vcss.png"  alt="Valid CSS!"/></a>
+			 </td>
+ 		</tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td width="100%" valign="top">
+          <table class="lowered" width="100%" border="0"
+          cellpadding="5" cellspacing="0" align="left">
+            <tr>
+              <td class="bordered"><h2>Using the API from a Java program</h2>
+<p>AntForm can be used from outside of Ant. Indeed, the Java platform itself is
+lacking for simple out-of-box functionality for making simple forms, hence the 
+use of AntForm to fill the void. The Antform API provides a stunningly simple way
+of building GUI forms for requesting input from a user.</p>
+<p>To build an AntForm programmatically, first import the required packages into your 
+java class:</p>
+<blockquote>
+<pre>
+import com.sardak.antform.gui.*;
+import com.sardak.antform.interfaces.*;
+import com.sardak.antform.types.*;
+</pre>
+</blockquote>
+<p>The next step is to build a <code>Control</code> instance an pass it an implementation of 
+the <code>CallBack</code> interface, which will be called when the user clicks a button (<code>callbackCommand</code> method) or a link (<code>callbackLink</code> method). From the <code>Control</code> object, get a handle to it's panel: this is where widgets are added into the form.</p>
+<blockquote>
+<pre>
+Control control = new Control(new CallbackTest(), "Configure FTP Servers", null);
+ControlPanel panel = control.getPanel();
+</pre>	
+</blockquote>
+<p>From then on it's just a question of adding widgets for each property that needs to be set, or links for calling back methods on the callback object. Use the callback object through links if you need to change the form between stages of it's use. For instance, for dynamically adding elements to the form, re-construct the form with added elements following the callback.</p>
+<blockquote>
+<pre>
+LinkBar bar = new LinkBar();
+List links = new  ArrayList();			
+bar.addConfiguredLink(new Link("Add an FTP server", "addserver"));
+bar.addConfiguredLink(new Link("Remove an FTP server", "removeServer"));
+panel.addLinkBar(bar);
+panel.addSeparator();
+</pre>	
+</blockquote>
+<p>To every widget that's added to the form, a handle can be retrieved, which will enable getting the widget value after the form has been disposed. This is not the only way, of course, as the form has a 
+<code>properties</code> object that contains the values of each widget mapped to a property name that was specified when the widget was added to the form.</p>
+<blockquote>
+<pre>
+ValueHandle g1 = panel.addBooleanProperty("Passive-mode connection:", "pasv", true);
+ValueHandle g2 = panel.addTextProperty("Server address:", "serverAddress", 30, true, false, false);
+ValueHandle g3 = panel.addTextProperty("Server login:", "login", 30, true, false, false);
+ValueHandle g4 = panel.addTextProperty("Server password:", "password", 30, true, true, false);
+</pre>	
+</blockquote>
+		
+<p>If initial values need to be injected into the form, this can be accomplished via the <code>Control.setProperties()</code> method, or through each <code>ValueHandle</code> handle for finer control over initial values:</p>
+<blockquote>
+<pre>
+Properties props = new Properties();
+props.setProperty("pasv", "true");
+g2.setValue("login");
+control.setProperties(props);
+</pre>	
+</blockquote>
+
+<p>Finally, the button controls  for approving or resetting the form are added in and the <code>Control.show()</code> method is called to pop up the Control dialog. </p>
+<blockquote>
+<pre>
+panel.addButtonControls("Save properties", "Reset form");		
+control.show();
+</pre>	
+</blockquote>
+
+<p>Once the control is disposed, the properties can be extracted all at once through the <code>Control.getProperties()</code> method or one by one through the various handles that were retrieved from each individual widget:</p>
+		
+<blockquote>
+<pre>
+panel.getProperties().list(System.out);		
+System.out.println(g1.getValue());
+System.exit(0);
+</pre>	
+</blockquote>
+<p>Here is a screenshot of the ftp example form constructed with the above code:</p>
+<p align="center"><img src="images/ftpexample.jpg" alt="ftp example" /></p></td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" height="30" valign="bottom" align="right">
+          <i>René Ghosh - 
+          <a href="mailto:sardak@users.sourceforge.net">sardak@users.sourceforge.net</a>-
+          updated: 20/05/2005</i>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
