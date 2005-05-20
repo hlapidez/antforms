@@ -1,7 +1,7 @@
 <project>
 	<path id="runtime.cp">
 		<pathelement location="bin/"/>
-		<fileset dir="lib" includes="antform.jar"/>
+		<fileset dir="lib" includes="../antform.jar"/>
 	</path>
 	<taskdef name="antform" classname="com.sardak.antform.AntForm"
 		classpathref="runtime.cp"/>
