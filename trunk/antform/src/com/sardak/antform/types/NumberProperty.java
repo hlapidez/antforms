@@ -21,39 +21,38 @@ package com.sardak.antform.types;
 
 /**
  * @author René Ghosh
- * 10 janv. 2005
+ * 2 mars 2005
  */
-public class Label extends BaseType{
-	private String text;
-	private int columns=-1, rows=-1;
-
-	public void addText(String text) {
-		this.text = text;
-	}
-	/**
-	 * get label text
-	 */
-	public String getText() {
-		return text;
-	}
-
-	/**
-	 * get te number of columns
-	 */
-	public int getColumns() {
-		return columns;
-	}
+public class NumberProperty extends DefaultProperty{
+	private double min=0,max=100,step=1;
+	private boolean editable = true;
 	
 	/**
-	 * set the number of colums
+	 * get Max
 	 */
-	public void setColumns(int columns) {
-		this.columns = columns;
+	public double getMax() {
+		return max;
 	}
-	public int getRows() {
-		return rows;
+	/**
+	 * get Min
+	 */
+	public void setMax(double max) {
+		this.max = max;
 	}
-	public void setRows(int rows) {
-		this.rows = rows;
+	/**
+	 * 
+	 * get step
+	 */
+	public double getMin() {
+		return min;
+	}
+	public void setMin(double min) {
+		this.min = min;
+	}
+	public double getStep() {
+		return step;
+	}
+	public void setStep(double step) {
+		this.step = step;
 	}
 }

@@ -19,41 +19,26 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
+import com.sardak.antform.interfaces.Requirable;
+
 /**
  * @author René Ghosh
- * 10 janv. 2005
+ * 2 mars 2005
  */
-public class Label extends BaseType{
-	private String text;
-	private int columns=-1, rows=-1;
-
-	public void addText(String text) {
-		this.text = text;
-	}
-	/**
-	 * get label text
-	 */
-	public String getText() {
-		return text;
-	}
-
-	/**
-	 * get te number of columns
-	 */
-	public int getColumns() {
-		return columns;
-	}
+public class DateProperty extends DefaultProperty implements Requirable{
+	private String dateFormat;
+	private boolean required;
 	
-	/**
-	 * set the number of colums
-	 */
-	public void setColumns(int columns) {
-		this.columns = columns;
+	public boolean isRequired() {
+		return required;
 	}
-	public int getRows() {
-		return rows;
+	public void setRequired(boolean required) {
+		this.required = required;
 	}
-	public void setRows(int rows) {
-		this.rows = rows;
+	public String getDateFormat() {
+		return dateFormat;
+	}
+	public void setDateFormat(String dateFormat) {
+		this.dateFormat = dateFormat;
 	}
 }

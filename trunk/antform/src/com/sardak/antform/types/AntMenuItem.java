@@ -19,41 +19,62 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+
 /**
  * @author René Ghosh
- * 10 janv. 2005
+ * 11 mars 2005
  */
-public class Label extends BaseType{
-	private String text;
-	private int columns=-1, rows=-1;
-
-	public void addText(String text) {
-		this.text = text;
+public class AntMenuItem extends BaseType{
+	private List subProperties = new ArrayList();
+	private HashSet usedLetters = new HashSet();
+	private String target,name;
+	
+	
+	/**
+	 * get the list of subProperties
+	 */
+	public List getSubProperties(){
+		return subProperties;
 	}
 	/**
-	 * get label text
+	 * get the name
 	 */
-	public String getText() {
-		return text;
+	public String getName() {
+		return name;
 	}
-
 	/**
-	 * get te number of columns
+	 * set the name
 	 */
-	public int getColumns() {
-		return columns;
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	/**
-	 * set the number of colums
+	 * get the target
 	 */
-	public void setColumns(int columns) {
-		this.columns = columns;
+	public String getTarget() {
+		return target;
 	}
-	public int getRows() {
-		return rows;
+	
+	/**
+	 * set the target
+	 */
+	public void setTarget(String target) {
+		this.target = target;
 	}
-	public void setRows(int rows) {
-		this.rows = rows;
+	/**
+	 * Add another configured property to this one
+	 */
+	public void addConfiguredAntMenuItem(AntMenuItem menuProperty) {
+		subProperties.add(menuProperty);
+	}
+	public HashSet getUsedLetters() {
+		return usedLetters;
+	}
+	public void setUsedLetters(HashSet usedLetters) {
+		this.usedLetters = usedLetters;
 	}
 }

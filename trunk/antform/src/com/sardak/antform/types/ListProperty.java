@@ -19,41 +19,43 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
+import java.util.List;
+
+import com.sardak.antform.util.CSVReader;
+
+
 /**
  * @author René Ghosh
- * 10 janv. 2005
+ * 2 mars 2005
  */
-public class Label extends BaseType{
-	private String text;
-	private int columns=-1, rows=-1;
-
-	public void addText(String text) {
-		this.text = text;
-	}
-	/**
-	 * get label text
-	 */
-	public String getText() {
-		return text;
-	}
-
-	/**
-	 * get te number of columns
-	 */
-	public int getColumns() {
-		return columns;
-	}
+public class ListProperty extends DefaultProperty{
+	String values;
+	String separator=",";
+	String escapeSequence="\\";
 	
+	public String getSeparator() {
+		return separator;
+	}
+	public void setSeparator(String separator) {
+		this.separator = separator;
+	}
+	public String getValues() {
+		return values;
+	}
+	public void setValues(String values) {
+		this.values = values;
+	}
+	public String getEscapeSequence() {
+		return escapeSequence;
+	}
+	public void setEscapeSequence(String escapeSequence) {
+		this.escapeSequence = escapeSequence;
+	}
 	/**
-	 * set the number of colums
+	 * get the properry s a list of values
 	 */
-	public void setColumns(int columns) {
-		this.columns = columns;
-	}
-	public int getRows() {
-		return rows;
-	}
-	public void setRows(int rows) {
-		this.rows = rows;
+	public List asList(){
+		return new CSVReader(separator, escapeSequence).digest(values, true);
+		
 	}
 }
