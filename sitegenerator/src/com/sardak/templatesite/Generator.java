@@ -147,6 +147,9 @@ public class Generator {
 		for (int i = 0; i < pages.length; i++) {
 			File page = pages[i];
 			log("Page to generate: "+page.getName());
+			if (page.getName().equalsIgnoreCase("cvs")) {
+				continue;
+			}
 			String content = Personalizer.fileContent(page);
 			String pageName = page.getName();
 			String title = titleOfHref(pageName, menus);
