@@ -17,43 +17,31 @@
  *   along with this library; if not, write to the Free Software Foundation,  *
  *   Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA              *
  \****************************************************************************/
-package com.sardak.antform.types;
+package com.sardak.antform.util;
 
 /**
+ * String utility.
  * @author René Ghosh
- * 10 janv. 2005
+ * 2 mars 2005
  */
-public class Label extends BaseType{
-	private String text;
-	private int columns=-1, rows=-1;
-
-	public void addText(String text) {
-		this.text = text;
-	}
+public class StringUtil {
+	
 	/**
-	 * get label text
+	 * Generic search & replace
 	 */
-	public String getText() {
-		return text;
-	}
-
-	/**
-	 * get te number of columns
-	 */
-	public int getColumns() {
-		return columns;
+	public static String searchReplace(String holder, String search, String replace){
+		int start = 0;
+		while ((start=holder.indexOf(search, start))!=-1) {
+			holder = holder.substring(0, start)+replace+holder.substring(start+search.length());
+			start += replace.length();
+		}
+		return holder;
 	}
 	
 	/**
-	 * set the number of colums
+	 * test
 	 */
-	public void setColumns(int columns) {
-		this.columns = columns;
-	}
-	public int getRows() {
-		return rows;
-	}
-	public void setRows(int rows) {
-		this.rows = rows;
+	public static void main(String[] args) {
+		System.out.println(searchReplace("haha&&&", "&&", "&"));
 	}
 }

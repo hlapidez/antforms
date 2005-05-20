@@ -19,41 +19,25 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author René Ghosh
- * 10 janv. 2005
+ * 13 mars 2005
  */
-public class Label extends BaseType{
-	private String text;
-	private int columns=-1, rows=-1;
-
-	public void addText(String text) {
-		this.text = text;
+public class LinkBar extends BaseType{
+	private List links = new ArrayList(); 
+	/**
+	 * add a link to the link bar
+	 */
+	public void addConfiguredLink(Link link) {
+		links.add(link);
 	}
 	/**
-	 * get label text
+	 * get links
 	 */
-	public String getText() {
-		return text;
-	}
-
-	/**
-	 * get te number of columns
-	 */
-	public int getColumns() {
-		return columns;
-	}
-	
-	/**
-	 * set the number of colums
-	 */
-	public void setColumns(int columns) {
-		this.columns = columns;
-	}
-	public int getRows() {
-		return rows;
-	}
-	public void setRows(int rows) {
-		this.rows = rows;
+	public List getLinks() {
+		return links;
 	}
 }

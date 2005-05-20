@@ -17,43 +17,33 @@
  *   along with this library; if not, write to the Free Software Foundation,  *
  *   Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA              *
  \****************************************************************************/
-package com.sardak.antform.types;
+package com.sardak.antform.util;
+
+import java.util.HashSet;
 
 /**
  * @author René Ghosh
- * 10 janv. 2005
+ * 11 mars 2005
  */
-public class Label extends BaseType{
-	private String text;
-	private int columns=-1, rows=-1;
-
-	public void addText(String text) {
-		this.text = text;
-	}
-	/**
-	 * get label text
-	 */
-	public String getText() {
-		return text;
-	}
+public abstract class MnemonicsUtil {
 
 	/**
-	 * get te number of columns
+	 * get a new mnemonic for a list 
+	 * of used letters and a label
 	 */
-	public int getColumns() {
-		return columns;
+	public static String newMnemonic(String labelText, HashSet usedLetters) {
+		char toUse = 'a';
+		String sToUse = null;
+		for (int i=0;i<labelText.length();i++){
+			toUse = labelText.charAt(i);
+			sToUse = (""+toUse).toUpperCase();
+			if (usedLetters.contains(sToUse)){
+				continue;
+			}			
+			usedLetters.add(sToUse);
+			return sToUse;								
+		}
+		return null;
 	}
-	
-	/**
-	 * set the number of colums
-	 */
-	public void setColumns(int columns) {
-		this.columns = columns;
-	}
-	public int getRows() {
-		return rows;
-	}
-	public void setRows(int rows) {
-		this.rows = rows;
-	}
+
 }
