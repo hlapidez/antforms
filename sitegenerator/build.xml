@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<project name="templateGenerator" default="jar">
+	<property name="src" value="src"/>
+	<property name="lib" value="lib"/>
+	<property name="bin" value="bin"/>
+
+	<path id="classpath">
+		<fileset dir="lib" includes="*.jar"/>
+	</path>
+
+	<!-- clean class dir -->
+	<target name="clean">
+		<mkdir dir="${bin}"/>
+		<delete>
+			<fileset dir="${bin}" includes="**/*.*"/>
+		</delete>
+	</target>
+
+	<!-- compile target -->
+	<target name="compile">
+		<mkdir dir="${bin}"/>
+		<javac srcdir="${src}" destdir="${bin}" classpathref="classpath"/>
+	</target>
+
+
+	<!-- construct jar -->
+	<target name="jar" depends="clean, compile">
+		<jar destfile="${lib}/simplegenerator.jar" basedir="${bin}"/>
+	</target>
+
+	<!-- package application -->
+	<target name="package">
+		<zip destfile="simplegenerator.zip">
+			<fileset dir="." includes="*.xml src/**/*.java data/**/*.* skins/**/*.* generated/**/*.*"/>
+
+		</zip>	
+	</target>
+</project>
