@@ -12,24 +12,6 @@
 		<mkdir dir="doc"/>
 		<generate inputDir="docContent" skinDir="${templategen}/skin/simple" outputDir="doc"/>
 	</target>
-
-	<target name="port-html">
-		<scp todir="sardak:oldg1psi@shell.sourceforge.net:/home/groups/a/an/antforms/htdocs/">
-    		<fileset dir="doc">
-	        <include name="*.html"/>
-    		</fileset>
-		 </scp>
-	</target>
-
-	<target name="go">
-		<ant antFile="build.xml" target="package"/>
-	 	<ftp server="upload.sourceforge.net"
-       			userid="anonymous"
-			remotedir="incoming"
-       			password="rene_ghosh@yahoo.com">
-    			<fileset dir="." includes="*.zip"/>
-  		</ftp>
-  	</target>
 	
 </project>
 
