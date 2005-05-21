@@ -498,11 +498,9 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 			callee.setLocation(getLocation());									
 			if ((message.equals(okMessage))&&(theNextTarget!=null)) {
 				callee.setTarget(nextTarget);
-				callee.init();
 				callee.execute();
 			} else if ((message.equals(resetMessage))&&(thePreviousTarget!=null)) {
 				callee.setTarget(previousTarget);
-				callee.init();
 				callee.execute();
 			} 
 		}				
