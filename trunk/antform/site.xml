@@ -2,6 +2,7 @@
 <project default="generate">
 	<!-- reference to the template generator lib directory -->
 	<property name="templategen" value="../sitegenerator"/>
+	<property file="site.properties"/>
 	<path id="classpath">
 		<fileset dir="${templategen}/lib" includes="*.jar"/>
 	</path>
@@ -11,6 +12,14 @@
 		<echo>Generation</echo>
 		<mkdir dir="doc"/>
 		<generate inputDir="docContent" skinDir="${templategen}/skin/simple" outputDir="doc"/>
+	</target>
+
+	<target name="port">
+		 <scp todir="${user}:${password}@shell.sourceforge.net:/home/a/an/antforms/htdocs">
+			<fileset dir="doc">
+			<include name="**/*.html"/>
+			</fileset>
+		</scp>
 	</target>
 	
 </project>
