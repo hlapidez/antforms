@@ -302,7 +302,8 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 						cols, data, table.getRowSeparator(), 
 						table.getColumnSeparator(),
 						table.getEscapeSequence(), table.getWidth(), 
-						table.getHeight(), table.getColumnWidth());
+						table.getHeight(), table.getColumnWidth(),
+						table.needBestFitColumns());
 			}else if (o instanceof RadioSelectionProperty) {
 				RadioSelectionProperty radioSelectionProperty = (RadioSelectionProperty) o;
 				control.getPanel().addConstrainedRadioProperty(radioSelectionProperty.getLabel(),

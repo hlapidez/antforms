@@ -58,7 +58,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
-import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerListModel;
@@ -558,21 +557,24 @@ public class ControlPanel extends JPanel implements ActionListener{
 	public ValueHandle addTableProperty(String label, String property,
 			boolean editable, String[] columns, String[][] data,
 			String rowSeparator, String columnSeparator,
-			String escapeSequence, int width, int height, int columnWidth){
+			String escapeSequence, int width, int height, int columnWidth, boolean bestFitColumns){
 		JLabel labelComponent = makeLabel(label);			
-		JTable table = new JTable(data, columns);		
+		AntTable table = new AntTable(data, columns);		
 		table.setEnabled(editable);
 		if (columnWidth!=-1) {
-			table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+			table.setAutoResizeMode(AntTable.AUTO_RESIZE_OFF);
 			for (Enumeration e = table.getColumnModel().getColumns();e.hasMoreElements();) {
 				TableColumn tc = (TableColumn) e.nextElement();
 				tc.setPreferredWidth(columnWidth);
 			}
 		}
+		if (bestFitColumns) {
+		    table.bestFitColumns();
+		}
 		JScrollPane scrollPane = new JScrollPane(table);
 		if ((width>0)&&(height>0)) {			
 			scrollPane.setPreferredSize(new Dimension(width, height));
-			table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+			table.setAutoResizeMode(AntTable.AUTO_RESIZE_OFF);
 		}		
 		addRight(scrollPane);
 		ValueHandle valueGetter = new TableGetter(rowSeparator, columnSeparator,table, escapeSequence);
