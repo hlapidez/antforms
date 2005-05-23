@@ -11,7 +11,7 @@
     <antform>
       <table label="" property="p" bestFitColumns="true"
       columns="A,B,C"
-      data="aaaaaaaaaaaaaaaaaaaaaaaaa,bbbbbbbbbbbbbbbbbbbbbb,cccccccccccccccccccccccccccc;ddddddddddddddddddddddddddd,eeeeeeeeeeeeeeeeeeeeeeeeeee,ffffffffffffffffffffffff"
+      data="aaaaaaaaaaaaaaaaaaaaaaaaa,bb,cccccccccccccccccccccccccccc;ddddddddddddddddddddddddddd,ee,ffffffffffffffffffffffff"
       columnSeparator="," rowSeparator=";" />
     </antform>
   </target>
