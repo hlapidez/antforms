@@ -38,6 +38,7 @@ public class Table extends DefaultProperty {
 	private String[][] values;
 	private int width=-1, height=-1;
 	private int columnWidth = -1;
+	private boolean bestFitColumns=false;
 	
 	public int getColumnWidth() {
 		return columnWidth;
@@ -149,5 +150,12 @@ public class Table extends DefaultProperty {
 	}
 	public void setEditable(boolean editable) {
 		this.editable = editable;
+	}
+
+	public boolean needBestFitColumns() {
+		return bestFitColumns;
+	}
+	public void setBestFitColumns(boolean bestFitColumns) {
+		this.bestFitColumns = bestFitColumns;
 	}
 }
