@@ -1,4 +1,4 @@
-<project>
+<project default="test">
   <path id="runtime.cp">
     <pathelement location="../bin/" />
     <fileset dir="../lib" includes="antform.jar" />
