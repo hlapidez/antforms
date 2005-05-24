@@ -1,0 +1,8 @@
+open upload.sourceforge.net
+anonymous
+$1
+bin
+prompt off
+cd incoming
+mput *.zip
+bye
