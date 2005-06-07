@@ -272,8 +272,8 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 						np.isEditable(),
 						np.getMin(),
 						np.getMax(),
-						np.getStep()
-						
+						np.getStep(),
+						np.getTooltip()
 						);
 			} else if (o instanceof Cancel) {
 				Cancel cancel = (Cancel) o;
@@ -284,7 +284,7 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 				control.getPanel().addFileSelectionProperty(fileSelectionProperty.getLabel(),
 						fileSelectionProperty.getProperty(), fileSelectionProperty.isEditable(),
 						fileSelectionProperty.getColumns(), fileSelectionProperty.isDirectoryChooser(),
-						fileSelectionProperty.isRequired());
+						fileSelectionProperty.isRequired(), fileSelectionProperty.getTooltip());
 			} else if (o instanceof LinkBar) {
 				LinkBar linkBar = (LinkBar) o;
 				control.getPanel().addLinkBar(linkBar);
@@ -303,13 +303,15 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 						table.getColumnSeparator(),
 						table.getEscapeSequence(), table.getWidth(), 
 						table.getHeight(), table.getColumnWidth(),
-						table.needBestFitColumns());
+						table.needBestFitColumns(),
+						table.getTooltip());
 			}else if (o instanceof RadioSelectionProperty) {
 				RadioSelectionProperty radioSelectionProperty = (RadioSelectionProperty) o;
 				control.getPanel().addConstrainedRadioProperty(radioSelectionProperty.getLabel(),
 						radioSelectionProperty.getProperty(), 
 						radioSelectionProperty.getSplitValues(),
-						radioSelectionProperty.isEditable()
+						radioSelectionProperty.isEditable(),
+						radioSelectionProperty.getTooltip()
 						);
 			} else if (o instanceof CheckSelectionProperty) {
 				CheckSelectionProperty checkSelectionProperty = (CheckSelectionProperty) o;
@@ -318,14 +320,16 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 						checkSelectionProperty.getSplitValues(),
 						checkSelectionProperty.getSeparator(),
 						checkSelectionProperty.getEscapeSequence(),
-						checkSelectionProperty.isEditable()
+						checkSelectionProperty.isEditable(),
+						checkSelectionProperty.getTooltip()
 						);
 			} else if (o instanceof SelectionProperty) {
 				SelectionProperty selectionProperty = (SelectionProperty) o;
 				control.getPanel().addConstrainedProperty(selectionProperty.getLabel(),
 						selectionProperty.getProperty(), 
 						selectionProperty.getSplitValues(),
-						selectionProperty.isEditable()
+						selectionProperty.isEditable(),
+						selectionProperty.getTooltip()
 						);	
 			} else if (o instanceof DateProperty) {
 				DateProperty dateProperty = (DateProperty) o;
@@ -334,7 +338,8 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 						dateProperty.getProperty(),
 						dateProperty.isEditable(),
 						dateProperty.getDateFormat(),
-						dateProperty.isRequired()
+						dateProperty.isRequired(),
+						dateProperty.getTooltip()
 						);		
 			} else if (o instanceof ListProperty) {
 				ListProperty listProperty = (ListProperty) o;
@@ -342,7 +347,8 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 						listProperty.getLabel(),
 						listProperty.getProperty(),				
 						listProperty.isEditable(),
-						listProperty.asList()	
+						listProperty.asList(),
+						listProperty.getTooltip()
 						);				
 			} else if (o instanceof MultilineTextProperty) {
 				MultilineTextProperty multilineTextProperty = (MultilineTextProperty) o;
@@ -352,11 +358,13 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 						multilineTextProperty.getColumns(),
 						multilineTextProperty.getRows(),
 						multilineTextProperty.isEditable(),
-						multilineTextProperty.isRequired());	
+						multilineTextProperty.isRequired(),
+						multilineTextProperty.getTooltip());	
 			} else if (o instanceof BooleanProperty){
 				BooleanProperty booleanProperty = (BooleanProperty) o;
 				control.getPanel().addBooleanProperty(booleanProperty.getLabel(),
-						booleanProperty.getProperty(), booleanProperty.isEditable());
+						booleanProperty.getProperty(), booleanProperty.isEditable(),
+						booleanProperty.getTooltip());
 			} else if (o instanceof TextProperty){
 				TextProperty textProperty = (TextProperty) o;
 				control.getPanel().addTextProperty(
@@ -365,7 +373,8 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 						textProperty.getColumns(),
 						textProperty.isEditable(),
 						textProperty.isPassword(),
-						textProperty.isRequired());
+						textProperty.isRequired(),
+						textProperty.getTooltip());
 			}
 		}				
 		built = true;

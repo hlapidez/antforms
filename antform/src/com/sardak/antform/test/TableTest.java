@@ -21,7 +21,7 @@ public static void main(String[] args) {
 	ControlPanel panel = control.getPanel();
 	panel.addTableProperty("a table", "prop", true, new String[]{"col1", "col2", "col3"},
 			new String[][]{{"d1", "d2", "d3"},{"d1", "d2", "d3"},{"d1", "d2", "d3"}},
-			";", ",", "\\", -1, -1,-1,false);
+			";", ",", "\\", -1, -1,-1,false, null);
 	control.show();
 	System.exit(0);
 }

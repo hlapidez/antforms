@@ -24,7 +24,7 @@ package com.sardak.antform.types;
  * @author René Ghosh
  */
 public class DefaultProperty extends BaseType{
-	private String label, property;
+	private String label, property, tooltip;
 	private boolean editable = true;
 	/**
 	 * true if property is editable
@@ -61,5 +61,17 @@ public class DefaultProperty extends BaseType{
 	 */
 	public void setProperty(String property) {
 		this.property = property;
+	}
+	/**
+	 * @return tooltip.
+	 */
+	public String getTooltip() {
+		return tooltip;
+	}
+	/**
+	 * @param property.
+	 */
+	public void setTooltip(String tooltip) {
+		this.tooltip = tooltip;
 	}
 }
