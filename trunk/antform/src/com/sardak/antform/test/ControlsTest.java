@@ -53,10 +53,10 @@ public class ControlsTest {
 		panel.addLinkBar(bar);
 		panel.addSeparator();
 		
-		ValueHandle g1 = panel.addBooleanProperty("Passive-mode connection:", "pasv", true);
-		ValueHandle g2 = panel.addTextProperty("Server address:", "serverAddress", 30, true, false, false);
-		ValueHandle g3 = panel.addTextProperty("Server login:", "login", 30, true, false, false);
-		ValueHandle g4 = panel.addTextProperty("Server password:", "password", 30, true, true, false);
+		ValueHandle g1 = panel.addBooleanProperty("Passive-mode connection:", "pasv", true, null);
+		ValueHandle g2 = panel.addTextProperty("Server address:", "serverAddress", 30, true, false, false, null);
+		ValueHandle g3 = panel.addTextProperty("Server login:", "login", 30, true, false, false, null);
+		ValueHandle g4 = panel.addTextProperty("Server password:", "password", 30, true, true, false, null);
 		
 		control.getPanel().addButtonControls("Save properties", "Reset form");	
 		

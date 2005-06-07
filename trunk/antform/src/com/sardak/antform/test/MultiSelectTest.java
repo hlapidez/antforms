@@ -23,7 +23,7 @@ public class MultiSelectTest {
 		ValueHandle handle = panel.addMultiCheckProperty(
 				"a multiselect", "prop" , 
 				new String[]{"element1","element2","element3","element4"},
-				",", "\\",true);
+				",", "\\",true, null);
 		panel.addButtonControls("ok", "reset");
 		handle.setValue("element1,element4");
 		control.show();

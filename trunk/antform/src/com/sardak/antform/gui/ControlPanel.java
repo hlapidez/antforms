@@ -531,7 +531,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 	 * @param required
 	 */
 	public ValueHandle addTextProperty(String label, String property, int numberColumns,
-			boolean editable, boolean isPassword, boolean required){
+			boolean editable, boolean isPassword, boolean required, String tooltip){
 		JLabel labelComponent = makeLabel(label);
 		JTextField textField = null;		
 		if (!isPassword) {
@@ -542,6 +542,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		textProperties.add(textField);
 		textField.setEditable(editable);
 		labelComponent.setLabelFor(textField);
+		applyTooltip(textField, labelComponent, tooltip);
 		addRight(textField);
 		TextValueGetter valueGetter = new TextValueGetter(textField);
 		controlsMap.put(property,valueGetter);
@@ -557,7 +558,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 	public ValueHandle addTableProperty(String label, String property,
 			boolean editable, String[] columns, String[][] data,
 			String rowSeparator, String columnSeparator,
-			String escapeSequence, int width, int height, int columnWidth, boolean bestFitColumns){
+			String escapeSequence, int width, int height, int columnWidth,
+			boolean bestFitColumns, String tooltip){
 		JLabel labelComponent = makeLabel(label);			
 		AntTable table = new AntTable(data, columns);		
 		table.setEnabled(editable);
@@ -576,6 +578,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 			scrollPane.setPreferredSize(new Dimension(width, height));
 			table.setAutoResizeMode(AntTable.AUTO_RESIZE_OFF);
 		}		
+		applyTooltip(scrollPane, labelComponent, tooltip);
 		addRight(scrollPane);
 		ValueHandle valueGetter = new TableGetter(rowSeparator, columnSeparator,table, escapeSequence);
 		controlsMap.put(property,valueGetter);
@@ -588,13 +591,14 @@ public class ControlPanel extends JPanel implements ActionListener{
 	 * @param property
 	 */
 	public ValueHandle addNumberProperty(String label, String property,
-			boolean editable, double min, double max, double step){
+			boolean editable, double min, double max, double step, String tooltip){
 		JLabel labelComponent = makeLabel(label);
 		SpinnerNumberModel model = new SpinnerNumberModel(min,min, max, step); 
 		JSpinner spinner = new JSpinner(model);					
 		numberProperties.add(spinner);
 		spinner.setEnabled(editable);
 		labelComponent.setLabelFor(spinner);
+		applyTooltip(spinner, labelComponent, tooltip);
 		addRight(spinner);
 		SpinnerValueGetter valueHandle = new SpinnerValueGetter(spinner);
 		controlsMap.put(""+property, valueHandle);
@@ -608,12 +612,13 @@ public class ControlPanel extends JPanel implements ActionListener{
 	 * @param required
 	 */
 	public ValueHandle addDateProperty(String label, String property,
-			boolean editable, String dateFormat, boolean required){
+			boolean editable, String dateFormat, boolean required, String tooltip){
 		JLabel labelComponent = makeLabel(label);
 		DateChooser chooser = new DateChooser(dateFormat);
 		dateProperties.add(chooser);
 		chooser.setEnabled(editable);
 		labelComponent.setLabelFor(chooser);
+		applyTooltip(chooser, labelComponent, tooltip);
 		addRight(chooser);
 		DateChooserGetter valueHandle =  new DateChooserGetter(chooser);
 		controlsMap.put(property, valueHandle);
@@ -629,13 +634,14 @@ public class ControlPanel extends JPanel implements ActionListener{
 	 * @param property
 	 */
 	public ValueHandle addListProperty(String label, String property,
-			boolean editable, List values){
+			boolean editable, List values, String tooltip){
 		JLabel labelComponent = makeLabel(label);
 		SpinnerListModel model = new SpinnerListModel(values); 
 		JSpinner spinner = new JSpinner(model);					
 		numberProperties.add(spinner);
 		spinner.setEnabled(editable);
 		labelComponent.setLabelFor(spinner);
+		applyTooltip(spinner, labelComponent, tooltip);
 		addRight(spinner);
 		SpinnerValueGetter valueHandle = new SpinnerValueGetter(spinner);
 		controlsMap.put(""+property, valueHandle);
@@ -646,13 +652,14 @@ public class ControlPanel extends JPanel implements ActionListener{
 	/**
 	 * add a file section property
 	 */
-	public ValueHandle addFileSelectionProperty(String label, String property, boolean editable, int columns, boolean directoryChooser, boolean required) {
+	public ValueHandle addFileSelectionProperty(String label, String property, boolean editable, int columns, boolean directoryChooser, boolean required, String tooltip) {
 		JLabel labelComponent = makeLabel(label);
 		FileChooser chooser = new FileChooser(columns, directoryChooser);
 		addRight(chooser);
 		fileChoosers.add(chooser);		
 		labelComponent.setLabelFor(chooser);
 		FileChooserGetter valueHandle = new FileChooserGetter(chooser);
+		applyTooltip(chooser, labelComponent, tooltip);
 		controlsMap.put(property, valueHandle);
 		if (required){
 			requiredMap.put(property, valueHandle);
@@ -667,7 +674,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 	 * @param required
 	 */
 	public ValueHandle addMultiLineTextProperty(String label, String property, 
-			int columns, int rows, boolean editable, boolean required){
+			int columns, int rows, boolean editable, boolean required, String tooltip){
 		JLabel labelComponent = makeLabel(label);
 		JTextArea textArea = new JTextArea(rows,columns);		
 		textArea.setEditable(editable);		
@@ -675,6 +682,11 @@ public class ControlPanel extends JPanel implements ActionListener{
 		JScrollPane scrollPane = new JScrollPane(textArea);
 		multiLineTextProperties.add(textArea); 
 		scrollPanes.add(scrollPane);
+		if (null != tooltip && !tooltip.equals("")) {
+			scrollPane.setToolTipText(tooltip);
+			labelComponent.setToolTipText(tooltip);
+		}
+		applyTooltip(scrollPane, labelComponent, tooltip);
 		addRight(scrollPane);
 		TextValueGetter valueHandle = new TextValueGetter(textArea);
 		controlsMap.put(property, valueHandle);		
@@ -690,11 +702,12 @@ public class ControlPanel extends JPanel implements ActionListener{
 	 * @param label
 	 * @param property
 	 */
-	public ValueHandle addBooleanProperty(String label, String property, boolean editable){
+	public ValueHandle addBooleanProperty(String label, String property, boolean editable, String tooltip){
 		JLabel labelComponent = makeLabel(label);
 		JCheckBox checkBox = new JCheckBox();
 		checkBox.setEnabled(editable);
 		labelComponent.setLabelFor(checkBox);
+		applyTooltip(checkBox, labelComponent, tooltip);
 		addRight(checkBox);
 		checkBoxes.add(checkBox);
 		CheckValueGetter valueHandle = new CheckValueGetter(checkBox);
@@ -769,13 +782,13 @@ public class ControlPanel extends JPanel implements ActionListener{
 	 * @param property
 	 */
 	public ValueIndiceHandle addConstrainedProperty(String label, String property, 
-			String[] comboValues,
-			boolean editable){
+			String[] comboValues, boolean editable, String tooltip){
 		JLabel labelComponent = makeLabel(label);
 		JComboBox comboBox = new JComboBox(comboValues);		
 		comboBox.setEnabled(editable);
 		selectionProperties.add(comboBox);
 		labelComponent.setLabelFor(comboBox);
+		applyTooltip(comboBox, labelComponent, tooltip);
 		addRight(comboBox);
 		ComboIndiceGetter valueHandle = new ComboIndiceGetter(comboBox);
 		controlsMap.put(property, valueHandle);
@@ -788,12 +801,14 @@ public class ControlPanel extends JPanel implements ActionListener{
 	public ValueIndiceHandle addConstrainedRadioProperty(String label, 
 			String property, 
 			String[] comboValues, 
-			boolean editable) {
+			boolean editable,
+			String tooltip) {
 		JLabel labelComponent = makeLabel(label);
 		RadioGroupBox radioBox = new RadioGroupBox(comboValues);		
 		radioBox.setEnabled(editable);		
 		radioButtons.add(radioBox);
 		labelComponent.setLabelFor(radioBox);
+		applyTooltip(radioBox, labelComponent, tooltip);
 		addRight(radioBox);
 		RadioGetter valueHandle =  new RadioGetter(radioBox);
 		controlsMap.put(property, valueHandle);
@@ -804,12 +819,14 @@ public class ControlPanel extends JPanel implements ActionListener{
 	 * add a constrained radio property
 	 */
 	public ValueHandle addMultiCheckProperty(String label, String property, 
-			String[] comboValues, String separator,String escapeSequence, boolean editable) {
+			String[] comboValues, String separator,String escapeSequence, boolean editable,
+			String tooltip) {
 		JLabel labelComponent = makeLabel(label);
 		CheckGroupBox checkGroupBox = new CheckGroupBox(comboValues, separator,escapeSequence);		
 		checkGroupBox.setEnabled(editable);
 		checkBoxes.add(checkGroupBox);
 		labelComponent.setLabelFor(checkGroupBox);
+		applyTooltip(checkGroupBox, labelComponent, tooltip);
 		addRight(checkGroupBox);
 		ValueHandle valueHandle =  new MultiCheckGetter(checkGroupBox);
 		controlsMap.put(property, valueHandle);
@@ -905,5 +922,23 @@ public class ControlPanel extends JPanel implements ActionListener{
 		panels.add(panel);
 		currentPanel = panel;
 		layout = aLayout;
+	}
+
+	/**
+	 * This method will add a tooltip text to the specified component and its label (can be null).
+	 * If the tooltip text is null or empty, no tooltip will be created. 
+	 */
+	private void applyTooltip(JComponent component, JLabel label, String tooltipText) {
+		if (null != tooltipText && !tooltipText.equals("")) {
+			component.setToolTipText(tooltipText);
+			if (label != null) {
+			    label.setToolTipText(tooltipText);
+			}
+			for (int i = 0 ; i < component.getComponentCount() ; i++) {
+				if (component.getComponent(i) instanceof JComponent) {
+					applyTooltip((JComponent) component.getComponent(i), null, tooltipText);
+				}
+			}
+		}
 	}
 }
