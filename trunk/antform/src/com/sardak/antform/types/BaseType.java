@@ -19,6 +19,11 @@
   \****************************************************************************/
 package com.sardak.antform.types;
 
+import org.apache.tools.ant.Project;
+
+import com.sardak.antform.gui.ControlPanel;
+import com.sardak.antform.interfaces.ValueHandle;
+
 /**
  * @author René Ghosh
  * 1 avr. 2005
@@ -36,5 +41,22 @@ public class BaseType {
 	}
 	public void setUnless(String unless) {
 		this.unless = unless;
+	}
+	public boolean shouldBeDisplayed(Project project) {
+	    boolean shouldBeDisplayed = true;
+	    if (getIf()!=null){
+			if (!project.getProperties().containsKey(getIf())){
+			    shouldBeDisplayed = false;
+			}
+		}
+		if (getUnless()!=null) {
+			if (project.getProperties().containsKey(getUnless())){
+			    shouldBeDisplayed = false;
+			}			
+		}
+		return shouldBeDisplayed;
+	}
+	public ValueHandle addToControlPanel(ControlPanel panel) {
+	    return null;
 	}
 }

@@ -19,10 +19,19 @@
   \****************************************************************************/
 package com.sardak.antform.types;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.JScrollPane;
+import javax.swing.table.TableColumn;
+
+import com.sardak.antform.gui.AntTable;
+import com.sardak.antform.gui.ControlPanel;
+import com.sardak.antform.gui.helpers.TableGetter;
+import com.sardak.antform.interfaces.ValueHandle;
 import com.sardak.antform.util.CSVReader;
 
 /**
@@ -31,7 +40,6 @@ import com.sardak.antform.util.CSVReader;
  */
 public class Table extends DefaultProperty {
 	private String columns, data;
-	private boolean editable=true;
 	private String rowSeparator=",", columnSeparator=";";
 	private String escapeSequence = "\\";
 	private String[] cols;
@@ -145,17 +153,35 @@ public class Table extends DefaultProperty {
 			System.out.println(cols[i]);
 		}
 	}
-	public boolean isEditable() {
-		return editable;
-	}
-	public void setEditable(boolean editable) {
-		this.editable = editable;
-	}
-
 	public boolean needBestFitColumns() {
 		return bestFitColumns;
 	}
 	public void setBestFitColumns(boolean bestFitColumns) {
 		this.bestFitColumns = bestFitColumns;
+	}
+
+	public ValueHandle addToControlPanel(ControlPanel panel) {
+	    splitColumns();
+		AntTable table = new AntTable(splitData(), cols);		
+		table.setEnabled(isEditable());
+		if (columnWidth!=-1) {
+			table.setAutoResizeMode(AntTable.AUTO_RESIZE_OFF);
+			for (Enumeration e = table.getColumnModel().getColumns();e.hasMoreElements();) {
+				TableColumn tc = (TableColumn) e.nextElement();
+				tc.setPreferredWidth(columnWidth);
+			}
+		}
+		if (bestFitColumns) {
+		    table.bestFitColumns();
+		}
+		JScrollPane scrollPane = new JScrollPane(table);
+		if ((width>0)&&(height>0)) {			
+			scrollPane.setPreferredSize(new Dimension(width, height));
+			table.setAutoResizeMode(AntTable.AUTO_RESIZE_OFF);
+		}		
+		initComponent(scrollPane, panel);
+		ValueHandle valueGetter = new TableGetter(rowSeparator, columnSeparator,table, escapeSequence);
+		panel.addControl(getProperty(), valueGetter);
+		return valueGetter;
 	}
 }

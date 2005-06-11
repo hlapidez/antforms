@@ -22,7 +22,6 @@ package com.sardak.antform.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -34,7 +33,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -52,34 +50,19 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SpinnerListModel;
-import javax.swing.SpinnerNumberModel;
 import javax.swing.border.Border;
-import javax.swing.table.TableColumn;
 
 import com.sardak.antform.gui.helpers.ButtonValueGetter;
 import com.sardak.antform.gui.helpers.CheckValueGetter;
-import com.sardak.antform.gui.helpers.ComboIndiceGetter;
-import com.sardak.antform.gui.helpers.DateChooserGetter;
-import com.sardak.antform.gui.helpers.FileChooserGetter;
-import com.sardak.antform.gui.helpers.MultiCheckGetter;
-import com.sardak.antform.gui.helpers.RadioGetter;
-import com.sardak.antform.gui.helpers.SpinnerValueGetter;
-import com.sardak.antform.gui.helpers.TableGetter;
-import com.sardak.antform.gui.helpers.TextValueGetter;
 import com.sardak.antform.interfaces.ValueHandle;
-import com.sardak.antform.interfaces.ValueIndiceHandle;
 import com.sardak.antform.style.HexConverter;
-import com.sardak.antform.types.Link;
-import com.sardak.antform.types.LinkBar;
 import com.sardak.antform.util.MnemonicsUtil;
 import com.sardak.antform.util.StyleUtil;
 
@@ -92,7 +75,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 	private boolean disposeOnReset = false; 
 	private GridBagLayout layout;	
 	private JPanel buttonPanel;	
-	private static final boolean VERBOSE = false;	
 	private String title, okMessage, resetMessage, cancelMessage;
 	private Control control;
 	private JLabel topLabel;
@@ -113,6 +95,10 @@ public class ControlPanel extends JPanel implements ActionListener{
 		multiLineTextProperties, buttons, dateProperties,
 		labels, checkBoxes, messages, scrollPanes,
 		fileChoosers, radioButtons, panels;	
+
+    public Control getControl() {
+        return control;
+    }
 
 	/**
 	 * Initiallize local collections
@@ -138,26 +124,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 		radioButtons = new ArrayList();
 		panels = new ArrayList();
 		mnemonicsMap = new HashMap();
-	}
-	
-	
-	
-	/**
-	 * Log a message if in verbose mode
-	 * @param message
-	 */
-	private static final void log(String message) {
-		if (VERBOSE) {
-			System.out.println(message);
-		}
-	}
-	
-	
-	/**
-	 * Check wether a String is null or not
-	 */
-	private static boolean isNullText(String text){
-		return ((text==null)||(text.trim().length()==0));
 	}
 	
 	/**
@@ -216,7 +182,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 	/**
 	 * Construct a label and add it into the left column
 	 */
-	private JLabel makeLabel(String labelText){
+	public JLabel makeLabel(String labelText){
 		JLabel label = new JLabel(labelText);
 		labels.add(label);
 		if (font!=null) {
@@ -230,7 +196,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 	/**
 	 * set mnemonics for component
 	 */
-	private void setMnemonics(JComponent component, String labelText) {
+	public void setMnemonics(JComponent component, String labelText) {
 		if (mnemonicsMap.containsKey(component)){
 			return;		
 		}		
@@ -253,7 +219,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 	 * add a component to the right side of the form
 	 * @param component
 	 */
-	private final void addRight(Component component){
+	public final void addRight(Component component){
 		GridBagConstraints gbc = new GridBagConstraints();		
 		gbc.anchor = GridBagConstraints.NORTHWEST;
 		gbc.gridwidth= GridBagConstraints.REMAINDER;
@@ -266,7 +232,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 	 * add a component to the right side of the form
 	 * @param component
 	 */
-	private final void addCentered(Component component){
+	public final void addCentered(Component component){
 		GridBagConstraints gbc = new GridBagConstraints();		
 		gbc.anchor = GridBagConstraints.NORTHWEST;
 		gbc.fill = GridBagConstraints.HORIZONTAL;		
@@ -281,7 +247,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 	 * add a component to the right side of the form
 	 * @param component
 	 */
-	private final void addLinkToLayout(Component component){
+	public final void addLinkToLayout(Component component){
 		GridBagConstraints gbc = new GridBagConstraints();		
 		gbc.anchor = GridBagConstraints.NORTHWEST;
 		gbc.fill = GridBagConstraints.HORIZONTAL;		
@@ -296,7 +262,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 	 * add a component to the right side of the form
 	 * @param component
 	 */
-	private final void addCenteredNoFill(Component component){
+	public final void addCenteredNoFill(Component component){
 		GridBagConstraints gbc = new GridBagConstraints();		
 		gbc.anchor = GridBagConstraints.NORTHWEST;
 		gbc.fill = GridBagConstraints.NONE;		
@@ -320,7 +286,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 	/**
 	 * Etched border with insets 
 	 */
-	private static Border linkBorder() {
+	public static Border linkBorder() {
 		Border eBorder = BorderFactory.createEmptyBorder(0,100,0,100);
 		Border bBorder = BorderFactory.createEmptyBorder();
 		return BorderFactory.createCompoundBorder(bBorder, eBorder);		
@@ -389,14 +355,14 @@ public class ControlPanel extends JPanel implements ActionListener{
 		okButton=new JButton(okMessage);
 		resetButton.addActionListener(this);		
 		okButton.addActionListener(this);		
-		buttonInnerPanel.add(Box.createHorizontalGlue());
-		buttonInnerPanel.add(resetButton);
-		buttonInnerPanel.add(Box.createHorizontalStrut(10));
-		buttonInnerPanel.add(okButton);						
+		addToButtonInnerPanel(Box.createHorizontalGlue());
+		addToButtonInnerPanel(resetButton);
+		addToButtonInnerPanel(Box.createHorizontalStrut(10));
+		addToButtonInnerPanel(okButton);						
 		setOkMessage(okMessage);
 		setResetMessage(resetMessage);
-		buttons.add(okButton);
-		buttons.add(resetButton);
+		addButton(okButton);
+		addButton(resetButton);
 		setMnemonics(okButton, okButton.getText());
 		setMnemonics(resetButton, resetButton.getText());
 		controlsMap.put(okButton.getText(), new ButtonValueGetter(okButton));
@@ -525,315 +491,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 	}
 	
 	/**
-	 * add a text property to the form
-	 * @param label
-	 * @param property
-	 * @param required
-	 */
-	public ValueHandle addTextProperty(String label, String property, int numberColumns,
-			boolean editable, boolean isPassword, boolean required, String tooltip){
-		JLabel labelComponent = makeLabel(label);
-		JTextField textField = null;		
-		if (!isPassword) {
-			textField = new JTextField(numberColumns);
-		} else {
-			textField = new JPasswordField(numberColumns);
-		}		
-		textProperties.add(textField);
-		textField.setEditable(editable);
-		labelComponent.setLabelFor(textField);
-		applyTooltip(textField, labelComponent, tooltip);
-		addRight(textField);
-		TextValueGetter valueGetter = new TextValueGetter(textField);
-		controlsMap.put(property,valueGetter);
-		if (required) {
-			requiredMap.put(property, valueGetter);
-		}
-		return valueGetter;
-	}
-	
-	/**
-	 * add a table property
-	 */
-	public ValueHandle addTableProperty(String label, String property,
-			boolean editable, String[] columns, String[][] data,
-			String rowSeparator, String columnSeparator,
-			String escapeSequence, int width, int height, int columnWidth,
-			boolean bestFitColumns, String tooltip){
-		JLabel labelComponent = makeLabel(label);			
-		AntTable table = new AntTable(data, columns);		
-		table.setEnabled(editable);
-		if (columnWidth!=-1) {
-			table.setAutoResizeMode(AntTable.AUTO_RESIZE_OFF);
-			for (Enumeration e = table.getColumnModel().getColumns();e.hasMoreElements();) {
-				TableColumn tc = (TableColumn) e.nextElement();
-				tc.setPreferredWidth(columnWidth);
-			}
-		}
-		if (bestFitColumns) {
-		    table.bestFitColumns();
-		}
-		JScrollPane scrollPane = new JScrollPane(table);
-		if ((width>0)&&(height>0)) {			
-			scrollPane.setPreferredSize(new Dimension(width, height));
-			table.setAutoResizeMode(AntTable.AUTO_RESIZE_OFF);
-		}		
-		applyTooltip(scrollPane, labelComponent, tooltip);
-		addRight(scrollPane);
-		ValueHandle valueGetter = new TableGetter(rowSeparator, columnSeparator,table, escapeSequence);
-		controlsMap.put(property,valueGetter);
-		return valueGetter;
-	}
-	
-	/**
-	 * add a number property to the form
-	 * @param label
-	 * @param property
-	 */
-	public ValueHandle addNumberProperty(String label, String property,
-			boolean editable, double min, double max, double step, String tooltip){
-		JLabel labelComponent = makeLabel(label);
-		SpinnerNumberModel model = new SpinnerNumberModel(min,min, max, step); 
-		JSpinner spinner = new JSpinner(model);					
-		numberProperties.add(spinner);
-		spinner.setEnabled(editable);
-		labelComponent.setLabelFor(spinner);
-		applyTooltip(spinner, labelComponent, tooltip);
-		addRight(spinner);
-		SpinnerValueGetter valueHandle = new SpinnerValueGetter(spinner);
-		controlsMap.put(""+property, valueHandle);
-		return valueHandle;
-	}
-	
-	/**
-	 * add a number property to the form
-	 * @param label
-	 * @param property
-	 * @param required
-	 */
-	public ValueHandle addDateProperty(String label, String property,
-			boolean editable, String dateFormat, boolean required, String tooltip){
-		JLabel labelComponent = makeLabel(label);
-		DateChooser chooser = new DateChooser(dateFormat);
-		dateProperties.add(chooser);
-		chooser.setEnabled(editable);
-		labelComponent.setLabelFor(chooser);
-		applyTooltip(chooser, labelComponent, tooltip);
-		addRight(chooser);
-		DateChooserGetter valueHandle =  new DateChooserGetter(chooser);
-		controlsMap.put(property, valueHandle);
-		if (required) {
-			requiredMap.put(property, valueHandle);
-		}
-		return valueHandle;
-	}
-	
-	/**
-	 * add a text property to the form
-	 * @param label
-	 * @param property
-	 */
-	public ValueHandle addListProperty(String label, String property,
-			boolean editable, List values, String tooltip){
-		JLabel labelComponent = makeLabel(label);
-		SpinnerListModel model = new SpinnerListModel(values); 
-		JSpinner spinner = new JSpinner(model);					
-		numberProperties.add(spinner);
-		spinner.setEnabled(editable);
-		labelComponent.setLabelFor(spinner);
-		applyTooltip(spinner, labelComponent, tooltip);
-		addRight(spinner);
-		SpinnerValueGetter valueHandle = new SpinnerValueGetter(spinner);
-		controlsMap.put(""+property, valueHandle);
-		return valueHandle;
-	}
-	
-	
-	/**
-	 * add a file section property
-	 */
-	public ValueHandle addFileSelectionProperty(String label, String property, boolean editable, int columns, boolean directoryChooser, boolean required, String tooltip) {
-		JLabel labelComponent = makeLabel(label);
-		FileChooser chooser = new FileChooser(columns, directoryChooser);
-		addRight(chooser);
-		fileChoosers.add(chooser);		
-		labelComponent.setLabelFor(chooser);
-		FileChooserGetter valueHandle = new FileChooserGetter(chooser);
-		applyTooltip(chooser, labelComponent, tooltip);
-		controlsMap.put(property, valueHandle);
-		if (required){
-			requiredMap.put(property, valueHandle);
-		}
-		return valueHandle;
-	}
-	
-	/**
-	 * add a text property to the form
-	 * @param label
-	 * @param property
-	 * @param required
-	 */
-	public ValueHandle addMultiLineTextProperty(String label, String property, 
-			int columns, int rows, boolean editable, boolean required, String tooltip){
-		JLabel labelComponent = makeLabel(label);
-		JTextArea textArea = new JTextArea(rows,columns);		
-		textArea.setEditable(editable);		
-		labelComponent.setLabelFor(textArea);
-		JScrollPane scrollPane = new JScrollPane(textArea);
-		multiLineTextProperties.add(textArea); 
-		scrollPanes.add(scrollPane);
-		if (null != tooltip && !tooltip.equals("")) {
-			scrollPane.setToolTipText(tooltip);
-			labelComponent.setToolTipText(tooltip);
-		}
-		applyTooltip(scrollPane, labelComponent, tooltip);
-		addRight(scrollPane);
-		TextValueGetter valueHandle = new TextValueGetter(textArea);
-		controlsMap.put(property, valueHandle);		
-		if (required){
-			requiredMap.put(property, valueHandle);	
-		}
-		return valueHandle;
-	}
-	
-	
-	/**
-	 * add a text property to the form
-	 * @param label
-	 * @param property
-	 */
-	public ValueHandle addBooleanProperty(String label, String property, boolean editable, String tooltip){
-		JLabel labelComponent = makeLabel(label);
-		JCheckBox checkBox = new JCheckBox();
-		checkBox.setEnabled(editable);
-		labelComponent.setLabelFor(checkBox);
-		applyTooltip(checkBox, labelComponent, tooltip);
-		addRight(checkBox);
-		checkBoxes.add(checkBox);
-		CheckValueGetter valueHandle = new CheckValueGetter(checkBox);
-		controlsMap.put(property, valueHandle);		
-		return valueHandle;
-	}
-	
-	/**
-	 * add a link
-	 */
-	public void addLink(String label, String target){ 
-		final JButton link = new JButton(label);
-		final String linkLocation = target;
-		JPanel linkPanel = new JPanel();
-		linkPanel.setBorder(linkBorder());
-		linkPanel.setLayout(new BorderLayout());
-		linkPanel.add(link, BorderLayout.CENTER);
-		linkPanel.setOpaque(false);
-		links.add(link);		
-		addLinkToLayout(linkPanel);
-		link.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-					control.executeLink(linkLocation);
-			}
-		});		
-		setMnemonics(link, label);
-	}
-
-	/**
-	 * add a text property to the form
-	 * @param label
-	 * @param property
-	 */
-	public JTextArea makeAddLabel(String text, int columns, int rows){
-		JTextArea label = new JTextArea(text);
-		JLabel getFont = new JLabel("");		
-		if ((columns>0)&&(rows>0)) {
-			label = new JTextArea(rows, columns);
-		} else {
-			label = new JTextArea();
-		}
-		label.setFont(getFont.getFont());
-		label.setText(text);
-		label.setEditable(false);
-		label.setLineWrap(true);
-		label.setOpaque(false);		
-		label.setWrapStyleWord(true);
-		if ((columns>0)&&(rows>0)) {
-			addCenteredNoFill(label);
-		} else {
-			addCentered(label);
-		}		
-		messages.add(label);
-		return label;		
-	}
-	
-	
-	
-	/**
-	 * add a text property to the form
-	 * @param label
-	 * @param property
-	 */
-	public JTextArea addLabel(String text, int columns, int rows){
-		JTextArea aLabel = makeAddLabel(text, columns, rows);		
-		return aLabel;		
-	}
-
-	/**
-	 * add a text property to the form
-	 * @param label
-	 * @param property
-	 */
-	public ValueIndiceHandle addConstrainedProperty(String label, String property, 
-			String[] comboValues, boolean editable, String tooltip){
-		JLabel labelComponent = makeLabel(label);
-		JComboBox comboBox = new JComboBox(comboValues);		
-		comboBox.setEnabled(editable);
-		selectionProperties.add(comboBox);
-		labelComponent.setLabelFor(comboBox);
-		applyTooltip(comboBox, labelComponent, tooltip);
-		addRight(comboBox);
-		ComboIndiceGetter valueHandle = new ComboIndiceGetter(comboBox);
-		controlsMap.put(property, valueHandle);
-		return valueHandle;
-	}
-
-	/**
-	 * add a constrained radio property
-	 */
-	public ValueIndiceHandle addConstrainedRadioProperty(String label, 
-			String property, 
-			String[] comboValues, 
-			boolean editable,
-			String tooltip) {
-		JLabel labelComponent = makeLabel(label);
-		RadioGroupBox radioBox = new RadioGroupBox(comboValues);		
-		radioBox.setEnabled(editable);		
-		radioButtons.add(radioBox);
-		labelComponent.setLabelFor(radioBox);
-		applyTooltip(radioBox, labelComponent, tooltip);
-		addRight(radioBox);
-		RadioGetter valueHandle =  new RadioGetter(radioBox);
-		controlsMap.put(property, valueHandle);
-		return valueHandle;
-	}	
-	
-	/**
-	 * add a constrained radio property
-	 */
-	public ValueHandle addMultiCheckProperty(String label, String property, 
-			String[] comboValues, String separator,String escapeSequence, boolean editable,
-			String tooltip) {
-		JLabel labelComponent = makeLabel(label);
-		CheckGroupBox checkGroupBox = new CheckGroupBox(comboValues, separator,escapeSequence);		
-		checkGroupBox.setEnabled(editable);
-		checkBoxes.add(checkGroupBox);
-		labelComponent.setLabelFor(checkGroupBox);
-		applyTooltip(checkGroupBox, labelComponent, tooltip);
-		addRight(checkGroupBox);
-		ValueHandle valueHandle =  new MultiCheckGetter(checkGroupBox);
-		controlsMap.put(property, valueHandle);
-		return valueHandle;
-	}	
-	
-	/**
 	 * @return properties.
 	 */
 	public Properties getProperties() {
@@ -863,82 +520,105 @@ public class ControlPanel extends JPanel implements ActionListener{
 		this.usedLetters = usedLetters;
 	}
 	
-	/**
-	 * add a separator
-	 */
-	public void addSeparator() {
-		addCentered(new JSeparator(JSeparator.HORIZONTAL));
-	}
-	/**
-	 * add a link bar
-	 */
-	public void addLinkBar(LinkBar linkBar) {
-		JPanel panel = new JPanel();
-		panel.setOpaque(false);
-		BoxLayout layout = new BoxLayout(panel, BoxLayout.X_AXIS);		
-		List linkBarLinks = linkBar.getLinks();
-		for (Iterator iter = linkBarLinks.iterator(); iter.hasNext();) {
-			final Link link = (Link) iter.next();			
-			JButton button = new JButton(link.getLabel());			
-			links.add(button);
-			panel.add(button);
-			panel.add(Box.createHorizontalStrut(10));			
-			button.addActionListener(this);
-			button.addActionListener(new ActionListener(){
-				public void actionPerformed(ActionEvent e) {
-						control.executeTeleport(link.getTarget());
-				}
-			});
-			setMnemonics(button, link.getLabel());
-		}
-		addCentered(panel);
+	public void addCheckBox(JCheckBox checkBox) {
+	    checkBoxes.add(checkBox);
 	}
 
-	/**
-	 * add a cancel button
-	 */
-	public void addCancel(String label) {
-		if (cancel==null) {
-			cancel = new JButton(label);
-			cancel.setActionCommand(label);
-			cancelMessage = label;
-			cancel.addActionListener(this);
-			setMnemonics(cancel, cancel.getText());
-			buttonInnerPanel.add(Box.createHorizontalStrut(20));
-			buttonInnerPanel.add(cancel);
-			buttons.add(cancel);
+	public void addCheckGroupBox(CheckGroupBox checkGroupBox) {
+	    checkBoxes.add(checkGroupBox);
+	}
+
+	public void addRadioGroupBox(RadioGroupBox radioBox) {
+	    radioButtons.add(radioBox);
+	}
+
+	public void addDateChooser(DateChooser chooser) {
+		dateProperties.add(chooser);
+	}
+	
+	public void addFileChooser(FileChooser chooser) {
+		fileChoosers.add(chooser);
+	}
+	
+	public void addSpinner(JSpinner spinner) {
+	    numberProperties.add(spinner);
+	}
+	
+	public void addTextField(JTextField textField) {
+	    textProperties.add(textField);
+	}
+	
+	public void addMultiLineTextArea(JTextArea textArea) {
+	    multiLineTextProperties.add(textArea);
+	}
+	
+	public void addScrollPane(JScrollPane scrollPane) {
+	    scrollPanes.add(scrollPane);
+	}
+	
+	public void addComboBox(JComboBox comboBox) {
+	    selectionProperties.add(comboBox);
+	}
+	
+	public void addButton(JButton button) {
+	    buttons.add(button);
+	}
+	
+	public void addLink(JButton link) {
+	    links.add(link);
+	}
+	
+	public void addMessage(JTextArea textArea) {
+	    messages.add(textArea);
+	}
+	
+	public void addMenu(JMenu menu) {
+	    control.addMenu(menu);
+	}
+	
+	public void addControl(String propertyName, ValueHandle valueHandle) {
+	    addControl(propertyName, valueHandle, false);
+	}
+
+	public void addControl(String propertyName, ValueHandle valueHandle, boolean required) {
+	    controlsMap.put(propertyName, valueHandle);
+		if (required){
+			requiredMap.put(propertyName, valueHandle);
 		}
 	}
 
-	/**
-	 * Add a tab to the tabbedpane
-	 */
-	public void addTab(String label) {		
-		GridBagLayout aLayout = new GridBagLayout();
-		JPanel panel  = new JPanel();	
-		panel.setBorder(BorderFactory.createEmptyBorder(15,5,15,5));
-		panel.setLayout(aLayout);
-		tabbedPane.addTab(label, panel);
-		panels.add(panel);
-		currentPanel = panel;
+	public void addRequired(String propertyName, ValueHandle valueHandle) {
+	    requiredMap.put(propertyName, valueHandle);
+	}
+	
+	public void setCancelMessage(String cancelMessage) {
+	    this.cancelMessage = cancelMessage;
+	}
+	
+	public void addToButtonInnerPanel(Component component) {
+	    buttonInnerPanel.add(component);
+	}
+	
+	public void addToTabbedPane(String label, JPanel tabPanel, GridBagLayout aLayout) {
+	    tabbedPane.addTab(label, tabPanel);
+	    panels.add(tabPanel);
+		currentPanel = tabPanel;
 		layout = aLayout;
 	}
+	
+	public void listenToLink(JButton link, final String target) {
+		link.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+					control.executeLink(target);
+			}
+		});		
+	}
 
-	/**
-	 * This method will add a tooltip text to the specified component and its label (can be null).
-	 * If the tooltip text is null or empty, no tooltip will be created. 
-	 */
-	private void applyTooltip(JComponent component, JLabel label, String tooltipText) {
-		if (null != tooltipText && !tooltipText.equals("")) {
-			component.setToolTipText(tooltipText);
-			if (label != null) {
-			    label.setToolTipText(tooltipText);
+	public void setTeleport(JButton link, final String target) {
+		link.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+					control.executeTeleport(target);
 			}
-			for (int i = 0 ; i < component.getComponentCount() ; i++) {
-				if (component.getComponent(i) instanceof JComponent) {
-					applyTooltip((JComponent) component.getComponent(i), null, tooltipText);
-				}
-			}
-		}
+		});		
 	}
 }

@@ -19,7 +19,11 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
+import com.sardak.antform.gui.ControlPanel;
+import com.sardak.antform.gui.DateChooser;
+import com.sardak.antform.gui.helpers.DateChooserGetter;
 import com.sardak.antform.interfaces.Requirable;
+import com.sardak.antform.interfaces.ValueHandle;
 
 /**
  * @author René Ghosh
@@ -40,5 +44,15 @@ public class DateProperty extends DefaultProperty implements Requirable{
 	}
 	public void setDateFormat(String dateFormat) {
 		this.dateFormat = dateFormat;
+	}
+
+	public ValueHandle addToControlPanel(ControlPanel panel) {
+		DateChooser chooser = new DateChooser(dateFormat);
+		panel.addDateChooser(chooser);
+		chooser.setEnabled(isEditable());
+		initComponent(chooser, panel);
+		DateChooserGetter valueHandle =  new DateChooserGetter(chooser);
+		panel.addControl(getProperty(), valueHandle, required);
+		return valueHandle;
 	}
 }

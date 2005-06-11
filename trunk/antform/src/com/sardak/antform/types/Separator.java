@@ -19,10 +19,18 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
+import javax.swing.JSeparator;
+
+import com.sardak.antform.gui.ControlPanel;
+import com.sardak.antform.interfaces.ValueHandle;
+
 /**
  * @author René Ghosh
  * 20 mars 2005
  */
 public class Separator extends BaseType{
-
+	public ValueHandle addToControlPanel(ControlPanel panel) {
+	    panel.addCentered(new JSeparator(JSeparator.HORIZONTAL));
+		return null;
+	}
 }

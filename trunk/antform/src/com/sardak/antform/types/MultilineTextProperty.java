@@ -19,7 +19,13 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
+import com.sardak.antform.gui.ControlPanel;
+import com.sardak.antform.gui.helpers.TextValueGetter;
 import com.sardak.antform.interfaces.Requirable;
+import com.sardak.antform.interfaces.ValueHandle;
 
 
 /**
@@ -59,5 +65,17 @@ public class MultilineTextProperty extends DefaultProperty implements Requirable
 	 */
 	public void setRows(int rows) {
 		this.rows = rows;
+	}
+
+	public ValueHandle addToControlPanel(ControlPanel panel) {
+		JTextArea textArea = new JTextArea(rows,columns);		
+		textArea.setEditable(isEditable());		
+		JScrollPane scrollPane = new JScrollPane(textArea);
+		panel.addMultiLineTextArea(textArea); 
+		panel.addScrollPane(scrollPane);
+		initComponent(scrollPane, panel);
+		TextValueGetter valueHandle = new TextValueGetter(textArea);
+		panel.addControl(getProperty(), valueHandle, required);		
+		return valueHandle;
 	}
 }

@@ -19,6 +19,12 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
+
+import com.sardak.antform.gui.ControlPanel;
+import com.sardak.antform.interfaces.ValueHandle;
+
 /**
  * @author René Ghosh
  * 10 janv. 2005
@@ -55,5 +61,28 @@ public class Label extends BaseType{
 	}
 	public void setRows(int rows) {
 		this.rows = rows;
+	}
+
+	public ValueHandle addToControlPanel(ControlPanel panel) {
+		JTextArea textArea = new JTextArea(text);
+		JLabel getFont = new JLabel("");		
+		if ((columns>0)&&(rows>0)) {
+			textArea = new JTextArea(rows, columns);
+		} else {
+			textArea = new JTextArea();
+		}
+		textArea.setFont(getFont.getFont());
+		textArea.setText(text);
+		textArea.setEditable(false);
+		textArea.setLineWrap(true);
+		textArea.setOpaque(false);		
+		textArea.setWrapStyleWord(true);
+		if ((columns>0)&&(rows>0)) {
+			panel.addCenteredNoFill(textArea);
+		} else {
+		    panel.addCentered(textArea);
+		}		
+		panel.addMessage(textArea);
+		return null;
 	}
 }

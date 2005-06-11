@@ -28,8 +28,11 @@ import javax.swing.UIManager;
 import com.sardak.antform.gui.Control;
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.interfaces.ValueHandle;
+import com.sardak.antform.types.BooleanProperty;
 import com.sardak.antform.types.Link;
 import com.sardak.antform.types.LinkBar;
+import com.sardak.antform.types.Separator;
+import com.sardak.antform.types.TextProperty;
 
 /**
  * @author René Ghosh
@@ -50,13 +53,43 @@ public class ControlsTest {
 		List links = new  ArrayList();			
 		bar.addConfiguredLink(new Link("Add an FTP server", "addserver"));
 		bar.addConfiguredLink(new Link("Remove an FTP server", "removeServer"));
-		panel.addLinkBar(bar);
-		panel.addSeparator();
+		bar.addToControlPanel(panel);
+		Separator sep = new Separator();
+		sep.addToControlPanel(panel);
 		
-		ValueHandle g1 = panel.addBooleanProperty("Passive-mode connection:", "pasv", true, null);
-		ValueHandle g2 = panel.addTextProperty("Server address:", "serverAddress", 30, true, false, false, null);
-		ValueHandle g3 = panel.addTextProperty("Server login:", "login", 30, true, false, false, null);
-		ValueHandle g4 = panel.addTextProperty("Server password:", "password", 30, true, true, false, null);
+		BooleanProperty bp = new BooleanProperty();
+		bp.setLabel("Passive-mode connection:");
+		bp.setProperty("pasv");
+		bp.setEditable(true);
+//		ValueHandle g1 = panel.addBooleanProperty("Passive-mode connection:", "pasv", true, null);
+		ValueHandle g1 = bp.addToControlPanel(panel);
+		TextProperty tp1 = new TextProperty();
+		tp1.setLabel("Server address:");
+		tp1.setProperty("serverAddress");
+		tp1.setColumns(30);
+		tp1.setEditable(true);
+		tp1.setPassword(false);
+		tp1.setRequired(false);
+		ValueHandle g2 = tp1.addToControlPanel(panel);
+//		ValueHandle g2 = panel.addTextProperty("Server address:", "serverAddress", 30, true, false, false, null);
+		TextProperty tp2 = new TextProperty();
+		tp1.setLabel("Server login:");
+		tp1.setProperty("login");
+		tp1.setColumns(30);
+		tp1.setEditable(true);
+		tp1.setPassword(false);
+		tp1.setRequired(false);
+		ValueHandle g3 = tp1.addToControlPanel(panel);
+//		ValueHandle g3 = panel.addTextProperty("Server login:", "login", 30, true, false, false, null);
+		TextProperty tp3 = new TextProperty();
+		tp1.setLabel("Server password:");
+		tp1.setProperty("password");
+		tp1.setColumns(30);
+		tp1.setEditable(true);
+		tp1.setPassword(true);
+		tp1.setRequired(false);
+		ValueHandle g4 = tp1.addToControlPanel(panel);
+//		ValueHandle g4 = panel.addTextProperty("Server password:", "password", 30, true, true, false, null);
 		
 		control.getPanel().addButtonControls("Save properties", "Reset form");	
 		

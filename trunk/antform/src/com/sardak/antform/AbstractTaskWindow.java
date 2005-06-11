@@ -43,7 +43,6 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	private int height=-1, width=-1; 
 	protected Control control;
 	protected boolean needFail = false;
-	private boolean keepAlive = false;
 	protected String lookAndFeel=null;
 	protected volatile boolean quit = false;	
 	protected List properties;	
@@ -78,22 +77,11 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	protected void build(){		
 		for (Iterator iter = properties.iterator(); iter.hasNext();) {
 			BaseType o = (BaseType) iter.next();
-			if (o.getIf()!=null){
-				if (!getProject().getProperties().containsKey(o.getIf())){
-					dynamic = true;
-					continue;
-				}
+			if (o.shouldBeDisplayed(getProject())) {
+			    o.addToControlPanel(control.getPanel());
+			} else {
+				dynamic = true;
 			}
-			if (o.getUnless()!=null) {
-				if (getProject().getProperties().containsKey(o.getUnless())){
-					dynamic = true;
-					continue;
-				}			
-			}
-			if (o instanceof AntMenuItem) {
-				AntMenuItem antMenuItem = (AntMenuItem) o;
-				control.addMenuItem(antMenuItem);			
-			}  			
 		}
 		
 	}
@@ -223,19 +211,5 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	 */
 	public void setStylesheet(String stylesheet) {
 		this.stylesheet = stylesheet;
-	}
-	
-	/**
-	 * is keep frame alive property true
-	 */
-	public boolean isKeepAlive() {
-		return keepAlive;
-	}
-	
-	/**
-	 * set keep alive behaviour
-	 */
-	public void setKeepAlive(boolean keepAlive) {
-		this.keepAlive = keepAlive;
 	}
 }

@@ -19,7 +19,13 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+import com.sardak.antform.gui.ControlPanel;
+import com.sardak.antform.gui.helpers.TextValueGetter;
 import com.sardak.antform.interfaces.Requirable;
+import com.sardak.antform.interfaces.ValueHandle;
 
 
 /**
@@ -55,5 +61,20 @@ public class TextProperty extends DefaultProperty implements Requirable{
 	}
 	public void setPassword(boolean password) {
 		this.password = password;
+	}
+
+	public ValueHandle addToControlPanel(ControlPanel panel) {
+		JTextField textField = null;		
+		if (!isPassword()) {
+			textField = new JTextField(getColumns());
+		} else {
+			textField = new JPasswordField(getColumns());
+		}
+		panel.addTextField(textField);
+		textField.setEditable(isEditable());
+		initComponent(textField, panel);
+		TextValueGetter valueGetter = new TextValueGetter(textField);
+		panel.addControl(getProperty(), valueGetter, required);
+		return valueGetter;
 	}
 }

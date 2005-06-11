@@ -19,7 +19,11 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
+import com.sardak.antform.gui.ControlPanel;
+import com.sardak.antform.gui.FileChooser;
+import com.sardak.antform.gui.helpers.FileChooserGetter;
 import com.sardak.antform.interfaces.Requirable;
+import com.sardak.antform.interfaces.ValueHandle;
 
 /**
  * File selection property
@@ -50,5 +54,14 @@ public class FileSelectionProperty extends DefaultProperty implements Requirable
 	}
 	public void setDirectoryChooser(boolean directoryChooser) {
 		this.directoryChooser = directoryChooser;
+	}
+
+	public ValueHandle addToControlPanel(ControlPanel panel) {
+		FileChooser chooser = new FileChooser(columns, directoryChooser);
+		panel.addFileChooser(chooser);
+		initComponent(chooser, panel);
+		FileChooserGetter valueHandle = new FileChooserGetter(chooser);
+		panel.addControl(getProperty(), valueHandle, required);
+		return valueHandle;
 	}
 }

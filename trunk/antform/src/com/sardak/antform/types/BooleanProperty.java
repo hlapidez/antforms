@@ -19,10 +19,24 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
+import javax.swing.JCheckBox;
+
+import com.sardak.antform.gui.ControlPanel;
+import com.sardak.antform.gui.helpers.CheckValueGetter;
+import com.sardak.antform.interfaces.ValueHandle;
+
 /**
  * Boolean, or true/false, property
  * @author René Ghosh
  */
 public class BooleanProperty extends DefaultProperty {
-
+	public ValueHandle addToControlPanel(ControlPanel panel) {
+		JCheckBox checkBox = new JCheckBox();
+		checkBox.setEnabled(isEditable());
+		initComponent(checkBox, panel);
+		panel.addCheckBox(checkBox);
+		CheckValueGetter valueHandle = new CheckValueGetter(checkBox);
+		panel.addControl(getProperty(), valueHandle);
+		return valueHandle;
+	}
 }
