@@ -19,6 +19,11 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
+import com.sardak.antform.gui.ControlPanel;
+import com.sardak.antform.gui.RadioGroupBox;
+import com.sardak.antform.gui.helpers.RadioGetter;
+import com.sardak.antform.interfaces.ValueHandle;
+
 
 /**
  * Selection property using radio fields
@@ -26,5 +31,13 @@ package com.sardak.antform.types;
  * 13 mars 2005
  */
 public class RadioSelectionProperty extends SelectionProperty{
-
+	public ValueHandle addToControlPanel(ControlPanel panel) {
+		RadioGroupBox radioBox = new RadioGroupBox(getSplitValues());		
+		radioBox.setEnabled(isEditable());
+		panel.addRadioGroupBox(radioBox);
+		initComponent(radioBox, panel);
+		RadioGetter valueHandle =  new RadioGetter(radioBox);
+		panel.addControl(getProperty(), valueHandle);
+		return valueHandle;
+	}
 }

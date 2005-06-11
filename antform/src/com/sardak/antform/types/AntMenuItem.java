@@ -23,6 +23,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+
+import com.sardak.antform.gui.ControlPanel;
+import com.sardak.antform.interfaces.ValueHandle;
+import com.sardak.antform.util.MnemonicsUtil;
+
 /**
  * @author René Ghosh
  * 11 mars 2005
@@ -31,6 +38,7 @@ public class AntMenuItem extends BaseType{
 	private List subProperties = new ArrayList();
 	private HashSet usedLetters = new HashSet();
 	private String target,name;
+	private JMenuBar menuBar;
 	
 	
 	/**
@@ -76,5 +84,21 @@ public class AntMenuItem extends BaseType{
 	}
 	public void setUsedLetters(HashSet usedLetters) {
 		this.usedLetters = usedLetters;
+	}
+
+	public ValueHandle addToControlPanel(ControlPanel panel) {
+		if (menuBar==null) {
+			menuBar = new JMenuBar();
+			panel.getControl().setMenuBar(menuBar);
+		}
+		JMenu menu = new JMenu(name);
+		panel.addMenu(menu);
+		String sToUse = MnemonicsUtil.newMnemonic(name, panel.getUsedLetters());
+		if (sToUse!=null) {
+			menu.setMnemonic(sToUse.charAt(0));
+		}
+		menuBar.add(menu);
+		panel.getControl().addMenuItems(this, menu);
+		return null;
 	}
 }

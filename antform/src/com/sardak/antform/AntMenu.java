@@ -20,17 +20,14 @@
 package com.sardak.antform;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
 
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Target;
 import org.apache.tools.ant.taskdefs.CallTarget;
 
 import com.sardak.antform.gui.CallBack;
-import com.sardak.antform.types.BaseType;
 import com.sardak.antform.types.Label;
 import com.sardak.antform.types.Link;
 import com.sardak.antform.types.Separator;
@@ -55,28 +52,6 @@ public class AntMenu extends AbstractTaskWindow implements CallBack{
 	 */
 	protected void build(){
 		super.build();		
-		for (Iterator iter = properties.iterator(); iter.hasNext();) {
-			BaseType o = (BaseType) iter.next();
-			if (o.getIf()!=null){
-				if (!getProject().getProperties().containsKey(o.getIf())){
-					continue;
-				}
-			}
-			if (o.getUnless()!=null) {
-				if (getProject().getProperties().containsKey(o.getUnless())){
-					continue;
-				}			
-			}
-			if (o instanceof Label) {
-				Label label = (Label) o;
-				control.getPanel().addLabel(label.getText(), label.getColumns(), label.getRows());
-			} else if (o instanceof Link) {
-				Link link = (Link) o;
-				control.getPanel().addLink(link.getLabel(), link.getTarget());
-			} else if (o instanceof Separator) {
-				control.getPanel().addSeparator();
-			}			
-		}
 		control.getPanel().addBlankSouthPanel();
 		built = true;
 	}

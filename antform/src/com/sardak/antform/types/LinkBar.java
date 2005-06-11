@@ -20,7 +20,16 @@
 package com.sardak.antform.types;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
+import com.sardak.antform.gui.ControlPanel;
+import com.sardak.antform.interfaces.ValueHandle;
 
 /**
  * @author René Ghosh
@@ -39,5 +48,22 @@ public class LinkBar extends BaseType{
 	 */
 	public List getLinks() {
 		return links;
+	}
+	public ValueHandle addToControlPanel(ControlPanel panel) {
+		JPanel linkPanel = new JPanel();
+		linkPanel.setOpaque(false);
+		BoxLayout layout = new BoxLayout(linkPanel, BoxLayout.X_AXIS);		
+		for (Iterator iter = links.iterator(); iter.hasNext();) {
+			final Link link = (Link) iter.next();			
+			JButton button = new JButton(link.getLabel());			
+			links.add(button);
+			linkPanel.add(button);
+			linkPanel.add(Box.createHorizontalStrut(10));			
+			button.addActionListener(panel);
+			panel.setTeleport(button, link.getTarget());
+			panel.setMnemonics(button, link.getLabel());
+		}
+		panel.addCentered(linkPanel);
+		return null;
 	}
 }

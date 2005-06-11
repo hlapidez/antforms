@@ -21,6 +21,7 @@ package com.sardak.antform.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -57,6 +58,12 @@ public class DateChooser extends JPanel implements ActionListener{
 		button.setEnabled(enabled);
 	}
 	
+	public void setTooltipText(String tooltip) {
+		super.setToolTipText(tooltip);
+		button.setToolTipText(tooltip);
+		textField.setToolTipText(tooltip);
+	}
+	
 	/**
 	 * Constructor
 	 */
@@ -64,10 +71,11 @@ public class DateChooser extends JPanel implements ActionListener{
 		super();		
 		textField = new JFormattedTextField(new SimpleDateFormat(format));		
 		button = new JButton("...");
+		button.addActionListener(this);
+		button.setPreferredSize(new Dimension(button.getPreferredSize().width, textField.getPreferredSize().height));
 		setLayout(new BorderLayout());
 		add(textField, BorderLayout.CENTER);
 		add(button, BorderLayout.EAST);
-		button.addActionListener(this);
 		formatter = new SimpleDateFormat(format);
 		textField.setText(formatter.format(date));				
 	}

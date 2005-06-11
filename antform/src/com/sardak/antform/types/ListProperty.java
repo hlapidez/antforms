@@ -21,6 +21,12 @@ package com.sardak.antform.types;
 
 import java.util.List;
 
+import javax.swing.JSpinner;
+import javax.swing.SpinnerListModel;
+
+import com.sardak.antform.gui.ControlPanel;
+import com.sardak.antform.gui.helpers.SpinnerValueGetter;
+import com.sardak.antform.interfaces.ValueHandle;
 import com.sardak.antform.util.CSVReader;
 
 
@@ -57,5 +63,16 @@ public class ListProperty extends DefaultProperty{
 	public List asList(){
 		return new CSVReader(separator, escapeSequence).digest(values, true);
 		
+	}
+
+	public ValueHandle addToControlPanel(ControlPanel panel) {
+		SpinnerListModel model = new SpinnerListModel(asList()); 
+		JSpinner spinner = new JSpinner(model);
+		panel.addSpinner(spinner);
+		spinner.setEnabled(isEditable());
+		initComponent(spinner, panel);
+		SpinnerValueGetter valueHandle = new SpinnerValueGetter(spinner);
+		panel.addControl(""+getProperty(), valueHandle);
+		return valueHandle;
 	}
 }

@@ -63,7 +63,6 @@ public class Control implements ActionListener{
 	private Properties properties = new Properties();
 	private CallBack callBack;
 	private ControlPanel panel;
-	private JMenuBar menuBar;
 	private HashSet usedLetters;
 	private int width=-1, height= -1;
 	private String title, image;
@@ -105,8 +104,7 @@ public class Control implements ActionListener{
 	/**
 	 * Constructor	 
 	 */
-	public Control(final CallBack antCallBack, String title, String image,
-			boolean tabbed){
+	public Control(final CallBack antCallBack, String title, String image, boolean tabbed){
 		init(antCallBack, title, image, tabbed);
 	}
 	
@@ -116,7 +114,7 @@ public class Control implements ActionListener{
 	public void init(final CallBack antCallBack, String title, String image,
 			boolean tabbed){
 		this.callBack=antCallBack;
-		if (dialog==null) {
+		if (dialog == null) {
 			dialog = new CallBackDialog();		
 			dialog.setCallBack(antCallBack);
 			dialog.setTitle(title);
@@ -294,26 +292,6 @@ public class Control implements ActionListener{
 	/**
 	 * add menu item to menu bar
 	 */
-	public void addMenuItem(AntMenuItem menuItem) {
-		this.usedLetters=panel.getUsedLetters();
-		if (menuBar==null) {
-			menuBar = new JMenuBar();
-			dialog.setJMenuBar(menuBar);					
-		}
-		String name = menuItem.getName();
-		JMenu menu = new JMenu(name);
-		menuItems.add(menu);
-		String sToUse = MnemonicsUtil.newMnemonic(name, usedLetters);
-		if (sToUse!=null) {
-			menu.setMnemonic(sToUse.charAt(0));
-		}
-		menuBar.add(menu);
-		addMenuItems(menuItem, menu);
-	}
-	
-	/**
-	 * add menu item to menu bar
-	 */
 	public void addMenuItems(AntMenuItem parentItem, JMenuItem parentMenuItem) {
 		HashSet usedLetters = new HashSet(); 
 		for (Iterator iter = parentItem.getSubProperties().iterator(); iter.hasNext();) {
@@ -363,4 +341,11 @@ public class Control implements ActionListener{
 		callBack.setFalse(propertyName);
 	}
 	
+	public void addMenu(JMenu menu) {
+	    menuItems.add(menu);
+	}
+	
+	public void setMenuBar(JMenuBar menuBar) {
+	    dialog.setJMenuBar(menuBar);
+	}
 }

@@ -19,6 +19,11 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+
+import com.sardak.antform.gui.ControlPanel;
+
 /**
  * Default property attributes: include the label and target property.
  * @author René Ghosh
@@ -73,5 +78,32 @@ public class DefaultProperty extends BaseType{
 	 */
 	public void setTooltip(String tooltip) {
 		this.tooltip = tooltip;
+	}
+
+	/**
+	 * Apply tooltip text to the specified JComponent (and optionnaly its label)
+	 */
+	private void applyTooltip(JComponent component, JLabel label, String tooltipText) {
+		if (null != tooltipText && !tooltipText.equals("")) {
+			component.setToolTipText(tooltipText);
+			if (label != null) {
+			    label.setToolTipText(tooltipText);
+			}
+			for (int i = 0 ; i < component.getComponentCount() ; i++) {
+				if (component.getComponent(i) instanceof JComponent) {
+					applyTooltip((JComponent) component.getComponent(i), null, tooltipText);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Add the specified component to the control panel, creating a JLabel and adding tooltip info
+	 */
+	protected void initComponent(JComponent component, ControlPanel panel) {
+		JLabel labelComponent = panel.makeLabel(label);
+		labelComponent.setLabelFor(component);
+		applyTooltip(component, labelComponent, tooltip);
+		panel.addRight(component);
 	}
 }

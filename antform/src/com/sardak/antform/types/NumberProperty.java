@@ -19,13 +19,19 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+
+import com.sardak.antform.gui.ControlPanel;
+import com.sardak.antform.gui.helpers.SpinnerValueGetter;
+import com.sardak.antform.interfaces.ValueHandle;
+
 /**
  * @author René Ghosh
  * 2 mars 2005
  */
 public class NumberProperty extends DefaultProperty{
 	private double min=0,max=100,step=1;
-	private boolean editable = true;
 	
 	/**
 	 * get Max
@@ -54,5 +60,16 @@ public class NumberProperty extends DefaultProperty{
 	}
 	public void setStep(double step) {
 		this.step = step;
+	}
+
+	public ValueHandle addToControlPanel(ControlPanel panel) {
+		SpinnerNumberModel model = new SpinnerNumberModel(min,min, max, step); 
+		JSpinner spinner = new JSpinner(model);
+		panel.addSpinner(spinner);
+		spinner.setEnabled(isEditable());
+		initComponent(spinner, panel);
+		SpinnerValueGetter valueHandle = new SpinnerValueGetter(spinner);
+		panel.addControl(""+getProperty(), valueHandle);
+		return valueHandle;
 	}
 }

@@ -21,6 +21,11 @@ package com.sardak.antform.types;
 
 import java.util.List;
 
+import javax.swing.JComboBox;
+
+import com.sardak.antform.gui.ControlPanel;
+import com.sardak.antform.gui.helpers.ComboIndiceGetter;
+import com.sardak.antform.interfaces.ValueHandle;
 import com.sardak.antform.util.CSVReader;
 
 /**
@@ -94,5 +99,15 @@ public class SelectionProperty extends DefaultProperty{
 	public void setValues(String values) {
 		this.values = values;
 		split();
+	}
+
+	public ValueHandle addToControlPanel(ControlPanel panel) {
+		JComboBox comboBox = new JComboBox(getSplitValues());		
+		comboBox.setEnabled(isEditable());
+		panel.addComboBox(comboBox);
+		initComponent(comboBox, panel);
+		ComboIndiceGetter valueHandle = new ComboIndiceGetter(comboBox);
+		panel.addControl(getProperty(), valueHandle);
+		return valueHandle;
 	}
 }
