@@ -11,7 +11,7 @@ Date: 07/01/2005.
 	<property name="lib" value="lib"/>
 	<property name="dist" value="dist"/>
 	<property name="doc" value="doc"/>
-	<property name="version" value="1.4.5"/>
+	<property name="version" value="1.4.6beta"/>
 	<property name="backup" value="../bakantform"/>
 
 	<!-- clean up the class folder -->
@@ -50,6 +50,7 @@ Date: 07/01/2005.
 
 	<!-- package the application for deployment, with sources -->
 	<target name="package-src" depends="clean,doc,jar">
+		<mkdir dir="${dist}"/>
 		<zip destfile="${dist}/antform-src-${version}.zip" update="false">
 			<zipfileset dir="." prefix="antform-src-${version}" includes="LICENSE build.xml test.xml
 				style.test test.cmd doc/**/*.* src/**/*.java lib/antform.jar" excludes="*.zip"/>
