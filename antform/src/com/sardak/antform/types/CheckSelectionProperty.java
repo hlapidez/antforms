@@ -29,8 +29,18 @@ import com.sardak.antform.interfaces.ValueHandle;
  * 30 mars 2005
  */
 public class CheckSelectionProperty extends SelectionProperty{
+    int columns = 1;
+    
+    public int getColumns() {
+        return columns;
+    }
+    
+    public void setColumns(int columns) {
+        this.columns = columns;
+    }
+    
 	public ValueHandle addToControlPanel(ControlPanel panel) {
-		CheckGroupBox checkGroupBox = new CheckGroupBox(getSplitValues(), getSeparator(), getEscapeSequence());		
+		CheckGroupBox checkGroupBox = new CheckGroupBox(getSplitValues(), getSeparator(), getEscapeSequence(), getColumns());		
 		checkGroupBox.setEnabled(isEditable());
 		panel.addCheckGroupBox(checkGroupBox);
 		initComponent(checkGroupBox, panel);

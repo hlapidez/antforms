@@ -51,11 +51,11 @@ import com.sardak.antform.util.StringUtil;
  	/**
  	 * Constructor
  	 */
- 	public CheckGroupBox(String[] values, String separator,String escapeSequence){			
+ 	public CheckGroupBox(String[] values, String separator, String escapeSequence, int columns){			
  		super();
  		this.separator=separator;
  		this.escapeSequence=escapeSequence;
- 		setLayout(new GridLayout(0,1));
+ 		setLayout(new GridLayout(0, columns));
  		for (int i = 0; i < values.length; i++) {
  			JCheckBox button = new JCheckBox(values[i]);
  			add(button);			
