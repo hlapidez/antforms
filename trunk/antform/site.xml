@@ -1,26 +1,34 @@
 <?xml version="1.0"?>
 <project default="generate">
 	<!-- reference to the template generator lib directory -->
-	<property name="templategen" value="../sitegenerator"/>
-	<property file="site.properties"/>
+	<property name="templategen" value="../sitegenerator" />
+	<property file="site.properties" />
 	<path id="classpath">
-		<fileset dir="${templategen}/lib" includes="*.jar"/>
+		<fileset dir="${templategen}/lib" includes="*.jar" />
+		<dirset dir="${templategen}/bin" />
 	</path>
-	<taskdef name="generate" classname="com.sardak.templatesite.AntGenerate" classpathref="classpath"/>
-	
+	<taskdef name="generate" classname="com.sardak.templatesite.AntGenerate" classpathref="classpath" />
+
 	<target name="generate">
 		<echo>Generation</echo>
-		<mkdir dir="doc"/>
-		<generate inputDir="docContent" skinDir="${templategen}/skin/simple" outputDir="doc"/>
+		<mkdir dir="doc" />
+		<generate inputDir="docContent" skinDir="${templategen}/skin/simple" outputDir="doc" />
 	</target>
 
 	<target name="port">
-		 <scp todir="${user}:${password}@shell.sourceforge.net:/home/a/an/antforms/htdocs">
+		<property file="site.properties" />
+		<taskdef name="antform" classname="com.sardak.antform.AntForm" classpath="bin" />
+		<antform title="antform site update">
+			<textProperty label="User" property="user" />
+			<textProperty label="Password" property="password" password="true" />
+			<fileselectionproperty label="Private Key File" property="private.key.file" />
+		</antform>
+		<scp todir="${user}:${password}@shell.sourceforge.net:/home/groups/a/an/antforms/htdocs" keyfile="${private.key.file}" trust="true">
 			<fileset dir="doc">
-			<include name="**/*.html"/>
+				<include name="*.html" />
 			</fileset>
 		</scp>
 	</target>
-	
+
 </project>
 
