@@ -31,8 +31,10 @@ import com.sardak.antform.interfaces.ValueHandle;
  * 13 mars 2005
  */
 public class RadioSelectionProperty extends SelectionProperty{
-	public ValueHandle addToControlPanel(ControlPanel panel) {
-		RadioGroupBox radioBox = new RadioGroupBox(getSplitValues());		
+	int columns = 1;
+
+    public ValueHandle addToControlPanel(ControlPanel panel) {
+		RadioGroupBox radioBox = new RadioGroupBox(getSplitValues(), getColumns());		
 		radioBox.setEnabled(isEditable());
 		panel.addRadioGroupBox(radioBox);
 		initComponent(radioBox, panel);
@@ -40,4 +42,12 @@ public class RadioSelectionProperty extends SelectionProperty{
 		panel.addControl(getProperty(), valueHandle);
 		return valueHandle;
 	}
+
+    public int getColumns() {
+        return columns;
+    }
+
+    public void setColumns(int columns) {
+        this.columns = columns;
+    }
 }
