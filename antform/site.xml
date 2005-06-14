@@ -8,6 +8,11 @@
 		<dirset dir="${templategen}/bin" />
 	</path>
 	<taskdef name="generate" classname="com.sardak.templatesite.AntGenerate" classpathref="classpath" />
+	<path id="antform.classpath">
+		<dirset dir="bin" />
+		<fileset dir="lib" includes="antform.jar" />
+	</path>
+	<available classname="com.sardak.antform.AntForm" property="antform.available" classpathref="antform.classpath"/>
 
 	<target name="generate">
 		<echo>Generation</echo>
@@ -15,14 +20,20 @@
 		<generate inputDir="docContent" skinDir="${templategen}/skin/simple" outputDir="doc" />
 	</target>
 
-	<target name="port">
+	<target name="port-init">
 		<property file="site.properties" />
-		<taskdef name="antform" classname="com.sardak.antform.AntForm" classpath="bin" />
+	</target>
+
+	<target name="port-ui" depends="port-init" if="antform.available">
+		<taskdef name="antform" classname="com.sardak.antform.AntForm" classpathref="antform.classpath" />
 		<antform title="antform site update">
 			<textProperty label="User" property="user" />
 			<textProperty label="Password" property="password" password="true" />
 			<fileselectionproperty label="Private Key File" property="private.key.file" />
 		</antform>
+	</target>
+
+	<target name="port" depends="port-ui">
 		<scp todir="${user}:${password}@shell.sourceforge.net:/home/groups/a/an/antforms/htdocs" keyfile="${private.key.file}" trust="true">
 			<fileset dir="doc">
 				<include name="*.html" />
