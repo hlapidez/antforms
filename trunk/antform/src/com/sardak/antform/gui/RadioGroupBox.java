@@ -48,9 +48,9 @@ public class RadioGroupBox extends JPanel{
 	/**
 	 * Constructor
 	 */
-	public RadioGroupBox(String[] values){			
+	public RadioGroupBox(String[] values, int columns){			
 		super();
-		setLayout(new GridLayout(0,1));
+		setLayout(new GridLayout(0, columns));
 		for (int i = 0; i < values.length; i++) {
 			JRadioButton button = new JRadioButton(values[i]);
 			add(button);			
