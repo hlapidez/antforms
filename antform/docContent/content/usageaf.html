@@ -8,6 +8,7 @@
 		they are called when user clicks the <code>OK</code> or
 		<code>reset buttons</code>,
 		respectively.</p>
+
 		<h3>Parameters</h3>
 		<table border="0" cellpadding="2" cellspacing="0" width="100%">
 			<tr>
@@ -31,7 +32,7 @@
 				<td valign="top">Width of the form window in pixels</td>
 				<td valign="top">No</td>
 			</tr>
-<tr>
+			<tr>
 				<td valign="top">height</td>
 				<td valign="top">Height of the form window in pixels</td>
 				<td valign="top">No</td>
@@ -87,6 +88,7 @@
 		</table>
 
 		<h3>Parameters specified as nested elements</h3>
+
 		<h4>separator</h4>
 		<p>Add a separator line to divide the form into sections.</p>
 		<table border="0" cellpadding="2" cellspacing="0" width="100%">
@@ -108,6 +110,7 @@
 				<td valign="top">No</td>
 			</tr>
 		</table>
+
 		<h4>label</h4>
 		<p>Add a message box to the form. Maps to a non-editable multiline text field
 		with automatic line wrapping.The text content of the label tag sets the message text.</p>
@@ -130,6 +133,7 @@
 				<td valign="top">No</td>
 			</tr>
 		</table>
+
 		<h4><a name="textProperty">textProperty</a></h4>
 		<p>Assign editing of a property to a single-line text field.</p>
 		<table border="0" cellpadding="2" cellspacing="0" width="100%">
@@ -187,6 +191,7 @@
 				<td valign="top">No</td>
 			</tr>
 		</table>
+
 		<h4><a name="numberProperty">numberProperty</a></h4>
 		<p>spinner field used to set numeric property values, with
 		controls to increment or decrement the value.</p>
@@ -226,20 +231,23 @@
 			<tr>
 				<td valign="top">min</td>
 				<td valign="top">The minimum value that the
-					field can take.</td>
+					field can take.<br/>
+					Defaults to 0.</td>
 				<td valign="top">No</td>
 			</tr>
 			<tr>
 				<td valign="top">max</td>
 				<td valign="top">The maximum value that the
-					field can take.</td>
+					field can take.<br/>
+					Defaults to 100.</td>
 				<td valign="top">No</td>
 			</tr>
 			<tr>
 				<td valign="top">step</td>
 				<td valign="top">The increment step that the
 					field takes when incremented via its
-					controls.</td>
+					controls.<br/>
+					Defaults to 1.</td>
 				<td valign="top">No</td>
 			</tr>
 			<tr>
@@ -248,9 +256,9 @@
 				<td valign="top">No</td>
 			</tr>
 		</table>
+
 		<h4><a name="listProperty">listProperty</a></h4>
-		<p>spinner field used to constrain a property to a list of
-		values.</p>
+		<p>spinner field used to constrain a property to a list of values.</p>
 		<table border="0" cellpadding="2" cellspacing="0" width="100%">
 			<tr>
 				<th valign="top">Attribute</th>
@@ -286,15 +294,14 @@
 			</tr>
 			<tr>
 				<td valign="top">values</td>
-				<td valign="top">The list of values that the
-					property can take.</td>
+				<td valign="top">The list of values that the property can take.</td>
 				<td valign="top">Yes</td>
 			</tr>
 			<tr>
 				<td valign="top">separator</td>
 				<td valign="top">The separator for delimiting
 					values in the <code>values</code>
-					attribute. Defaults to ","</td>
+					attribute. Defaults to ",".</td>
 				<td valign="top">No</td>
 			</tr>
 			<tr>
@@ -311,6 +318,7 @@
 				<td valign="top">No</td>
 			</tr>
 		</table>
+
 		<h4>multiLineTextProperty</h4>
 		<p>Like <a href="#textProperty">textProperty</a>, only uses a multiline text field to edit the targeted property.</p>
 		<table border="0" cellpadding="2" cellspacing="0" width="100%">
@@ -368,6 +376,7 @@
 				<td valign="top">No</td>
 			</tr>
 		</table>
+
 		<h4><a name="table">table</a></h4>
 		<p>Provide a table for showing data that can be represented as a two-dimensional 
 		array of values. Since the overall data is mapped to a single value, 
@@ -467,6 +476,7 @@
 				<td valign="top">No</td>
 			</tr>
 		</table>
+
 		<h4>cancel</h4>
 		<p>Add a cancel button to the bottom button bar.</p>
 		<table border="0" cellpadding="2" cellspacing="0" width="100%">
@@ -493,6 +503,7 @@
 				<td valign="top">Yes</td>
 			</tr>
 		</table>
+
 		<h4>tab</h4>
 		<p>Add a tab pane to which subsequent widgets will be added. </p>
 		<p><i>Note: the <code>tab</code> element is not used in the intuitive nested
@@ -523,6 +534,7 @@
 				<td valign="top">Yes</td>
 			</tr>
 		</table>
+
 		<h4><a name="selectionProperty">selectionProperty</a></h4>
 		<p>Provide a selection list of values that can be assigned to the targeted property.
 		Functions just like <a href="#listProperty">listProperty</a>,
@@ -560,7 +572,8 @@
 				<td valign="top">list of values available for selecting the
 					property value. Use commas to separate the values by
 					default, <br/>
-though you can specify another separator with the <code>separator</code> attribute.</td>
+					though you can specify another separator with the
+					<code>separator</code> attribute.</td>
 				<td valign="top">No</td>				
 			</tr>
 			<tr>
@@ -587,6 +600,7 @@ though you can specify another separator with the <code>separator</code> attribu
 				<td valign="top">No</td>
 			</tr>
 		</table>
+
 		<h4>radioSelectionProperty</h4>
 		<p>Like <a href="#selectionProperty">selectionProperty</a>,
 		only is rendered with radio button fields instead of a drop-down list.</p>
@@ -623,7 +637,8 @@ though you can specify another separator with the <code>separator</code> attribu
 				<td valign="top">list of values available for selecting the
 					property value. Use commas to separate the values by
 					default, <br/>
-though you can specify another separator with the <code>separator</code> attribute.</td>
+					though you can specify another separator with the
+					<code>separator</code> attribute.</td>
 				<td valign="top">No</td>				
 			</tr>
 			<tr>
@@ -655,6 +670,7 @@ though you can specify another separator with the <code>separator</code> attribu
 				<td valign="top">No</td>
 			</tr>
 		</table>
+
 		<h4>checkSelectionProperty</h4>
 		<p>Like <a href="#selectionProperty">selectionProperty</a>,
 		only is rendered with checkBox fields instead of a drop-down list. In addition,
@@ -694,7 +710,8 @@ though you can specify another separator with the <code>separator</code> attribu
 				<td valign="top">list of values available for selecting the
 					property value. Use commas to separate the values by
 					default, <br/>
-though you can specify another separator with the <code>separator</code> attribute.</td>
+					though you can specify another separator with the
+					<code>separator</code> attribute.</td>
 				<td valign="top">No</td>				
 			</tr>
 			<tr>
@@ -726,9 +743,9 @@ though you can specify another separator with the <code>separator</code> attribu
 				<td valign="top">No</td>
 			</tr>
 		</table>
+
 		<h4>dateProperty</h4>
-		<p>Provide a calendar control for assigning a date to a
-		property.</p>
+		<p>Provide a calendar control for assigning a date to a property.</p>
 		<table border="0" cellpadding="2" cellspacing="0" width="100%">
 			<tr>
 				<th valign="top">Attribute</th>
@@ -781,6 +798,7 @@ though you can specify another separator with the <code>separator</code> attribu
 				<td valign="top">No</td>
 			</tr>
 		</table>
+
 		<h4>booleanProperty</h4>
 		<p>Provide an input field for a property to be assigned to <code>true</code> if checked, 
 		unassigned otherwise. If the property has already been set prior to the form being called, it will be set to <code>true</code> if checked or <code>false</code> otherwise.</p>
@@ -823,6 +841,7 @@ though you can specify another separator with the <code>separator</code> attribu
 				<td valign="top">No</td>
 			</tr>
 		</table>
+
 		<h4>fileSelectionProperty</h4>
 		<p>provide an input field for selecting files and directories</p>
 		<table border="0" cellpadding="2" cellspacing="0" width="100%">
@@ -885,6 +904,7 @@ though you can specify another separator with the <code>separator</code> attribu
 				<td valign="top">No</td>
 			</tr>
 		</table>
+
 		<h4>linkBar</h4>
 		<p>Provide a bar with a horizontal layout of links to other
 		targets. This type has no attributes and is basically a holder
@@ -920,6 +940,7 @@ though you can specify another separator with the <code>separator</code> attribu
 				<td valign="top">Yes</td>
 			</tr>
 		</table>
+
 		<h4>antMenuItem</h4>
 		<p>Provide a menu bound to the frame menu bar and recursively 
 		hosting other AntMenuItems, each of which links to an Ant
@@ -954,6 +975,7 @@ though you can specify another separator with the <code>separator</code> attribu
 				<td valign="top">Yes</td>
 			</tr>
 		</table>
+
 		<h3>Examples</h3>
 		<p>The following example generates properties for sending a mail.</p>
 <blockquote>
