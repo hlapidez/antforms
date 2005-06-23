@@ -1,6 +1,7 @@
 open upload.sourceforge.net
 anonymous
 $1
+lcd ..\dist
 bin
 prompt off
 cd incoming
