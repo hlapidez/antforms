@@ -2,6 +2,7 @@ package com.sardak.antform.test;
 
 import javax.swing.UIManager;
 
+import com.sardak.antform.gui.ButtonPanel;
 import com.sardak.antform.gui.Control;
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.interfaces.ValueHandle;
@@ -29,7 +30,7 @@ public class MultiSelectTest {
 		csh.setEscapeSequence("\\");
 		csh.setEditable(true);
 		ValueHandle handle = csh.addToControlPanel(panel);
-		panel.addButtonControls("ok", "reset");
+		panel.addButtonPanel(new ButtonPanel("ok", "reset", null, panel));
 		handle.setValue("element1,element4");
 		control.show();
 		System.out.println(handle.getValue());

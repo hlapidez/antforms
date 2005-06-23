@@ -25,6 +25,7 @@ import java.util.Properties;
 
 import javax.swing.UIManager;
 
+import com.sardak.antform.gui.ButtonPanel;
 import com.sardak.antform.gui.Control;
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.interfaces.ValueHandle;
@@ -91,7 +92,7 @@ public class ControlsTest {
 		ValueHandle g4 = tp1.addToControlPanel(panel);
 //		ValueHandle g4 = panel.addTextProperty("Server password:", "password", 30, true, true, false, null);
 		
-		control.getPanel().addButtonControls("Save properties", "Reset form");	
+		control.getPanel().addButtonPanel(new ButtonPanel("Save properties", "Reset form", null, control.getPanel()));
 		
 		Properties props = new Properties();
 		props.setProperty("pasv", "true");
