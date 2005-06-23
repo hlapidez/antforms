@@ -33,6 +33,7 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Target;
 import org.apache.tools.ant.taskdefs.CallTarget;
 
+import com.sardak.antform.gui.ButtonPanel;
 import com.sardak.antform.gui.CallBack;
 import com.sardak.antform.types.BooleanProperty;
 import com.sardak.antform.types.Cancel;
@@ -58,7 +59,8 @@ import com.sardak.antform.types.TextProperty;
  */
 public class AntForm extends AbstractTaskWindow implements CallBack{
 	private String okMessage = "OK";
-	private String resetMessage = "Reset";	
+	private String resetMessage = "Reset";
+	private String cancelMessage = null;
 	private String save = null;
 	private String nextTarget,previousTarget;
 	private String message = null;
@@ -138,7 +140,7 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 			log("No label on cancel button");
 			needFail = true;
 		}
-		properties.add(cancel);
+		cancelMessage = cancel.shouldBeDisplayed(getProject()) ? cancel.getLabel() : null;
 	}
 	
 	/**
@@ -244,9 +246,7 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 	 * Construct the gui
 	 */
 	public void build(){		
-		control.getPanel().addButtonControls(okMessage, resetMessage);
-		control.getPanel().setOkMessage(okMessage);
-		control.getPanel().setResetMessage(resetMessage);
+		control.getPanel().addButtonPanel(new ButtonPanel(okMessage, resetMessage, cancelMessage, control.getPanel()));
 		super.build();
 		built = true;
 	}

@@ -1,0 +1,27 @@
+<project default="test">
+
+	<path id="runtime.cp">
+		<pathelement location="../bin/" />
+		<fileset dir="../lib" includes="antform.jar" />
+	</path>
+	<taskdef name="antform" classname="com.sardak.antform.AntForm" classpathref="runtime.cp" />
+	<taskdef name="antmenu" classname="com.sardak.antform.AntMenu" classpathref="runtime.cp" />
+
+	<target name="test">
+		<antform title="Buttons test" resetmessage="">
+			<booleanproperty label="Show cancel" property="show.cancel.value" />
+		</antform>
+		<condition property="show.cancel">
+			<and>
+				<isset property="show.cancel.value" />
+				<istrue value="${show.cancel.value}" />
+			</and>
+		</condition>
+		<echo message="show.cancel.value = ${show.cancel.value}" />
+		<echo message="show.cancel = ${show.cancel}" />
+		<antform title="Buttons test">
+			<textproperty label="text" property="text" />
+			<cancel label="Cancel" if="show.cancel" />
+		</antform>
+	</target>
+</project>
