@@ -79,7 +79,8 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 			BaseType o = (BaseType) iter.next();
 			if (o.shouldBeDisplayed(getProject())) {
 			    o.addToControlPanel(control.getPanel());
-			} else {
+			}
+			if (o.getIf() != null || o.getUnless() != null) {
 				dynamic = true;
 			}
 		}
