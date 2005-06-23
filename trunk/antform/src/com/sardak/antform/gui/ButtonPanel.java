@@ -17,45 +17,47 @@
   *   along with this library; if not, write to the Free Software Foundation,  *
   *   Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA              *
   \****************************************************************************/
-package com.sardak.antform.types;
+package com.sardak.antform.gui;
 
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 
-import com.sardak.antform.gui.ControlPanel;
-import com.sardak.antform.interfaces.ValueHandle;
+import com.sardak.antform.gui.helpers.ButtonValueGetter;
 
 /**
- * @author René Ghosh
- * 3 avr. 2005
+ * @author Patrick Martin
+ *
+ * This class manages the bottom buttons of an antform
  */
-public class Cancel extends BaseType {
-	private String label;
-	//we want only one instance... let's keep a reference to it.
-	private JButton cancelButton;
-	/**
-	 * get the cancel label
-	 */
-	public String getLabel() {
-		return label;
-	}
-	/**
-	 * set the cancel label
-	 */
-	public void setLabel(String label) {
-		this.label = label;
-	}
+public class ButtonPanel extends JPanel  {
+	private ControlPanel controlPanel;
 
-//	public ValueHandle addToControlPanel(ControlPanel panel) {
-//		if (cancelButton==null) {
-//		    cancelButton = new JButton(label);
-//		    cancelButton.setActionCommand(label);
-//			panel.setCancelMessage(label);
-//			cancelButton.addActionListener(panel);
-//			panel.setMnemonics(cancelButton, cancelButton.getText());
-//			panel.addToButtonInnerPanel(Box.createHorizontalStrut(20));
-//			panel.addToButtonInnerPanel(cancelButton);
-//			panel.addButton(cancelButton);
-//		}
-//		return null;
-//	}
+	public ButtonPanel(String okMessage, String resetMessage, String cancelMessage, ControlPanel controlPanel) {
+		this.controlPanel = controlPanel;
+		this.setLayout(new BorderLayout(3, 3));
+		this.setBorder(BorderFactory.createEmptyBorder(3,3,3,3));
+		JPanel rightPannel = new JPanel(new GridLayout(1, 0, 3, 3));
+		addButton(cancelMessage, rightPannel);
+		addButton(resetMessage, rightPannel);
+		addButton(okMessage, rightPannel);
+		controlPanel.setCancelMessage(cancelMessage);
+		controlPanel.setResetMessage(resetMessage);
+		controlPanel.setOkMessage(okMessage);
+		this.add(rightPannel, BorderLayout.EAST);
+	}
+	
+	private void addButton(String label, JPanel innerPanel) {
+		if (label != null && !label.equals("")) {
+			JButton button = new JButton(label);
+			button.setActionCommand(label);
+			button.addActionListener(controlPanel);
+			controlPanel.setMnemonics(button, label);
+			controlPanel.addControl(label, new ButtonValueGetter(button), false);
+			innerPanel.add(button);
+		}
+	}
 }
