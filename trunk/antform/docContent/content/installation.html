@@ -1,109 +1,27 @@
 <h2>Installation</h2>
-<p>Blogoommer comes bundled as either a zip file or a Windows setup executable. On a windows
-platform, the latter os preferable as it has an executable launcher and creates links to the
-executable in your programs menu. However, on Unix, Linux or Mac you will need to use the zip
-file which, once extracted, contained a blogoomer.sh script that launches the application.</p>
-<p>In all cases, as specified in the requirements page, Java needs to be installed on your computer 
-before Blogoommer can be used.</p>
+<p>After <a href="download.html">downloading</a> the package, unzip in into a specific folder on your hard disk. Lets call this folder <code>AntForm_home</code>.</p>
+<p>In your Ant build file, create taskdefs with a classpath referring to your
+${antForm_home}/lib/AntForm.jar  file, unless this file is copied into to your
+${ant_home}/lib folder, in which case it doesn't need to be referenced in the
+<code>taskdef</code> classpath attribute. The task definitions should look like this:</p>
+<blockquote><pre>
+&lt;taskdef name="antform" classname="com.sardak.antform.AntForm" 
+            classpath="${antform.home}/lib/antform.jar"/&gt;
+&lt;taskdef name="antmenu" classname="com.sardak.antform.AntMenu" 
+            classpath="${antform.home}/lib/antform.jar"/&gt;
+</pre></blockquote>
 
-<h2>Usage</h2>
-<p>
-      The following is a step by step instruction manual for creating your 
-      weblog and adding blogs to it.
-    </p>
+<p>You're ready to use the freshly-defined tasks in other ant targets. See <a href="usageaf.html">AntForm</a> and <a href="usageam.html">AntMenu</a> for more information on the specificities if the <code>antform</code> and <code>antmenu</code> tasks.</p>
 
-    <p>
-      <i>Note: in Blogoommer, a weblog is a collection of blog entries. Hence 
-      the use of both terms in the documentation and the application menus, 
-      because they mean different things.</i>
-    </p>
-    <p>
-      <b>1. Enter your site's meta-information</b>
-    </p>
-    <p>
-      a. Site title
-    </p>
+<h2>Samples</h2>
+<p>There's a sample and build file named test.xml in the root folder. If your
+<code>ant_home</code> and <code>path</code> environment variables are correctly
+set, you should be able to test the samples with the following command:</p>
+<blockquote><pre>
+	ant -f test.xml test testmenu testne spinners password wizard1
+</pre></blockquote>
+<p>Use <code>ant -f test.xml -p</code> to see a list of other tests. These tests
+use other properties or behavioural characteristics and will show you more of
+what AntForm/AntMenu can do.</p>
 
-    <p>
-      Enter a title that reflects what your site stands (or sleeps) for. Keep 
-      it curt and to the point: this is the information that will head each 
-      webpage in big, bold letters.
-    </p>
-    <p>
-      b. Site summary
-    </p>
-    <p>
-      A concise summary of what your site is going to provide meaning-wise. 
-      This information will map to each site page sub-header.
-    </p>
-    <p>
-
-      <b>2. Configure one or more remote servers.</b>
-    </p>
-    <p>
-      Configuring a remote server is the next big step. All weblogs must be 
-      associated to a remote server, since there's no use writing blogs if 
-      there's nowhere to blog to. You enter the following information:
-    </p>
-    <p>
-      address: the internet FTP address of the remote site. It should be given 
-      to you by the web host with whom you have an account (e.g. <i>
-      ftp.somewhere.com</i>).
-    </p>
-
-    <p>
-      Login: your login to the remote FTP server.
-    </p>
-    <p>
-      Password: your password to the remote FTP server.
-    </p>
-    <p>
-      Remote directory: the base path where to blog to following the FTP 
-      connection. Choose the root <i>/</i> if you want to blog directly to the 
-      home of your web site.
-    </p>
-
-    <p>
-      <b>3. Write blogs</b>
-    </p>
-    <p>
-      From the blog pane, click the &quot;New&quot; option. From there, the application 
-      will open the blog editor. You type in a title, a summary and some 
-      content. The summary will be available to rss subscribers, whereas the 
-      content will go directly into the site pages. Once finished, You either 
-      save the blog, or update it if it's an exising blog. The difference 
-      between <i>save</i> and <i>update</i> concerns the blog date: the blog's 
-      date is only updated when using the <i>update</i> action.
-    </p>
-
-    <p>
-      <b>5. Publish</b>
-    </p>
-    <p align="left">
-      You need to manually synchronize with the server to get your site up and 
-      running. That is to say, you have to tell the application to send the 
-      locally generated website modifications to the remote site by FTP. To do 
-      this, select the <i>Actions -&gt; Publish </i>menu item. A pop-up will 
-      come up showing you the progress of the file transfer. Be patient! As 
-      the files are going over the network, this can take a certain time.
-    </p>
-    <p>
-
-      <b>6. Archive your blogs</b>
-    </p>
-    <p>
-      This is done for you. Blogommer organizes blogs per month. Each month 
-      corresponds to an archive.
-    </p>
-    <p>
-      <b>7. Trash your blogs.</b>
-    </p>
-
-    <p>
-      Nothing needs to be final.
-    </p>
-    <p>
-      If you remove a blog, it will disappear from the site next time you 
-      publish.
-    </p>
 
