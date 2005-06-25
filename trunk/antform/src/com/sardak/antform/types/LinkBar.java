@@ -35,7 +35,7 @@ import com.sardak.antform.interfaces.ValueHandle;
  * @author René Ghosh
  * 13 mars 2005
  */
-public class LinkBar extends BaseType{
+public class LinkBar extends BaseType {
 	private List links = new ArrayList(); 
 	/**
 	 * add a link to the link bar
@@ -49,18 +49,19 @@ public class LinkBar extends BaseType{
 	public List getLinks() {
 		return links;
 	}
+	
 	public ValueHandle addToControlPanel(ControlPanel panel) {
 		JPanel linkPanel = new JPanel();
 		linkPanel.setOpaque(false);
 		BoxLayout layout = new BoxLayout(linkPanel, BoxLayout.X_AXIS);		
 		for (Iterator iter = links.iterator(); iter.hasNext();) {
-			final Link link = (Link) iter.next();			
+			final Link link = (Link) iter.next();
 			JButton button = new JButton(link.getLabel());			
-			links.add(button);
+			panel.addLink(button);
 			linkPanel.add(button);
 			linkPanel.add(Box.createHorizontalStrut(10));			
 			button.addActionListener(panel);
-			panel.setTeleport(button, link.getTarget());
+			panel.setTeleport(button, link.getTarget(), link.isBackground());
 			panel.setMnemonics(button, link.getLabel());
 		}
 		panel.addCentered(linkPanel);
