@@ -21,9 +21,6 @@ package com.sardak.antform.types;
 
 import javax.swing.JButton;
 
-import com.sardak.antform.gui.ControlPanel;
-import com.sardak.antform.interfaces.ValueHandle;
-
 /**
  * @author René Ghosh
  * 3 avr. 2005
