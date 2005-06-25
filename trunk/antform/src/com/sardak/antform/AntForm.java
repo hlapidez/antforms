@@ -31,7 +31,6 @@ import java.util.Properties;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Target;
-import org.apache.tools.ant.taskdefs.CallTarget;
 
 import com.sardak.antform.gui.ButtonPanel;
 import com.sardak.antform.gui.CallBack;
@@ -41,6 +40,7 @@ import com.sardak.antform.types.CheckSelectionProperty;
 import com.sardak.antform.types.DateProperty;
 import com.sardak.antform.types.DefaultProperty;
 import com.sardak.antform.types.FileSelectionProperty;
+import com.sardak.antform.types.Html;
 import com.sardak.antform.types.Label;
 import com.sardak.antform.types.LinkBar;
 import com.sardak.antform.types.ListProperty;
@@ -52,6 +52,7 @@ import com.sardak.antform.types.Separator;
 import com.sardak.antform.types.Tab;
 import com.sardak.antform.types.Table;
 import com.sardak.antform.types.TextProperty;
+import com.sardak.antform.util.TargetInvoker;
 
 /**
  * Ant task for empowering form-based user interaction
@@ -66,6 +67,7 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 	private String message = null;
 	private String focus=null;
 	private boolean built = false;
+	private boolean background = false;
 			
 		
 	/**
@@ -140,7 +142,7 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 			log("No label on cancel button");
 			needFail = true;
 		}
-		cancelMessage = cancel.shouldBeDisplayed(getProject()) ? cancel.getLabel() : null;
+		cancelMessage = cancel.getLabel();
 	}
 	
 	/**
@@ -149,6 +151,14 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 	 */
 	public void addConfiguredSeparator(Separator separator){		
 		properties.add(separator);
+	}
+	
+	/**
+	 * add a configured html pane
+	 * @param html
+	 */
+	public void addConfiguredHtml(Html html){		
+		properties.add(html);
 	}
 	
 	/**
@@ -309,20 +319,29 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 	 * @see architecture.integration.tests.CallBack#callback()
 	 */
 	public void callbackCommand(String message){			
-		quit = true;
-		this.message = message;
+		callbackCommand(message, false);
 	}
-	
+
+	/**
+	 * callback method
+	 * @see architecture.integration.tests.CallBack#callback()
+	 */
+	public void callbackCommand(String message, boolean background){			
+//		quit = true;
+		this.message = message;
+		this.background = background;
+	}
+
 	
 	/**
 	 * implement a callback that ports to a 
-	 * target by autumatically setting okMessage and nextTarget
+	 * target by automatically setting okMessage and nextTarget
 	 * values 
 	 */
 	public void callbackLink(String target) {		
-		quit = true;
-		this.message=okMessage;
-		nextTarget=target;
+//		quit = true;
+		this.message = okMessage;
+		nextTarget = target;
 	}
 	
 	
@@ -372,18 +391,14 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 			built = false;
 			control = null;
 		}		
-		if (message!=null){		
-			CallTarget callee = (CallTarget) getProject().createTask("antcall");
-			callee.setOwningTarget(getOwningTarget());
-			callee.setTaskName(getTaskName());
-			callee.setLocation(getLocation());									
-			if ((message.equals(okMessage))&&(theNextTarget!=null)) {
-				callee.setTarget(nextTarget);
-				callee.execute();
-			} else if ((message.equals(resetMessage))&&(thePreviousTarget!=null)) {
-				callee.setTarget(previousTarget);
-				callee.execute();
-			} 
+		if (message!=null){
+			if ((message.equals(okMessage)) && (theNextTarget != null)) {
+				TargetInvoker invoker = new TargetInvoker(this, nextTarget, false);
+				invoker.execute();
+			} else if ((message.equals(resetMessage)) && (thePreviousTarget != null)) {
+				TargetInvoker invoker = new TargetInvoker(this, previousTarget, false);
+				invoker.execute();
+			}
 		}				
 	}
 

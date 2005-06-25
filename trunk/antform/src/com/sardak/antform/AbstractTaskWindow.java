@@ -31,6 +31,7 @@ import com.sardak.antform.gui.CallBack;
 import com.sardak.antform.gui.Control;
 import com.sardak.antform.types.AntMenuItem;
 import com.sardak.antform.types.BaseType;
+import com.sardak.antform.util.TargetInvoker;
 
 /**
  * @author René Ghosh
@@ -44,7 +45,7 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	protected Control control;
 	protected boolean needFail = false;
 	protected String lookAndFeel=null;
-	protected volatile boolean quit = false;	
+//	protected volatile boolean quit = false;	
 	protected List properties;	
 	protected boolean dynamic = false;
 	protected boolean tabbed = false;
@@ -156,7 +157,7 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 				e.printStackTrace();
 			} 
 		} 				
-		quit = false;	
+//		quit = false;	
 	}
 	
 	/**
@@ -212,5 +213,10 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	 */
 	public void setStylesheet(String stylesheet) {
 		this.stylesheet = stylesheet;
+	}
+	
+	public void invokeTarget(String target, boolean background) {
+		TargetInvoker invoker = new TargetInvoker(this, target, background);
+		invoker.execute();
 	}
 }

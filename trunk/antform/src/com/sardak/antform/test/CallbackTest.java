@@ -36,6 +36,13 @@ public class CallbackTest implements CallBack{
 	/**
 	 * test implementation
 	 */
+	public void callbackCommand(String message, boolean background) {
+		System.out.println("Message: "+message+". Background: "+background);
+	}
+	
+	/**
+	 * test implementation
+	 */
 	public void callbackLink(String message) {
 		System.out.println("Link message: "+message);
 	}
@@ -47,4 +54,6 @@ public class CallbackTest implements CallBack{
 		//do nothing
 	}
 
+	public void invokeTarget(String target, boolean background) {
+	}
 }

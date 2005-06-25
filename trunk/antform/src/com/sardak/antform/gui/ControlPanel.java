@@ -82,7 +82,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 	private JPanel overPanel;
 	private JPanel buttonInnerPanel;
 	private JPanel currentPanel; 
-//	private JButton resetButton, okButton, cancel;	
 	private Font font = null;	
 	private boolean tabbed;
 	private Properties properties,defaultProperties;
@@ -90,7 +89,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 	private HashSet usedLetters;
 	private JTabbedPane tabbedPane;
 	private List textProperties,
-		selectionProperties, numberProperties,links,
+		selectionProperties, numberProperties, links,
 		multiLineTextProperties, buttons, dateProperties,
 		labels, checkBoxes, messages, scrollPanes,
 		fileChoosers, radioButtons, panels;	
@@ -336,37 +335,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 		label.setOpaque(false);
 		addCentered(label);
 	}
-	/**
-	 * add button controls to the panel
-	 */
-//	public void addButtonControls(String okMessage, String resetMessage){		
-//		buttonPanel = new JPanel();		
-//		buttonPanel.setBorder(BorderFactory.createEmptyBorder());
-//		buttonInnerPanel = new JPanel();
-//		buttonInnerPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-//		add(buttonPanel, BorderLayout.SOUTH);
-//		buttonInnerPanel.setLayout(new BoxLayout(buttonInnerPanel, BoxLayout.X_AXIS));
-//		buttonInnerPanel.setOpaque(false);
-//		buttonPanel.setOpaque(true);
-//		buttonPanel.setLayout(new BorderLayout());
-//		buttonPanel.add(buttonInnerPanel, BorderLayout.CENTER);
-//		resetButton=new JButton(resetMessage);
-//		okButton=new JButton(okMessage);
-//		resetButton.addActionListener(this);		
-//		okButton.addActionListener(this);		
-//		addToButtonInnerPanel(Box.createHorizontalGlue());
-//		addToButtonInnerPanel(resetButton);
-//		addToButtonInnerPanel(Box.createHorizontalStrut(10));
-//		addToButtonInnerPanel(okButton);						
-//		setOkMessage(okMessage);
-//		setResetMessage(resetMessage);
-//		addButton(okButton);
-//		addButton(resetButton);
-//		setMnemonics(okButton, okButton.getText());
-//		setMnemonics(resetButton, resetButton.getText());
-//		controlsMap.put(okButton.getText(), new ButtonValueGetter(okButton));
-//		controlsMap.put(resetButton.getText(), new ButtonValueGetter(resetButton));
-//	}
 	
 	public void addButtonPanel(ButtonPanel buttons) {
 		add(buttons, BorderLayout.SOUTH);
@@ -447,26 +415,14 @@ public class ControlPanel extends JPanel implements ActionListener{
 	 * @param message
 	 */
 	public void setOkMessage(String message){		
-//		usedLetters.remove(mnemonicsMap.get(okButton));
-//		mnemonicsMap.remove(okButton);
-//		controlsMap.remove(okButton.getText());
-//		okButton.setText(message);		
 		okMessage = message;
-//		setMnemonics(okButton, okButton.getText());
-//		controlsMap.put(okButton.getText(), new ButtonValueGetter(okButton));
 	}
 	
 	/**
 	 * set the reset button message
 	 */
 	public void setResetMessage(String message){
-//		usedLetters.remove(mnemonicsMap.get(resetButton));
-//		mnemonicsMap.remove(resetButton);		
-//		controlsMap.remove(resetButton.getText());
-//		resetButton.setText(message);
 		resetMessage = message;
-//		setMnemonics(resetButton, resetButton.getText());
-//		controlsMap.put(resetButton.getText(), new ButtonValueGetter(resetButton));				
 	}
 	
 	/**
@@ -598,10 +554,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 	    this.cancelMessage = cancelMessage;
 	}
 	
-//	public void addToButtonInnerPanel(Component component) {
-//	    buttonInnerPanel.add(component);
-//	}
-	
 	public void addToTabbedPane(String label, JPanel tabPanel, GridBagLayout aLayout) {
 	    tabbedPane.addTab(label, tabPanel);
 	    panels.add(tabPanel);
@@ -609,18 +561,18 @@ public class ControlPanel extends JPanel implements ActionListener{
 		layout = aLayout;
 	}
 	
-	public void listenToLink(JButton link, final String target) {
+	public void listenToLink(JButton link, final String target, final boolean background) {
 		link.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-					control.executeLink(target);
+					control.executeLink(target, background);
 			}
 		});		
 	}
 
-	public void setTeleport(JButton link, final String target) {
+	public void setTeleport(JButton link, final String target, final boolean background) {
 		link.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-					control.executeTeleport(target);
+					control.executeTeleport(target, background);
 			}
 		});		
 	}

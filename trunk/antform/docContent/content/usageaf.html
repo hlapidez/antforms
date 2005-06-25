@@ -915,6 +915,7 @@
 		<p>Provide a bar with a horizontal layout of links to other
 		targets. This type has no attributes and is basically a holder
 		for <a href="#link">link</a> types.</p>
+
 		<h4><a name="link">link</a></h4>
 		<p>Add a link to some other target in the current Ant process.</p>
 		<table border="0" cellpadding="2" cellspacing="0">
@@ -944,6 +945,12 @@
 				<td valign="top">target</td>
 				<td valign="top">Name of the target to call upon clicking this link</td>
 				<td valign="top">Yes</td>
+			</tr>
+			<tr>
+				<td valign="top">background</td>
+				<td valign="top">Wether to run the target in a separate thread or not.
+					Defaults to <code>false</code></td>
+				<td valign="top">No</td>
 			</tr>
 		</table>
 

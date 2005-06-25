@@ -24,13 +24,12 @@ import java.util.Hashtable;
 import java.util.Iterator;
 
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Target;
-import org.apache.tools.ant.taskdefs.CallTarget;
 
 import com.sardak.antform.gui.CallBack;
 import com.sardak.antform.types.Label;
 import com.sardak.antform.types.Link;
 import com.sardak.antform.types.Separator;
+import com.sardak.antform.util.TargetInvoker;
 
 /**
  * AntMenu task definition class.
@@ -38,8 +37,9 @@ import com.sardak.antform.types.Separator;
  * 12 janv. 2005
  */
 public class AntMenu extends AbstractTaskWindow implements CallBack{
-	private Target nextTarget = null;
+	private String nextTarget = null;
 	private boolean built = false;
+	private boolean background = false;
 	/**
 	 * Initialisation
 	 */
@@ -78,13 +78,9 @@ public class AntMenu extends AbstractTaskWindow implements CallBack{
 			built = false;
 			control = null;
 		}
-		if (nextTarget!=null) {					
-			CallTarget callee = (CallTarget) getProject().createTask("antcall");
-			callee.setOwningTarget(getOwningTarget());
-			callee.setTaskName(getTaskName());
-			callee.setLocation(getLocation());
-			callee.setTarget(nextTarget.getName());
-			callee.execute();
+		if (nextTarget!=null) {
+			TargetInvoker invoker = new TargetInvoker(this, nextTarget, false);
+			invoker.execute();
 		}
 	}
 	
@@ -94,8 +90,8 @@ public class AntMenu extends AbstractTaskWindow implements CallBack{
 	 * values 
 	 */
 	public void callbackLink(String target) {		
-		nextTarget=findTargetByName(target);
-		quit = true;		
+		nextTarget = target;
+//		quit = true;		
 	}
 	
 	/**
@@ -120,18 +116,23 @@ public class AntMenu extends AbstractTaskWindow implements CallBack{
 	 */
 	public void callbackCommand(String message){
 		if (message==null) {
-			quit = true;
+//			quit = true;
 			return;
 		}
 		Hashtable targets = getProject().getTargets();		
 		for (Iterator i=targets.keySet().iterator();i.hasNext();) {
 			String targetName = (String) i.next();			
-			Target target = (Target) targets.get(targetName);
-			if (target.getName().equals(message)) {
-				quit = true;
-				nextTarget = target;
+			if (targetName.equals(message)) {
+//				quit = true;
+				nextTarget = targetName;
+				break;
 			}
 		}
+	}
+
+	public void callbackCommand(String message, boolean background) {
+		callbackCommand(message);
+		this.background = background;
 	}
 
 	/**
