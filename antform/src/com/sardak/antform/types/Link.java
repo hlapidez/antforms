@@ -35,6 +35,7 @@ import com.sardak.antform.interfaces.ValueHandle;
  */
 public class Link extends BaseType{
 	private String label, target, tooltip;
+	private boolean background = false;
 	
 	/**
 	 * Constructor
@@ -68,6 +69,12 @@ public class Link extends BaseType{
     public void setTooltip(String tooltip) {
         this.tooltip = tooltip;
     }
+	public boolean isBackground() {
+		return background;
+	}
+	public void setBackground(boolean background) {
+		this.background = background;
+	}
 
 	/**
 	 * Apply tooltip text to the specified JComponent (and optionnaly its label)
@@ -96,7 +103,7 @@ public class Link extends BaseType{
 		linkPanel.setOpaque(false);
 		panel.addLink(link);		
 		panel.addLinkToLayout(linkPanel);
-		panel.listenToLink(link, linkLocation);
+		panel.listenToLink(link, linkLocation, background);
 		panel.setMnemonics(link, label);
 		applyTooltip(link, null, getTooltip());
 		return null;

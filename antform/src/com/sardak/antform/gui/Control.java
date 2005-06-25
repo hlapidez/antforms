@@ -50,6 +50,7 @@ import com.sardak.antform.style.HexConverter;
 import com.sardak.antform.types.AntMenuItem;
 import com.sardak.antform.util.MnemonicsUtil;
 import com.sardak.antform.util.StyleUtil;
+import com.sardak.antform.util.TargetInvoker;
 
 /**
  * Frame for holding the user form
@@ -76,7 +77,7 @@ public class Control implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		String actionCommand = e.getActionCommand();
 		if ((actionCommand!=null)&&(actionCommand.trim().length()>0)) {
-			executeTeleport(actionCommand);
+			executeTeleport(actionCommand, false);
 		}
 	}
 	
@@ -239,27 +240,34 @@ public class Control implements ActionListener{
 	 */
 	public void close(String message) {				
 		dialog.dispose(message);
-//		getPanel().init();
 	}
 	
 	/**
 	 * execute a target link
 	 */
-	public void executeLink(String target){		
-		callBack.callbackCommand(target);
-		dialog.dispose(true);
-//		getPanel().init();
-	}
-	
-	/**
-	 * execute a target link
-	 */
-	public void executeTeleport(String target){
-		if (callBack!=null) {
-			callBack.callbackLink(target);
+	public void executeLink(String target, boolean background){		
+		if (background) {
+			callBack.invokeTarget(target, background);
+		} else {
+			callBack.callbackCommand(target, background);
+			dialog.dispose(true);
 		}
-		dialog.dispose(false);
-//		getPanel().init();
+	}
+	
+	/**
+	 * execute a target link
+	 */
+	public void executeTeleport(String target, boolean background){
+		if (background) {
+			if (callBack!=null) {
+				callBack.invokeTarget(target, background);
+			}
+		} else {
+			if (callBack!=null) {
+				callBack.callbackLink(target);
+			}
+			dialog.dispose(false);
+		}
 	}
 
 	/**
@@ -268,6 +276,7 @@ public class Control implements ActionListener{
 	public Properties getProperties() {
 		return properties;
 	}
+
 	/**
 	 * @param properties properties to set.
 	 */
@@ -275,6 +284,7 @@ public class Control implements ActionListener{
 		this.properties = properties;
 		panel.setProperties(properties);
 	}
+
 	/**
 	 * @param properties properties to set.
 	 */
@@ -288,7 +298,6 @@ public class Control implements ActionListener{
 		setProperties(props);
 	}
 	
-
 	/**
 	 * add menu item to menu bar
 	 */
