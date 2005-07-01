@@ -48,7 +48,7 @@ public class DateProperty extends DefaultProperty implements Requirable{
 
 	public ValueHandle addToControlPanel(ControlPanel panel) {
 		DateChooser chooser = new DateChooser(dateFormat);
-		panel.addDateChooser(chooser);
+		panel.getStylesheetHandler().addDateChooser(chooser);
 		chooser.setEnabled(isEditable());
 		initComponent(chooser, panel);
 		DateChooserGetter valueHandle =  new DateChooserGetter(chooser);

@@ -58,7 +58,7 @@ public class FileSelectionProperty extends DefaultProperty implements Requirable
 
 	public ValueHandle addToControlPanel(ControlPanel panel) {
 		FileChooser chooser = new FileChooser(columns, directoryChooser);
-		panel.addFileChooser(chooser);
+		panel.getStylesheetHandler().addFileChooser(chooser);
 		initComponent(chooser, panel);
 		FileChooserGetter valueHandle = new FileChooserGetter(chooser);
 		panel.addControl(getProperty(), valueHandle, required);

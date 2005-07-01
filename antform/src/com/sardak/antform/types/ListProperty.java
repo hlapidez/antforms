@@ -68,7 +68,7 @@ public class ListProperty extends DefaultProperty{
 	public ValueHandle addToControlPanel(ControlPanel panel) {
 		SpinnerListModel model = new SpinnerListModel(asList()); 
 		JSpinner spinner = new JSpinner(model);
-		panel.addSpinner(spinner);
+		panel.getStylesheetHandler().addSpinner(spinner);
 		spinner.setEnabled(isEditable());
 		initComponent(spinner, panel);
 		SpinnerValueGetter valueHandle = new SpinnerValueGetter(spinner);

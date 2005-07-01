@@ -65,7 +65,7 @@ public class NumberProperty extends DefaultProperty{
 	public ValueHandle addToControlPanel(ControlPanel panel) {
 		SpinnerNumberModel model = new SpinnerNumberModel(min,min, max, step); 
 		JSpinner spinner = new JSpinner(model);
-		panel.addSpinner(spinner);
+		panel.getStylesheetHandler().addSpinner(spinner);
 		spinner.setEnabled(isEditable());
 		initComponent(spinner, panel);
 		SpinnerValueGetter valueHandle = new SpinnerValueGetter(spinner);

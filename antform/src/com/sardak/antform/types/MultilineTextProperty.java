@@ -71,8 +71,8 @@ public class MultilineTextProperty extends DefaultProperty implements Requirable
 		JTextArea textArea = new JTextArea(rows,columns);		
 		textArea.setEditable(isEditable());		
 		JScrollPane scrollPane = new JScrollPane(textArea);
-		panel.addMultiLineTextArea(textArea); 
-		panel.addScrollPane(scrollPane);
+		panel.getStylesheetHandler().addMultiLineTextArea(textArea); 
+		panel.getStylesheetHandler().addScrollPane(scrollPane);
 		initComponent(scrollPane, panel);
 		TextValueGetter valueHandle = new TextValueGetter(textArea);
 		panel.addControl(getProperty(), valueHandle, required);		

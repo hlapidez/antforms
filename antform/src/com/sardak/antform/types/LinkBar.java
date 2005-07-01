@@ -57,11 +57,12 @@ public class LinkBar extends BaseType {
 		for (Iterator iter = links.iterator(); iter.hasNext();) {
 			final Link link = (Link) iter.next();
 			JButton button = new JButton(link.getLabel());			
-			panel.addLink(button);
+			panel.getStylesheetHandler().addLink(button);
 			linkPanel.add(button);
 			linkPanel.add(Box.createHorizontalStrut(10));			
 			button.addActionListener(panel);
-			panel.setTeleport(button, link.getTarget(), link.isBackground());
+//			panel.setTeleport(button, link.getTarget(), link.isBackground());
+			panel.listenToLink(button, link.getTarget(), link.isBackground());
 			panel.setMnemonics(button, link.getLabel());
 		}
 		panel.addCentered(linkPanel);

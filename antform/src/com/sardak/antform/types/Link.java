@@ -101,7 +101,7 @@ public class Link extends BaseType{
 		linkPanel.setLayout(new BorderLayout());
 		linkPanel.add(link, BorderLayout.CENTER);
 		linkPanel.setOpaque(false);
-		panel.addLink(link);		
+		panel.getStylesheetHandler().addLink(link);		
 		panel.addLinkToLayout(linkPanel);
 		panel.listenToLink(link, linkLocation, background);
 		panel.setMnemonics(link, label);
