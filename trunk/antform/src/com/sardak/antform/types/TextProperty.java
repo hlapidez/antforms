@@ -70,7 +70,7 @@ public class TextProperty extends DefaultProperty implements Requirable{
 		} else {
 			textField = new JPasswordField(getColumns());
 		}
-		panel.addTextField(textField);
+		panel.getStylesheetHandler().addTextField(textField);
 		textField.setEditable(isEditable());
 		initComponent(textField, panel);
 		TextValueGetter valueGetter = new TextValueGetter(textField);

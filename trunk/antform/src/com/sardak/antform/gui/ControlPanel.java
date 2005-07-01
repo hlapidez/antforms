@@ -20,7 +20,6 @@
 package com.sardak.antform.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -28,42 +27,29 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 import com.sardak.antform.gui.helpers.CheckValueGetter;
 import com.sardak.antform.interfaces.ValueHandle;
-import com.sardak.antform.style.HexConverter;
 import com.sardak.antform.util.MnemonicsUtil;
-import com.sardak.antform.util.StyleUtil;
 
 /**
  * Panel that holds the user form and lays out labels and
@@ -80,19 +66,15 @@ public class ControlPanel extends JPanel implements ActionListener{
 	private JPanel southPanel;
 	private JPanel topPanel;
 	private JPanel overPanel;
-	private JPanel buttonInnerPanel;
+//	private JPanel buttonInnerPanel;
 	private JPanel currentPanel; 
-	private Font font = null;	
-	private boolean tabbed;
+//	private Font font = null;	
+//	private boolean tabbed;
 	private Properties properties,defaultProperties;
 	private Map controlsMap, requiredMap, mnemonicsMap;
 	private HashSet usedLetters;
 	private JTabbedPane tabbedPane;
-	private List textProperties,
-		selectionProperties, numberProperties, links,
-		multiLineTextProperties, buttons, dateProperties,
-		labels, checkBoxes, messages, scrollPanes,
-		fileChoosers, radioButtons, panels;	
+	private StylesheetHandler stylesheetHandler;
 
     public Control getControl() {
         return control;
@@ -107,21 +89,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 		controlsMap = new HashMap();
 		requiredMap = new HashMap();
 		usedLetters = new HashSet();
-		textProperties = new ArrayList();
-		selectionProperties = new ArrayList();
-		numberProperties =  new ArrayList();
-		links = new ArrayList();
-		multiLineTextProperties = new ArrayList();
-		buttons = new ArrayList();
-		dateProperties = new ArrayList();
-		labels = new ArrayList();
-		checkBoxes = new ArrayList();
-		messages  = new ArrayList();
-		scrollPanes=new ArrayList();
-		fileChoosers=new ArrayList();
-		radioButtons = new ArrayList();
-		panels = new ArrayList();
 		mnemonicsMap = new HashMap();
+		stylesheetHandler = new StylesheetHandler();
 	}
 	
 	/**
@@ -182,10 +151,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 	 */
 	public JLabel makeLabel(String labelText){
 		JLabel label = new JLabel(labelText);
-		labels.add(label);
-		if (font!=null) {
-			label.setFont(font);
-		} 
+		stylesheetHandler.addLabel(label);
 		addLeft(label);				
 		setMnemonics(label, labelText);						
 		return label;
@@ -295,7 +261,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 	 */
 	public ControlPanel(Control control, boolean tabbed){
 		this.control = control;
-		this.tabbed=tabbed;
+//		this.tabbed=tabbed;
 		topLabel = new JLabel(title, JLabel.CENTER);
 		Font font = topLabel.getFont();
 		font = font.deriveFont((float) 16.0);		
@@ -358,46 +324,34 @@ public class ControlPanel extends JPanel implements ActionListener{
 		topLabel.setText(title);					
 	}
 	
+	public JPanel getOverPanel() {
+		return overPanel;
+	}
+	
+	public JPanel getSouthPanel() {
+		return southPanel;
+	}
+	
+	public JPanel getButtonPanel() {
+		return buttonPanel;
+	}
+	
+	public JPanel getCurrentPanel() {
+		return currentPanel;
+	}
+	
+	public StylesheetHandler getStylesheetHandler() {
+		return stylesheetHandler;
+	}
+
 	/**
 	 * set the form stylesheet
 	 * @param title
 	 * @throws IOException
 	 * @throws FileNotFoundException
 	 */
-	public void setStyleSheet(String styleSheet) throws FileNotFoundException, IOException{
-		Properties props = new Properties();
-		props.load(new FileInputStream(new File(styleSheet)));		
-		Color background = HexConverter.translate(props.getProperty("background.color"), Color.GRAY);
-		Color foreground = HexConverter.translate(props.getProperty("color"), Color.BLACK);
-		List banners = new ArrayList();
-		banners.add(overPanel);		
-		if (southPanel != null) {
-			southPanel.setBackground(background);
-		}
-		Set buttonBars = new HashSet();
-		buttonBars.add(buttonPanel);
-		StyleUtil.styleComponents("buttonBar", props, buttonBars);
-		for (Iterator iter = panels.iterator(); iter.hasNext();) {
-			JPanel aPanel  = (JPanel) iter.next();
-			aPanel.setBackground(background);
-		}
-		currentPanel.setBackground(background);
-		setBackground(background);
-		StyleUtil.styleComponents("banner", props, banners);
-		font = new Font(props.getProperty("font.family"), Font.PLAIN, Integer.parseInt(props.getProperty("font.size")));
-		StyleUtil.styleComponents("label", props, labels);
-		StyleUtil.styleComponents("textProperty", props, dateProperties);
-		StyleUtil.styleComponents("textProperty", props, textProperties);
-		StyleUtil.styleComponents("textProperty", props, numberProperties);
-		StyleUtil.styleComponents("textProperty", props, fileChoosers);
-		StyleUtil.styleComponents("multiLineTextProperty", props, multiLineTextProperties); 
-		StyleUtil.styleComponents("link", props, links);
-		StyleUtil.styleComponents("scrollPanes", props, scrollPanes);
-		StyleUtil.styleComponents("selectionProperty", props, selectionProperties);
-		StyleUtil.styleComponents("button", props, buttons);
-		StyleUtil.styleComponents("checkbox", props, checkBoxes);
-		StyleUtil.styleComponents("message", props, messages);
-		StyleUtil.styleComponents("radio", props, radioButtons);
+	public void setStyleSheet(String stylesheetFileName) throws FileNotFoundException, IOException{
+		stylesheetHandler.apply(stylesheetFileName, this);
 	}
 
 	/**
@@ -479,58 +433,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 		this.usedLetters = usedLetters;
 	}
 	
-	public void addCheckBox(JCheckBox checkBox) {
-	    checkBoxes.add(checkBox);
-	}
-
-	public void addCheckGroupBox(CheckGroupBox checkGroupBox) {
-	    checkBoxes.add(checkGroupBox);
-	}
-
-	public void addRadioGroupBox(RadioGroupBox radioBox) {
-	    radioButtons.add(radioBox);
-	}
-
-	public void addDateChooser(DateChooser chooser) {
-		dateProperties.add(chooser);
-	}
-	
-	public void addFileChooser(FileChooser chooser) {
-		fileChoosers.add(chooser);
-	}
-	
-	public void addSpinner(JSpinner spinner) {
-	    numberProperties.add(spinner);
-	}
-	
-	public void addTextField(JTextField textField) {
-	    textProperties.add(textField);
-	}
-	
-	public void addMultiLineTextArea(JTextArea textArea) {
-	    multiLineTextProperties.add(textArea);
-	}
-	
-	public void addScrollPane(JScrollPane scrollPane) {
-	    scrollPanes.add(scrollPane);
-	}
-	
-	public void addComboBox(JComboBox comboBox) {
-	    selectionProperties.add(comboBox);
-	}
-	
-	public void addButton(JButton button) {
-	    buttons.add(button);
-	}
-	
-	public void addLink(JButton link) {
-	    links.add(link);
-	}
-	
-	public void addMessage(JTextArea textArea) {
-	    messages.add(textArea);
-	}
-	
 	public void addMenu(JMenu menu) {
 	    control.addMenu(menu);
 	}
@@ -556,7 +458,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 	
 	public void addToTabbedPane(String label, JPanel tabPanel, GridBagLayout aLayout) {
 	    tabbedPane.addTab(label, tabPanel);
-	    panels.add(tabPanel);
+	    stylesheetHandler.addPanel(tabPanel);
 		currentPanel = tabPanel;
 		layout = aLayout;
 	}
@@ -565,14 +467,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 		link.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 					control.executeLink(target, background);
-			}
-		});		
-	}
-
-	public void setTeleport(JButton link, final String target, final boolean background) {
-		link.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-					control.executeTeleport(target, background);
 			}
 		});		
 	}

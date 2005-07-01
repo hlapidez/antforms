@@ -34,7 +34,7 @@ public class BooleanProperty extends DefaultProperty {
 		JCheckBox checkBox = new JCheckBox();
 		checkBox.setEnabled(isEditable());
 		initComponent(checkBox, panel);
-		panel.addCheckBox(checkBox);
+		panel.getStylesheetHandler().addCheckBox(checkBox);
 		CheckValueGetter valueHandle = new CheckValueGetter(checkBox);
 		panel.addControl(getProperty(), valueHandle);
 		return valueHandle;

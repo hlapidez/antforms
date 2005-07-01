@@ -42,7 +42,7 @@ public class CheckSelectionProperty extends SelectionProperty{
 	public ValueHandle addToControlPanel(ControlPanel panel) {
 		CheckGroupBox checkGroupBox = new CheckGroupBox(getSplitValues(), getSeparator(), getEscapeSequence(), getColumns());		
 		checkGroupBox.setEnabled(isEditable());
-		panel.addCheckGroupBox(checkGroupBox);
+		panel.getStylesheetHandler().addCheckGroupBox(checkGroupBox);
 		initComponent(checkGroupBox, panel);
 		ValueHandle valueHandle =  new MultiCheckGetter(checkGroupBox);
 		panel.addControl(getProperty(), valueHandle);

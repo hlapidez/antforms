@@ -82,7 +82,7 @@ public class Label extends BaseType{
 		} else {
 		    panel.addCentered(textArea);
 		}		
-		panel.addMessage(textArea);
+		panel.getStylesheetHandler().addMessage(textArea);
 		return null;
 	}
 }

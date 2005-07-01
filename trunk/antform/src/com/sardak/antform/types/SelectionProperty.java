@@ -104,7 +104,7 @@ public class SelectionProperty extends DefaultProperty{
 	public ValueHandle addToControlPanel(ControlPanel panel) {
 		JComboBox comboBox = new JComboBox(getSplitValues());		
 		comboBox.setEnabled(isEditable());
-		panel.addComboBox(comboBox);
+		panel.getStylesheetHandler().addComboBox(comboBox);
 		initComponent(comboBox, panel);
 		ComboIndiceGetter valueHandle = new ComboIndiceGetter(comboBox);
 		panel.addControl(getProperty(), valueHandle);

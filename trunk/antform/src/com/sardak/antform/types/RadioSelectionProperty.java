@@ -36,7 +36,7 @@ public class RadioSelectionProperty extends SelectionProperty{
     public ValueHandle addToControlPanel(ControlPanel panel) {
 		RadioGroupBox radioBox = new RadioGroupBox(getSplitValues(), getColumns());		
 		radioBox.setEnabled(isEditable());
-		panel.addRadioGroupBox(radioBox);
+		panel.getStylesheetHandler().addRadioGroupBox(radioBox);
 		initComponent(radioBox, panel);
 		RadioGetter valueHandle =  new RadioGetter(radioBox);
 		panel.addControl(getProperty(), valueHandle);

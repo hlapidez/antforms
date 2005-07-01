@@ -41,26 +41,23 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import com.sardak.antform.style.HexConverter;
 import com.sardak.antform.types.AntMenuItem;
 import com.sardak.antform.util.MnemonicsUtil;
 import com.sardak.antform.util.StyleUtil;
-import com.sardak.antform.util.TargetInvoker;
 
 /**
  * Frame for holding the user form
  * @author René Ghosh
  */
 public class Control implements ActionListener{
-	private static final boolean TESTMODE = false;
-	private static final boolean VERBOSE = false;
+//	private static final boolean TESTMODE = false;
+//	private static final boolean VERBOSE = false;
 	private CallBackDialog dialog;
-	private JTabbedPane tabbedPane;	
+//	private JTabbedPane tabbedPane;	
 	private Properties properties = new Properties();
 	private CallBack callBack;
 	private ControlPanel panel;
@@ -77,7 +74,8 @@ public class Control implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		String actionCommand = e.getActionCommand();
 		if ((actionCommand!=null)&&(actionCommand.trim().length()>0)) {
-			executeTeleport(actionCommand, false);
+//			executeTeleport(actionCommand, false);
+			executeLink(actionCommand, false);
 		}
 	}
 	
@@ -257,18 +255,18 @@ public class Control implements ActionListener{
 	/**
 	 * execute a target link
 	 */
-	public void executeTeleport(String target, boolean background){
-		if (background) {
-			if (callBack!=null) {
-				callBack.invokeTarget(target, background);
-			}
-		} else {
-			if (callBack!=null) {
-				callBack.callbackLink(target);
-			}
-			dialog.dispose(false);
-		}
-	}
+//	public void executeTeleport(String target, boolean background){
+//		if (background) {
+//			if (callBack!=null) {
+//				callBack.invokeTarget(target, background);
+//			}
+//		} else {
+//			if (callBack!=null) {
+//				callBack.callbackLink(target);
+//			}
+//			dialog.dispose(false);
+//		}
+//	}
 
 	/**
 	 * @return the properties.
@@ -337,9 +335,9 @@ public class Control implements ActionListener{
 	public void setStyleSheet(String styleSheet) throws FileNotFoundException, IOException{
 		Properties props = new Properties();
 		props.load(new FileInputStream(new File(styleSheet)));		
-		Color background = HexConverter.translate(props.getProperty("background.color"), Color.GRAY);
-		Color foreground = HexConverter.translate(props.getProperty("color"), Color.BLACK);		
-		List banners = new ArrayList();
+//		Color background = HexConverter.translate(props.getProperty("background.color"), Color.GRAY);
+//		Color foreground = HexConverter.translate(props.getProperty("color"), Color.BLACK);		
+//		List banners = new ArrayList();
 		StyleUtil.styleComponents("menu", props, menuItems);		
 	}
 
