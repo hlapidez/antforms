@@ -53,11 +53,8 @@ import com.sardak.antform.util.StyleUtil;
  * Frame for holding the user form
  * @author René Ghosh
  */
-public class Control implements ActionListener{
-//	private static final boolean TESTMODE = false;
-//	private static final boolean VERBOSE = false;
+public class Control {
 	private CallBackDialog dialog;
-//	private JTabbedPane tabbedPane;	
 	private Properties properties = new Properties();
 	private CallBack callBack;
 	private ControlPanel panel;
@@ -68,17 +65,6 @@ public class Control implements ActionListener{
 	private boolean firstShow = true;
 	private List menuItems;
 		
-	/**
-	 * Process actionEvents
-	 */
-	public void actionPerformed(ActionEvent e) {
-		String actionCommand = e.getActionCommand();
-		if ((actionCommand!=null)&&(actionCommand.trim().length()>0)) {
-//			executeTeleport(actionCommand, false);
-			executeLink(actionCommand, false);
-		}
-	}
-	
 	/**
 	 * set window width
 	 */
@@ -253,22 +239,6 @@ public class Control implements ActionListener{
 	}
 	
 	/**
-	 * execute a target link
-	 */
-//	public void executeTeleport(String target, boolean background){
-//		if (background) {
-//			if (callBack!=null) {
-//				callBack.invokeTarget(target, background);
-//			}
-//		} else {
-//			if (callBack!=null) {
-//				callBack.callbackLink(target);
-//			}
-//			dialog.dispose(false);
-//		}
-//	}
-
-	/**
 	 * @return the properties.
 	 */
 	public Properties getProperties() {
@@ -302,7 +272,7 @@ public class Control implements ActionListener{
 	public void addMenuItems(AntMenuItem parentItem, JMenuItem parentMenuItem) {
 		HashSet usedLetters = new HashSet(); 
 		for (Iterator iter = parentItem.getSubProperties().iterator(); iter.hasNext();) {
-			AntMenuItem newItem = (AntMenuItem) iter.next();
+			final AntMenuItem newItem = (AntMenuItem) iter.next();
 			String name = newItem.getName();
 			String sToUse = MnemonicsUtil.newMnemonic(name, usedLetters);					
 			if (newItem.getSubProperties().size()>0) {
@@ -320,8 +290,13 @@ public class Control implements ActionListener{
 				}				
 				parentMenuItem.add(newMenuItem);
 				menuItems.add(newMenuItem);
-				newMenuItem.addActionListener(this);
-				newMenuItem.setActionCommand(newItem.getTarget());
+//				newMenuItem.addActionListener(this);
+//				newMenuItem.setActionCommand(newItem.getTarget());
+				newMenuItem.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e) {
+							executeLink(newItem.getTarget(), newItem.isBackground());
+					}
+				});		
 			}
 		}		
 	}
@@ -335,9 +310,6 @@ public class Control implements ActionListener{
 	public void setStyleSheet(String styleSheet) throws FileNotFoundException, IOException{
 		Properties props = new Properties();
 		props.load(new FileInputStream(new File(styleSheet)));		
-//		Color background = HexConverter.translate(props.getProperty("background.color"), Color.GRAY);
-//		Color foreground = HexConverter.translate(props.getProperty("color"), Color.BLACK);		
-//		List banners = new ArrayList();
 		StyleUtil.styleComponents("menu", props, menuItems);		
 	}
 
