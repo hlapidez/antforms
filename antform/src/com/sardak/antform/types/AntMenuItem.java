@@ -39,7 +39,16 @@ public class AntMenuItem extends BaseType{
 	private HashSet usedLetters = new HashSet();
 	private String target,name;
 	private JMenuBar menuBar;
+	private boolean background = false;
 	
+	
+	public boolean isBackground() {
+		return background;
+	}
+	
+	public void setBackground(boolean background) {
+		this.background = background;
+	}
 	
 	/**
 	 * get the list of subProperties
