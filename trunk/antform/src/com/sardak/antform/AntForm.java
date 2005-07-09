@@ -40,7 +40,7 @@ import com.sardak.antform.types.CheckSelectionProperty;
 import com.sardak.antform.types.DateProperty;
 import com.sardak.antform.types.DefaultProperty;
 import com.sardak.antform.types.FileSelectionProperty;
-import com.sardak.antform.types.Html;
+//import com.sardak.antform.types.Html;
 import com.sardak.antform.types.Label;
 import com.sardak.antform.types.LinkBar;
 import com.sardak.antform.types.ListProperty;
@@ -157,9 +157,9 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 	 * add a configured html pane
 	 * @param html
 	 */
-	public void addConfiguredHtml(Html html){		
-		properties.add(html);
-	}
+//	public void addConfiguredHtml(Html html){		
+//		properties.add(html);
+//	}
 	
 	/**
 	 * add a configured text property
