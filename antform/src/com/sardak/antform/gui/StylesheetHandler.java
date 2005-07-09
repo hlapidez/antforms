@@ -1,7 +1,6 @@
 package com.sardak.antform.gui;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -112,29 +111,30 @@ public class StylesheetHandler {
 	
 	public void apply(String stylesheetFileName, ControlPanel controlPanel) throws FileNotFoundException, IOException {
 		Properties props = new Properties();
-		props.load(new FileInputStream(new File(stylesheetFileName)));		
-		Color background = HexConverter.translate(props.getProperty("background.color"), Color.GRAY);
-		Color foreground = HexConverter.translate(props.getProperty("color"), Color.BLACK);
-		List banners = new ArrayList();
-		banners.add(controlPanel.getOverPanel());		
+		props.load(new FileInputStream(new File(stylesheetFileName)));
+		Color background = HexConverter.translate(props.getProperty("background.color"), controlPanel.getCurrentPanel().getBackground());
 		if (controlPanel.getSouthPanel() != null) {
 			controlPanel.getSouthPanel().setBackground(background);
 		}
-		Set buttonBars = new HashSet();
-		buttonBars.add(controlPanel.getButtonPanel());
-		StyleUtil.styleComponents("buttonBar", props, buttonBars);
 		for (Iterator iter = panels.iterator(); iter.hasNext();) {
 			JPanel aPanel  = (JPanel) iter.next();
 			aPanel.setBackground(background);
 		}
 		controlPanel.getCurrentPanel().setBackground(background);
 		controlPanel.setBackground(background);
+//		for (Iterator iter = labels.iterator(); iter.hasNext();) {
+//			JLabel label  = (JLabel) iter.next();
+//			Font currentFont = label.getFont();
+//			int fontSize = props.getProperty("font.size") == null ? currentFont.getSize() : Integer.parseInt(props.getProperty("font.size"));
+//			Font labelFont = new Font(props.getProperty("font.family", currentFont.getFamily()), Font.PLAIN, fontSize);
+//			label.setFont(labelFont);
+//		}
+		Set buttonBars = new HashSet();
+		buttonBars.add(controlPanel.getButtonPanel());
+		StyleUtil.styleComponents("buttonBar", props, buttonBars);
+		List banners = new ArrayList();
+		banners.add(controlPanel.getOverPanel());		
 		StyleUtil.styleComponents("banner", props, banners);
-		Font labelFont = new Font(props.getProperty("font.family"), Font.PLAIN, Integer.parseInt(props.getProperty("font.size")));
-		for (Iterator iter = labels.iterator(); iter.hasNext();) {
-			JLabel label  = (JLabel) iter.next();
-			label.setFont(labelFont);
-		}
 		StyleUtil.styleComponents("label", props, labels);
 		StyleUtil.styleComponents("textProperty", props, dateProperties);
 		StyleUtil.styleComponents("textProperty", props, textProperties);

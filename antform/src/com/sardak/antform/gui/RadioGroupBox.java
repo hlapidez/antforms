@@ -20,6 +20,7 @@
 package com.sardak.antform.gui;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -59,6 +60,17 @@ public class RadioGroupBox extends JPanel{
 		}
 	}
 	
+ 	/**
+ 	 * get the current font
+ 	 */
+ 	public Font getFont() {
+ 		Font font = null;
+ 		if (buttons != null && buttons.size() > 0) {
+ 			font = ((Component) buttons.get(0)).getFont();
+ 		}
+ 		return font;
+ 	}
+
 	/**
 	 * set the font
 	 */

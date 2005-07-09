@@ -304,6 +304,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 	
 	public void addButtonPanel(ButtonPanel buttons) {
 		add(buttons, BorderLayout.SOUTH);
+		stylesheetHandler.addPanel(buttons);
 	}
 	
 	/**

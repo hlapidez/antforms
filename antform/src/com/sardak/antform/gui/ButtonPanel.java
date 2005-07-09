@@ -20,6 +20,7 @@
 package com.sardak.antform.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
@@ -35,19 +36,27 @@ import com.sardak.antform.gui.helpers.ButtonValueGetter;
  */
 public class ButtonPanel extends JPanel  {
 	private ControlPanel controlPanel;
+	private JPanel rightPanel;
 
 	public ButtonPanel(String okMessage, String resetMessage, String cancelMessage, ControlPanel controlPanel) {
 		this.controlPanel = controlPanel;
 		this.setLayout(new BorderLayout(3, 3));
 		this.setBorder(BorderFactory.createEmptyBorder(3,3,3,3));
-		JPanel rightPannel = new JPanel(new GridLayout(1, 0, 3, 3));
-		addButton(cancelMessage, rightPannel);
-		addButton(resetMessage, rightPannel);
-		addButton(okMessage, rightPannel);
+		rightPanel = new JPanel(new GridLayout(1, 0, 3, 3));
+		addButton(cancelMessage, rightPanel);
+		addButton(resetMessage, rightPanel);
+		addButton(okMessage, rightPanel);
 		controlPanel.setCancelMessage(cancelMessage);
 		controlPanel.setResetMessage(resetMessage);
 		controlPanel.setOkMessage(okMessage);
-		this.add(rightPannel, BorderLayout.EAST);
+		this.add(rightPanel, BorderLayout.EAST);
+	}
+	
+	public void setBackground(Color color) {
+		super.setBackground(color);
+		if (rightPanel != null) { // rightPanel will be null when invoking super constructor
+			rightPanel.setBackground(color);
+		}
 	}
 	
 	private void addButton(String label, JPanel innerPanel) {
@@ -57,6 +66,7 @@ public class ButtonPanel extends JPanel  {
 			button.addActionListener(controlPanel);
 			controlPanel.setMnemonics(button, label);
 			controlPanel.addControl(label, new ButtonValueGetter(button), false);
+			controlPanel.getStylesheetHandler().addButton(button);
 			innerPanel.add(button);
 		}
 	}
