@@ -58,7 +58,6 @@ public class Control {
 	private Properties properties = new Properties();
 	private CallBack callBack;
 	private ControlPanel panel;
-	private HashSet usedLetters;
 	private int width=-1, height= -1;
 	private String title, image;
 	private JScrollPane scrollPane;
@@ -116,7 +115,6 @@ public class Control {
 	 */
 	public void init() {
 		menuItems = new ArrayList();
-		usedLetters = new HashSet();
 	}
 	
 	/**
@@ -233,7 +231,7 @@ public class Control {
 		if (background) {
 			callBack.invokeTarget(target, background);
 		} else {
-			callBack.callbackCommand(target, background);
+			callBack.callbackCommand(target);
 			dialog.dispose(true);
 		}
 	}

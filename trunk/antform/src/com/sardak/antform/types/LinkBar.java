@@ -24,7 +24,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -53,7 +52,6 @@ public class LinkBar extends BaseType {
 	public ValueHandle addToControlPanel(ControlPanel panel) {
 		JPanel linkPanel = new JPanel();
 		linkPanel.setOpaque(false);
-		BoxLayout layout = new BoxLayout(linkPanel, BoxLayout.X_AXIS);		
 		for (Iterator iter = links.iterator(); iter.hasNext();) {
 			final Link link = (Link) iter.next();
 			JButton button = new JButton(link.getLabel());			

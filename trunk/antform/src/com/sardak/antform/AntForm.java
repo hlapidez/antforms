@@ -34,6 +34,7 @@ import org.apache.tools.ant.Target;
 
 import com.sardak.antform.gui.ButtonPanel;
 import com.sardak.antform.gui.CallBack;
+import com.sardak.antform.types.BaseType;
 import com.sardak.antform.types.BooleanProperty;
 import com.sardak.antform.types.Cancel;
 import com.sardak.antform.types.CheckSelectionProperty;
@@ -67,7 +68,6 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 	private String message = null;
 	private String focus=null;
 	private boolean built = false;
-	private boolean background = false;
 			
 		
 	/**
@@ -187,6 +187,7 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 		}
 		properties.add(listProperty);
 	}
+	
 	/**
 	 * add a configured multiline text property
 	 * @param multilineTextProperty
@@ -195,6 +196,7 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 		checkBaseProperties(multilineTextProperty);
 		properties.add(multilineTextProperty);
 	}
+	
 	/**
 	 * add a configured selection property
 	 * @param textProperty
@@ -243,7 +245,6 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 		checkBaseProperties(booleanProperty);
 		properties.add(booleanProperty);		
 	}
-	
 	
 	/**
 	 * add a configured link bar
@@ -319,19 +320,8 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 	 * @see architecture.integration.tests.CallBack#callback()
 	 */
 	public void callbackCommand(String message){			
-		callbackCommand(message, false);
-	}
-
-	/**
-	 * callback method
-	 * @see architecture.integration.tests.CallBack#callback()
-	 */
-	public void callbackCommand(String message, boolean background){			
-//		quit = true;
 		this.message = message;
-		this.background = background;
 	}
-
 	
 	/**
 	 * implement a callback that ports to a 

@@ -43,7 +43,6 @@ public class Table extends DefaultProperty {
 	private String rowSeparator=",", columnSeparator=";";
 	private String escapeSequence = "\\";
 	private String[] cols;
-	private String[][] values;
 	private int width=-1, height=-1;
 	private int columnWidth = -1;
 	private boolean bestFitColumns=false;

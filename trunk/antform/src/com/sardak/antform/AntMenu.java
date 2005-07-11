@@ -39,7 +39,6 @@ import com.sardak.antform.util.TargetInvoker;
 public class AntMenu extends AbstractTaskWindow implements CallBack{
 	private String nextTarget = null;
 	private boolean built = false;
-	private boolean background = false;
 	/**
 	 * Initialisation
 	 */
@@ -128,11 +127,6 @@ public class AntMenu extends AbstractTaskWindow implements CallBack{
 				break;
 			}
 		}
-	}
-
-	public void callbackCommand(String message, boolean background) {
-		callbackCommand(message);
-		this.background = background;
 	}
 
 	/**
