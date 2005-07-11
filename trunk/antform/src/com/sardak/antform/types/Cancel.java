@@ -19,6 +19,9 @@
   \****************************************************************************/
 package com.sardak.antform.types;
 
+import com.sardak.antform.gui.ControlPanel;
+import com.sardak.antform.interfaces.ValueHandle;
+
 
 /**
  * @author René Ghosh
@@ -27,9 +30,6 @@ package com.sardak.antform.types;
 public class Cancel extends BaseType {
 	private String label;
 
-	//we want only one instance... let's keep a reference to it.
-//	private JButton cancelButton;
-	
 	/**
 	 * get the cancel label
 	 */
@@ -43,17 +43,7 @@ public class Cancel extends BaseType {
 		this.label = label;
 	}
 
-//	public ValueHandle addToControlPanel(ControlPanel panel) {
-//		if (cancelButton==null) {
-//		    cancelButton = new JButton(label);
-//		    cancelButton.setActionCommand(label);
-//			panel.setCancelMessage(label);
-//			cancelButton.addActionListener(panel);
-//			panel.setMnemonics(cancelButton, cancelButton.getText());
-//			panel.addToButtonInnerPanel(Box.createHorizontalStrut(20));
-//			panel.addToButtonInnerPanel(cancelButton);
-//			panel.addButton(cancelButton);
-//		}
-//		return null;
-//	}
+	public ValueHandle addToControlPanel(ControlPanel panel) {
+		return null;
+	}
 }

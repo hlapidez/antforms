@@ -1,4 +1,4 @@
- /***************************************************************************\*
+/***************************************************************************\*
  *                                                                            *
  *    AntForm form-based interaction for Ant scripts                          *
  *    Copyright (C) 2005 René Ghosh                                           *
@@ -23,56 +23,67 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 
 import com.sardak.antform.gui.ControlPanel;
+import com.sardak.antform.interfaces.ValueHandle;
 
 /**
  * Default property attributes: include the label and target property.
+ * 
  * @author René Ghosh
  */
-public class DefaultProperty extends BaseType{
+public class DefaultProperty extends BaseType {
 	private String label, property, tooltip;
+
 	private boolean editable = true;
+
 	/**
 	 * true if property is editable
 	 */
 	public boolean isEditable() {
 		return editable;
 	}
+
 	/**
 	 * set property editable
 	 */
 	public void setEditable(boolean editable) {
 		this.editable = editable;
 	}
+
 	/**
 	 * @return label.
 	 */
 	public String getLabel() {
 		return label;
 	}
+
 	/**
 	 * @param label.
 	 */
 	public void setLabel(String label) {
 		this.label = label;
 	}
+
 	/**
 	 * @return property.
 	 */
 	public String getProperty() {
 		return property;
 	}
+
 	/**
 	 * @param property.
 	 */
 	public void setProperty(String property) {
 		this.property = property;
 	}
+
 	/**
 	 * @return tooltip.
 	 */
 	public String getTooltip() {
 		return tooltip;
 	}
+
 	/**
 	 * @param property.
 	 */
@@ -80,25 +91,32 @@ public class DefaultProperty extends BaseType{
 		this.tooltip = tooltip;
 	}
 
+	public ValueHandle addToControlPanel(ControlPanel panel) {
+		return null;
+	}
+
 	/**
 	 * Apply tooltip text to the specified JComponent (and optionnaly its label)
 	 */
-	private void applyTooltip(JComponent component, JLabel label, String tooltipText) {
+	private void applyTooltip(JComponent component, JLabel label,
+			String tooltipText) {
 		if (null != tooltipText && !tooltipText.equals("")) {
 			component.setToolTipText(tooltipText);
 			if (label != null) {
-			    label.setToolTipText(tooltipText);
+				label.setToolTipText(tooltipText);
 			}
-			for (int i = 0 ; i < component.getComponentCount() ; i++) {
+			for (int i = 0; i < component.getComponentCount(); i++) {
 				if (component.getComponent(i) instanceof JComponent) {
-					applyTooltip((JComponent) component.getComponent(i), null, tooltipText);
+					applyTooltip((JComponent) component.getComponent(i), null,
+							tooltipText);
 				}
 			}
 		}
 	}
-	
+
 	/**
-	 * Add the specified component to the control panel, creating a JLabel and adding tooltip info
+	 * Add the specified component to the control panel, creating a JLabel and
+	 * adding tooltip info
 	 */
 	protected void initComponent(JComponent component, ControlPanel panel) {
 		JLabel labelComponent = panel.makeLabel(label);
