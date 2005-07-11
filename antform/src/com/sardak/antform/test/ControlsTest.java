@@ -19,8 +19,6 @@
  \****************************************************************************/
 package com.sardak.antform.test;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 import javax.swing.UIManager;
@@ -51,7 +49,6 @@ public class ControlsTest {
 		ControlPanel panel = control.getPanel();
 		
 		LinkBar bar = new LinkBar();
-		List links = new  ArrayList();			
 		bar.addConfiguredLink(new Link("Add an FTP server", "addserver"));
 		bar.addConfiguredLink(new Link("Remove an FTP server", "removeServer"));
 		bar.addToControlPanel(panel);
@@ -74,23 +71,21 @@ public class ControlsTest {
 		ValueHandle g2 = tp1.addToControlPanel(panel);
 //		ValueHandle g2 = panel.addTextProperty("Server address:", "serverAddress", 30, true, false, false, null);
 		TextProperty tp2 = new TextProperty();
-		tp1.setLabel("Server login:");
-		tp1.setProperty("login");
-		tp1.setColumns(30);
-		tp1.setEditable(true);
-		tp1.setPassword(false);
-		tp1.setRequired(false);
-		ValueHandle g3 = tp1.addToControlPanel(panel);
-//		ValueHandle g3 = panel.addTextProperty("Server login:", "login", 30, true, false, false, null);
+		tp2.setLabel("Server login:");
+		tp2.setProperty("login");
+		tp2.setColumns(30);
+		tp2.setEditable(true);
+		tp2.setPassword(false);
+		tp2.setRequired(false);
+		tp2.addToControlPanel(panel);
 		TextProperty tp3 = new TextProperty();
-		tp1.setLabel("Server password:");
-		tp1.setProperty("password");
-		tp1.setColumns(30);
-		tp1.setEditable(true);
-		tp1.setPassword(true);
-		tp1.setRequired(false);
-		ValueHandle g4 = tp1.addToControlPanel(panel);
-//		ValueHandle g4 = panel.addTextProperty("Server password:", "password", 30, true, true, false, null);
+		tp3.setLabel("Server password:");
+		tp3.setProperty("password");
+		tp3.setColumns(30);
+		tp3.setEditable(true);
+		tp3.setPassword(true);
+		tp3.setRequired(false);
+		tp3.addToControlPanel(panel);
 		
 		control.getPanel().addButtonPanel(new ButtonPanel("Save properties", "Reset form", null, control.getPanel()));
 		

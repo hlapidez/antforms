@@ -28,13 +28,10 @@ import java.util.Properties;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.text.JTextComponent;
 
-import com.sardak.antform.gui.CheckGroupBox;
-import com.sardak.antform.gui.RadioGroupBox;
 import com.sardak.antform.style.FontConverter;
 import com.sardak.antform.style.HexConverter;
 

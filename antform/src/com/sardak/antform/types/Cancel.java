@@ -19,7 +19,6 @@
   \****************************************************************************/
 package com.sardak.antform.types;
 
-import javax.swing.JButton;
 
 /**
  * @author René Ghosh
@@ -27,8 +26,10 @@ import javax.swing.JButton;
  */
 public class Cancel extends BaseType {
 	private String label;
+
 	//we want only one instance... let's keep a reference to it.
-	private JButton cancelButton;
+//	private JButton cancelButton;
+	
 	/**
 	 * get the cancel label
 	 */

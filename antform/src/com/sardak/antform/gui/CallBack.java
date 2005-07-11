@@ -25,7 +25,6 @@ package com.sardak.antform.gui;
  */
 public interface CallBack {
 	public void callbackCommand(String message);
-	public void callbackCommand(String message, boolean background);
 	public void callbackLink(String message);	
 	public void setFalse(String propertyName);
 	public void invokeTarget(String target, boolean background);

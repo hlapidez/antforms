@@ -33,14 +33,15 @@ public class CSVReader {
 	/**
 	 * Generic search & replace utility
 	 */
-	private static final String searchReplace(String s, String search, String replace){
-		int start = 0;
-		while ((start=s.indexOf(search, start))!=-1){
-			s = s.substring(0,start)+replace+s.substring(start+search.length());
-			start = start+replace.length();
-		}
-		return s;
-	}
+//	private static final String searchReplace(String s, String search, String replace){
+//		int start = 0;
+//		while ((start=s.indexOf(search, start))!=-1){
+//			s = s.substring(0,start)+replace+s.substring(start+search.length());
+//			start = start+replace.length();
+//		}
+//		return s;
+//	}
+
 	/**
 	 * Constructor
 	 */
@@ -92,7 +93,6 @@ public class CSVReader {
 		int start = 0;
 		while ((start=s.indexOf(separator, start))!=-1) {
 			String prefix = s.substring(0,start);
-			String suffix = s.substring(start+separator.length());
 			if (!endsWithEscape(prefix)){
 				String atom = prefix;
 				if (lastLevel) {
