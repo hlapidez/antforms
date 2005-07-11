@@ -247,6 +247,14 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 	}
 	
 	/**
+	 * add a custom widget
+	 * @param textProperty
+	 */
+	public void addConfigured(BaseType widget) {
+		properties.add(widget);
+	}
+
+	/**
 	 * add a configured link bar
 	 */
 	public void addConfiguredLinkBar(LinkBar linkBar) {
