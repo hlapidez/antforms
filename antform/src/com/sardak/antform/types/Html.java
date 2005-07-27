@@ -22,8 +22,6 @@ package com.sardak.antform.types;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
@@ -114,19 +112,6 @@ public class Html extends BaseType implements HyperlinkListener {
 		labelComponent.setLabelFor(scrollPane);
 		panel.addRight(scrollPane);
 		return null;
-	}
-
-	private URL getUrl() {
-		URL url = null;
-		try {
-			if (urlString != null) {
-				url = new URL(urlString);
-			} else if (file != null) {
-				url = file.toURL();
-			}
-		} catch (MalformedURLException ex) {
-		}
-		return url;
 	}
 
 	public void hyperlinkUpdate(HyperlinkEvent event) {
