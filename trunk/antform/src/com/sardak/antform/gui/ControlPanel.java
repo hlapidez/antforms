@@ -75,6 +75,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 	private HashSet usedLetters;
 	private JTabbedPane tabbedPane;
 	private StylesheetHandler stylesheetHandler;
+	
+	public static final String CANCEL_MSG = "CANCEL_EVENT";
 
     public Control getControl() {
         return control;
@@ -99,8 +101,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 	 */
 	public void actionPerformed(ActionEvent e) {		
 		String command = e.getActionCommand();
-		if (command.equals(cancelMessage)){
-			control.close(properties, "");			
+		if (command.equals(cancelMessage) || command.equals(CANCEL_MSG)){
+			control.close(properties, command);			
 		} else if (command.equals(resetMessage)){
 			setProperties(defaultProperties);	
 			if (disposeOnReset) {
