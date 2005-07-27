@@ -44,7 +44,7 @@ public class AntMenu extends AbstractTaskWindow implements CallBack{
 	 */
 	public void init() throws BuildException {
 		super.init();
-		properties = new ArrayList();		
+		widgets = new ArrayList();		
 	}
 	/**
 	 * build the visual components
@@ -60,7 +60,7 @@ public class AntMenu extends AbstractTaskWindow implements CallBack{
 	 * @param textProperty
 	 */
 	public void addConfiguredSeparator(Separator separator){		
-		properties.add(separator);
+		widgets.add(separator);
 	}
 	
 	/**
@@ -98,7 +98,7 @@ public class AntMenu extends AbstractTaskWindow implements CallBack{
 	 */
 	public void addConfiguredLink(Link link) {
 		checkBaseAttributes(link);
-		properties.add(link);
+		widgets.add(link);
 	}
 	
 	/**
@@ -106,7 +106,7 @@ public class AntMenu extends AbstractTaskWindow implements CallBack{
 	 */
 	public void addConfiguredLabel(Label label) {
 		checkBaseAttributes(label);
-		properties.add(label);
+		widgets.add(label);
 	}
 		
 	

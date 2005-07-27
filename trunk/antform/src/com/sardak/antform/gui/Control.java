@@ -218,7 +218,6 @@ public class Control {
 	
 	/**
 	 * Close the control panel and store properties
-	 * @param properties
 	 */
 	public void close(String message) {				
 		dialog.dispose(message);
@@ -252,13 +251,13 @@ public class Control {
 	}
 
 	/**
-	 * @param properties properties to set.
+	 * @param propertyNames properties to set.
 	 */
-	public void setProperties(Hashtable properties) {
+	public void setProperties(Hashtable propertyNames) {
 		Properties props = new Properties();
-		for (Iterator i=properties.keySet().iterator();i.hasNext();){
+		for (Iterator i = propertyNames.keySet().iterator(); i.hasNext();){
 			String aProperty = (String) i.next();
-			String value= ""+properties.get(aProperty);			
+			String value= ""+propertyNames.get(aProperty);			
 			props.setProperty(aProperty, value);
 		}
 		setProperties(props);

@@ -46,7 +46,7 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	protected boolean needFail = false;
 	protected String lookAndFeel=null;
 //	protected volatile boolean quit = false;	
-	protected List properties;	
+	protected List widgets;	
 	protected boolean dynamic = false;
 	protected boolean tabbed = false;
 	
@@ -76,7 +76,7 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	 * construct the gui widgets
 	 */
 	protected void build(){		
-		for (Iterator iter = properties.iterator(); iter.hasNext();) {
+		for (Iterator iter = widgets.iterator(); iter.hasNext();) {
 			BaseType o = (BaseType) iter.next();
 			if (o.shouldBeDisplayed(getProject())) {
 			    o.addToControlPanel(control.getPanel());
@@ -85,7 +85,6 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 				dynamic = true;
 			}
 		}
-		
 	}
 	
 	/**
@@ -123,7 +122,7 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 			needFail = true;
 		}		
 		if (needFail==false) {
-			properties.add(menuItem);
+			widgets.add(menuItem);
 		}
 	}
 	/**
