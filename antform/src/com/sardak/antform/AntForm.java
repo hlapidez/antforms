@@ -131,7 +131,7 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 	 */
 	public void addConfiguredTextProperty(TextProperty textProperty){
 		checkBaseProperties(textProperty);
-		properties.add(textProperty);
+		widgets.add(textProperty);
 	}
 	
 	/**
@@ -150,7 +150,7 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 	 * @param textProperty
 	 */
 	public void addConfiguredSeparator(Separator separator){		
-		properties.add(separator);
+		widgets.add(separator);
 	}
 	
 	/**
@@ -167,14 +167,14 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 	 */
 	public void addConfiguredDateProperty(DateProperty dateProperty){
 		checkBaseProperties(dateProperty);
-		properties.add(dateProperty);
+		widgets.add(dateProperty);
 	}
 	
 	/**
 	 * add a configured number property
 	 */
 	public void addConfiguredNumberProperty(NumberProperty numberProperty){		
-		properties.add(numberProperty);
+		widgets.add(numberProperty);
 	}
 	
 	/**
@@ -185,7 +185,7 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 		if (listProperty.getValues()==null) {
 			super.log("values attribute of the property "+listProperty.getClass().getName()+" cannot be null.");
 		}
-		properties.add(listProperty);
+		widgets.add(listProperty);
 	}
 	
 	/**
@@ -194,7 +194,7 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 	 */
 	public void addConfiguredMultilineTextProperty(MultilineTextProperty multilineTextProperty){
 		checkBaseProperties(multilineTextProperty);
-		properties.add(multilineTextProperty);
+		widgets.add(multilineTextProperty);
 	}
 	
 	/**
@@ -203,7 +203,7 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 	 */
 	public void addConfiguredSelectionProperty(SelectionProperty selectionProperty){
 		checkBaseProperties(selectionProperty);
-		properties.add(selectionProperty);
+		widgets.add(selectionProperty);
 	}
 	
 	/**
@@ -215,7 +215,7 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 			log("tab must have a label");
 			needFail=true;
 		}
-		properties.add(tab);
+		widgets.add(tab);
 		tabbed=true;
 	}
 	
@@ -225,7 +225,7 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 	 */
 	public void addConfiguredRadioSelectionProperty(RadioSelectionProperty radioSelectionProperty){
 		checkBaseProperties(radioSelectionProperty);
-		properties.add(radioSelectionProperty);
+		widgets.add(radioSelectionProperty);
 	}
 	
 	/**
@@ -234,7 +234,7 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 	 */
 	public void addConfiguredCheckSelectionProperty(CheckSelectionProperty checkSelectionProperty){
 		checkBaseProperties(checkSelectionProperty);
-		properties.add(checkSelectionProperty);
+		widgets.add(checkSelectionProperty);
 	}
 
 	/**
@@ -243,7 +243,7 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 	 */
 	public void addConfiguredBooleanProperty(BooleanProperty booleanProperty){
 		checkBaseProperties(booleanProperty);
-		properties.add(booleanProperty);		
+		widgets.add(booleanProperty);		
 	}
 	
 	/**
@@ -251,14 +251,14 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 	 * @param textProperty
 	 */
 	public void addConfigured(BaseType widget) {
-		properties.add(widget);
+		widgets.add(widget);
 	}
 
 	/**
 	 * add a configured link bar
 	 */
 	public void addConfiguredLinkBar(LinkBar linkBar) {
-		properties.add(linkBar);
+		widgets.add(linkBar);
 	}
 	
 	/**
@@ -283,7 +283,7 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 			super.log("columns attribute of the property "+table.getClass().getName()+" cannot be null.");
 			needFail = true;
 		}
-		properties.add(table);
+		widgets.add(table);
 	}
 	
 	/**
@@ -292,7 +292,7 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 	 */
 	public void addConfiguredFileSelectionProperty(FileSelectionProperty fileSelectionProperty){
 		checkBaseProperties(fileSelectionProperty);
-		properties.add(fileSelectionProperty);		
+		widgets.add(fileSelectionProperty);		
 	}	
 	
 	/**
@@ -301,14 +301,14 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 	 */
 	public void addConfiguredLabel(Label label){
 		label.addText(getProject().replaceProperties(label.getText()));
-		properties.add(label);
+		widgets.add(label);
 	}
 
 	/**
 	 * initialize the properties
 	 */
 	public void init() throws BuildException {		
-		properties = new ArrayList();
+		widgets = new ArrayList();
 	}
 	
 	/**
@@ -390,7 +390,7 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 			control = null;
 		}		
 		if (message!=null){
-			if ((message.equals(okMessage)) && (theNextTarget != null)) {
+			if ((message.equals(okMessage)) && (theNextTarget != null)) { // 
 				TargetInvoker invoker = new TargetInvoker(this, nextTarget, false);
 				invoker.execute();
 			} else if ((message.equals(resetMessage)) && (thePreviousTarget != null)) {
