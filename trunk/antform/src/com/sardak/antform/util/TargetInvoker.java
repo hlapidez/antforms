@@ -2,8 +2,8 @@ package com.sardak.antform.util;
 
 import org.apache.tools.ant.BuildEvent;
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.Project;
+import org.apache.tools.ant.SubBuildListener;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.CallTarget;
 
@@ -13,11 +13,14 @@ import org.apache.tools.ant.taskdefs.CallTarget;
  * This class allows to call an ant target, in the same thread or in a new one.
  * It is an ant task itself. 
  */
-public class TargetInvoker extends CallTarget implements Runnable, BuildListener {
+public class TargetInvoker extends CallTarget implements Runnable, SubBuildListener {
 
 	private boolean background = false;
 	private Thread createdThread;
 	
+	public TargetInvoker() {
+	}
+
 	public TargetInvoker(Task parentTask, String target) {
 		configure(parentTask, target);
 	}
@@ -40,10 +43,9 @@ public class TargetInvoker extends CallTarget implements Runnable, BuildListener
 
 	public void execute() throws BuildException {
 		if (background) {
-			Thread t = new Thread(this);
-	        t.start();
-	        createdThread = t;
-	        getProject().addBuildListener(this);
+			getProject().addBuildListener(this);
+			createdThread = new Thread(this);
+			createdThread.start();
 		} else {
 			run();
 		}
@@ -53,16 +55,8 @@ public class TargetInvoker extends CallTarget implements Runnable, BuildListener
 	}
 
 	public void buildFinished(BuildEvent evt) {
-		if (createdThread != null && getProject().equals(evt.getProject())) {
-			if (createdThread.isAlive()) {
-				log("Waiting for background threads completion...", Project.MSG_VERBOSE);
-				try {
-					createdThread.join();
-				} catch (InterruptedException ie) {
-					log("Thread " + createdThread.getName() + " got interrupted: " + ie.getMessage(), Project.MSG_DEBUG);
-				}
-			}
-		}
+		log("subBuildFinished event received by TargetInvoker", Project.MSG_DEBUG);
+		waitForThread(evt);
 	}
 
 	public void targetStarted(BuildEvent evt) {
@@ -78,6 +72,27 @@ public class TargetInvoker extends CallTarget implements Runnable, BuildListener
 	}
 
 	public void messageLogged(BuildEvent evt) {
+	}
+
+	public void subBuildStarted(BuildEvent evt) {
+	}
+
+	public void subBuildFinished(BuildEvent evt) {
+		log("subBuildFinished event received by TargetInvoker", Project.MSG_DEBUG);
+		waitForThread(evt);
+	}
+	
+	private void waitForThread(BuildEvent evt) {
+		if (createdThread != null && getProject().equals(evt.getProject())) {
+			if (createdThread.isAlive()) {
+				log("Waiting for background threads completion...", Project.MSG_VERBOSE);
+				try {
+					createdThread.join();
+				} catch (InterruptedException ie) {
+					log("Thread " + createdThread.getName() + " got interrupted: " + ie.getMessage(), Project.MSG_DEBUG);
+				}
+			}
+		}
 	}
 
 	private void configure(Task parentTask, String target) {

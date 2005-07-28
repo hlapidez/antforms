@@ -8,14 +8,14 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
 import org.apache.tools.ant.BuildEvent;
-import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.Project;
+import org.apache.tools.ant.SubBuildListener;
 import org.apache.tools.ant.taskdefs.Sequential;
 
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.interfaces.ValueHandle;
 
-public class Wait extends BaseType implements BuildListener {
+public class Wait extends BaseType implements SubBuildListener {
 	private String label = "Please wait ...";
 	private boolean showProgress = true;
 	private boolean closeWhenDone = false;
@@ -56,7 +56,7 @@ public class Wait extends BaseType implements BuildListener {
 				}
 			};
 			createdThread.start();
-			project.addBuildListener(this);
+			sequential.getProject().addBuildListener(this);
 		}
 		return null;
 	}
@@ -85,16 +85,8 @@ public class Wait extends BaseType implements BuildListener {
 	}
 
 	public void buildFinished(BuildEvent evt) {
-		if (createdThread != null && sequential.getProject().equals(evt.getProject())) {
-			if (createdThread.isAlive()) {
-				project.log("Waiting for background threads completion...", Project.MSG_VERBOSE);
-				try {
-					createdThread.join();
-				} catch (InterruptedException ie) {
-					project.log("Thread " + createdThread.getName() + " got interrupted: " + ie.getMessage(), Project.MSG_DEBUG);
-				}
-			}
-		}
+		project.log("Received buildFinished event in Wait widget", Project.MSG_DEBUG);
+		waitForThread(evt);
 	}
 
 	public void targetStarted(BuildEvent evt) {
@@ -107,6 +99,7 @@ public class Wait extends BaseType implements BuildListener {
 	}
 
 	public void taskFinished(BuildEvent evt) {
+		project.log("Received taskFinished event in Wait", Project.MSG_DEBUG);
 		if (evt.getTask().equals(sequential)) {
 			executionDone();
 			if (closeWhenDone) {
@@ -117,5 +110,26 @@ public class Wait extends BaseType implements BuildListener {
 	}
 
 	public void messageLogged(BuildEvent evt) {
+	}
+
+	public void subBuildStarted(BuildEvent evt) {
+	}
+
+	public void subBuildFinished(BuildEvent evt) {
+		project.log("Received subbuildFinished event in Wait widget", Project.MSG_DEBUG);
+		waitForThread(evt);
+	}
+	
+	private void waitForThread(BuildEvent evt) {
+		if (createdThread != null && sequential.getProject().equals(evt.getProject())) {
+			if (createdThread.isAlive()) {
+				project.log("Waiting for background threads completion...", Project.MSG_VERBOSE);
+				try {
+					createdThread.join();
+				} catch (InterruptedException ie) {
+					project.log("Thread " + createdThread.getName() + " got interrupted: " + ie.getMessage(), Project.MSG_DEBUG);
+				}
+			}
+		}
 	}
 }
