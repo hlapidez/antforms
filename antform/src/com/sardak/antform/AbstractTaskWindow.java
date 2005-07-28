@@ -216,6 +216,6 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	
 	public void invokeTarget(String target, boolean background) {
 		TargetInvoker invoker = new TargetInvoker(this, target, background);
-		invoker.execute();
+		invoker.perform();
 	}
 }

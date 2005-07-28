@@ -392,10 +392,10 @@ public class AntForm extends AbstractTaskWindow implements CallBack{
 		if (message!=null){
 			if ((message.equals(okMessage)) && (theNextTarget != null)) { // 
 				TargetInvoker invoker = new TargetInvoker(this, nextTarget, false);
-				invoker.execute();
+				invoker.perform();
 			} else if ((message.equals(resetMessage)) && (thePreviousTarget != null)) {
 				TargetInvoker invoker = new TargetInvoker(this, previousTarget, false);
-				invoker.execute();
+				invoker.perform();
 			}
 		}				
 	}
