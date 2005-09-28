@@ -381,7 +381,8 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
             build();
         }
         super.execute();
-        control.setProperties(getProject().getUserProperties());
+        control.setProperties(getProject().getProperties());
+
         if (previousTarget != null) {
             control.getPanel().setDisposeOnReset(true);
         }
@@ -452,14 +453,14 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
     }
 
     /**
-     * @return resetMessage.
+     * @return cancelMessage.
      */
     public String getCancelMessage() {
         return cancelMessage;
     }
 
     /**
-     * @param resetMessage.
+     * @param cancelMessage.
      */
     public void setCancelMessage(String cancelMessage) {
         this.cancelMessage = cancelMessage;
