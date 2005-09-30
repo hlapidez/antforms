@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.Properties;
 
 import org.apache.tools.ant.BuildException;
@@ -354,6 +355,28 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
     }
 
     /**
+     * 
+     * @return a Properties object containing the form properties.
+     */
+    private Properties getPropertiesToSave() {
+        if (widgets == null)
+            return null;
+        Properties p = control.getProperties();
+        ListIterator iter = widgets.listIterator();
+        Properties pList = new Properties();
+        while (iter.hasNext()) {
+            Object o = iter.next();
+            if (o instanceof DefaultProperty) {
+                DefaultProperty dp = (DefaultProperty) o;
+                String value = p.getProperty(dp.getProperty());
+                if (value != null)
+                    pList.put(dp.getProperty(), value);
+            }
+        }
+        return pList;
+    }
+
+    /**
      * callback method
      * 
      * @see architecture.integration.tests.CallBack#callback()
@@ -395,7 +418,7 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
             try {
                 File file = new File(save);
                 FileProperties props = new FileProperties(file);
-                props.store(control.getProperties());
+                props.store(getPropertiesToSave());
             } catch (FileNotFoundException e) {
                 throw new BuildException(e);
             } catch (IOException e) {
