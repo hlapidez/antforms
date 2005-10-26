@@ -1,13 +1,16 @@
 package com.sardak.antform.util;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -18,8 +21,6 @@ import java.util.Set;
  * formatting of the file. Already existing properties are updated others are
  * added to the end of the file.
  * 
- * 
- * 
  * @see java.util.Properties
  * 
  * @author k3rmitt
@@ -27,110 +28,171 @@ import java.util.Set;
  */
 public class FileProperties {
 
-    private StringWriter m_stringWriter;
+	private File propertyFile;
 
-    private Properties m_props;
+	private Properties originalProperties;
 
-    private File m_fileProperty;
+	private List lineList;
 
-    public FileProperties(File pFile) throws IOException {
+	public FileProperties(File pFile) throws IOException {
+		if (pFile == null)
+			throw new IOException("Invalid file");
 
-        if (pFile == null)
-            throw new IOException("Invalid file");
+		propertyFile = pFile;
+		originalProperties = new Properties();
+		lineList = new ArrayList();
 
-        m_stringWriter = new StringWriter();
-        m_props = new Properties();
-        this.m_fileProperty = pFile;
+		if (pFile.exists()) {
+			BufferedInputStream bis = new BufferedInputStream(new FileInputStream(pFile));
+			originalProperties.load(bis);
+			bis.close();
 
-        if (pFile.exists()) {
-            BufferedInputStream bis = new BufferedInputStream(
-                    new FileInputStream(pFile));
-            m_props = new Properties();
-            m_props.load(bis);
-            bis.close();
+			BufferedReader br = new BufferedReader(new FileReader(pFile));
+			String line;
+			while ((line = br.readLine()) != null) {
+				lineList.add(line);
+			}
+		}
+	}
 
-            bis = new BufferedInputStream(new FileInputStream(pFile));
-            m_stringWriter = new StringWriter();
-            int c;
-            while ((c = bis.read()) != -1)
-                m_stringWriter.write(c);
-            bis.close();
+	/**
+	 * 
+	 * Save to the file the properties.
+	 * 
+	 * @param p
+	 *            the properties to save
+	 * 
+	 * @throws IOException
+	 *             if something goes wrong
+	 * 
+	 */
+	public void store(Properties p) throws IOException {
+		if (p == null)
+			return;
+		Set set = p.entrySet();
+		Iterator iter = set.iterator();
 
-        }
-    }
+		if (!iter.hasNext())
+			return;
 
-    /**
-     * 
-     * Save to the file the properties.
-     * 
-     * @param the
-     *            properties to save
-     * @throws IOException
-     *             if something goes wrong
-     */
-    public void store(Properties p) throws IOException {
-        if (p == null)
-            return;
-        Set set = p.entrySet();
-        Iterator iter = set.iterator();
+		while (iter.hasNext()) {
+			Map.Entry entry = (Map.Entry) iter.next();
+			String key = (String) entry.getKey();
+			String value = (String) entry.getValue();
 
-        if (!iter.hasNext())
-            return;
+			if (originalProperties.containsKey(key)) {
+				int equalIndex;
+				for (int currentLineNumber = 0; currentLineNumber < lineList.size(); currentLineNumber++) {
+					String line = (String) lineList.get(currentLineNumber);
+					if ((equalIndex = line.indexOf('=')) != -1) {
+						// Extract property key which may be preceeded or
+						// followed by spaces or tabs
+						String lineKey = line.substring(0, equalIndex).trim();
+						if (lineKey.equals(convert(key, true))) {
+							StringBuffer sb = new StringBuffer(line);
+							sb.replace(equalIndex, line.length(), "=" + convert(value, false));
+							lineList.set(currentLineNumber, sb.toString());
+							break;
+						}
+					}
+				}
+			} else {
+				lineList.add(convert(key, true) + "=" + convert(value, false));
+			}
+		}
 
-        StringBuffer sb = m_stringWriter.getBuffer();
-        while (iter.hasNext()) {
-            Map.Entry entry = (Map.Entry) iter.next();
-            String key = (String) entry.getKey();
-            String value = (String) entry.getValue();
+		// file will be created if it does not already exist.
+		BufferedWriter bw = new BufferedWriter(new FileWriter(propertyFile));
+		for (int i = 0; i < lineList.size(); i++) {
+			bw.write((String) lineList.get(i));
+			bw.newLine();
+		}
+		bw.close();
+	}
 
-            if (m_props.containsKey(key)) {
-                int start = sb.indexOf(key);
-                int starteq = sb.indexOf("=", start);
-                int end = sb.indexOf("\n", starteq);
-                if (end == -1)
-                    end = sb.length() - 1;
-                sb.replace(starteq + 1, end, value);
-            } else {
-                sb.append("\n" + key + "=" + value);
-            }
-        }
+	private static final String specialSaveChars = "=: \t\r\n\f#!";
 
-        if (!m_fileProperty.exists())
-            m_fileProperty.createNewFile();
-        PrintWriter pw = new PrintWriter(new FileOutputStream(m_fileProperty));
-        pw.write(sb.toString());
-        pw.close();
+	/*
+	 * Converts unicodes to encoded &#92;uxxxx and writes out any of the
+	 * characters in specialSaveChars with a preceding slash
+	 */
+	private String convert(String str, boolean escapeSpace) {
+		int len = str.length();
+		StringBuffer outBuffer = new StringBuffer(len * 2);
 
-    }
+		for (int x = 0; x < len; x++) {
+			char aChar = str.charAt(x);
+			switch (aChar) {
+			case ' ':
+				if (x == 0 || escapeSpace)
+					outBuffer.append('\\');
+				outBuffer.append(' ');
+				break;
+			case '\\':
+				outBuffer.append('\\');
+				outBuffer.append('\\');
+				break;
+			case '\t':
+				outBuffer.append('\\');
+				outBuffer.append('t');
+				break;
+			case '\n':
+				outBuffer.append('\\');
+				outBuffer.append('n');
+				break;
+			case '\r':
+				outBuffer.append('\\');
+				outBuffer.append('r');
+				break;
+			case '\f':
+				outBuffer.append('\\');
+				outBuffer.append('f');
+				break;
+			default:
+				if ((aChar < 0x0020) || (aChar > 0x007e)) {
+					outBuffer.append('\\');
+					outBuffer.append('u');
+					outBuffer.append(toHex((aChar >> 12) & 0xF));
+					outBuffer.append(toHex((aChar >> 8) & 0xF));
+					outBuffer.append(toHex((aChar >> 4) & 0xF));
+					outBuffer.append(toHex(aChar & 0xF));
+				} else {
+					if (specialSaveChars.indexOf(aChar) != -1)
+						outBuffer.append('\\');
+					outBuffer.append(aChar);
+				}
+			}
+		}
+		return outBuffer.toString();
+	}
 
-    public Set keySet() {
+	/**
+	 * Convert a nibble to a hex character
+	 * 
+	 * @param nibble
+	 *            the nibble to convert.
+	 */
+	private static char toHex(int nibble) {
+		return hexDigit[(nibble & 0xF)];
+	}
 
-        return m_props.keySet();
+	/** A table of hex digits */
+	private static final char[] hexDigit = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
-    }
+	public static void main(String[] args) {
+		try {
+			FileProperties fp = new FileProperties(new File("test.properties"));
 
-    public String getProperty(String key) {
-        return m_props.getProperty(key);
+			Properties p = new Properties();
+			p.put("gc.home.dir", "d:/java dev/src\\GenCommons");
+			p.put("gc.debug", "false");
+			p.put("gc.xxx", "   br");
+			p.put("gc.zzz", " abcd  etytut");
+			p.put("gc.AAA", "hello");
 
-    }
-
-    public static void main(String[] args) {
-
-        try {
-            FileProperties fp = new FileProperties(new File("test.properties"));
-
-            Properties p = new Properties();
-            p.put("gc.home.dir", "d:/javadev/src/GenCommons");
-            p.put("gc.debug", "false");
-            p.put("gc.zzz", "abcdetytut");
-            p.put("gc.AAA", "abcdetytut");
-
-            fp.store(p);
-
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-    }
+			fp.store(p);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
