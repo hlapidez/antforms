@@ -58,7 +58,7 @@ public class CallBackDialog extends JDialog{
 	 * dispose() overload
 	 */
 	public void dispose(boolean executeCallBack) {
-		if (executeCallBack) {
+		if (!executeCallBack) {
 			if (callBack!=null) {
 				callBack.callbackCommand(null);
 			}
