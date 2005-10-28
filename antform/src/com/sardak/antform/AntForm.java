@@ -30,7 +30,6 @@ import java.util.Properties;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Target;
-import org.apache.tools.ant.taskdefs.CallTarget;
 
 import com.sardak.antform.gui.ButtonPanel;
 import com.sardak.antform.gui.CallBack;
@@ -53,6 +52,7 @@ import com.sardak.antform.types.Tab;
 import com.sardak.antform.types.Table;
 import com.sardak.antform.types.TextProperty;
 import com.sardak.antform.util.FileProperties;
+import com.sardak.antform.util.TargetInvoker;
 
 /**
  * Ant task for empowering form-based user interaction
@@ -432,18 +432,16 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
             control = null;
         }
         if (message != null) {
-            CallTarget callee = (CallTarget) getProject().createTask("antcall");
-            callee.setOwningTarget(getOwningTarget());
-            callee.setTaskName(getTaskName());
-            callee.setLocation(getLocation());
-            if ((message.equals(okMessage)) && (theNextTarget != null)) {
-                callee.setTarget(nextTarget);
-                callee.execute();
-            } else if ((message.equals(resetMessage))
-                    && (thePreviousTarget != null)) {
-                callee.setTarget(previousTarget);
-                callee.execute();
-            }
+        	if ((message.equals(okMessage)) && (theNextTarget != null)) { // 
+				TargetInvoker invoker = new TargetInvoker(this, nextTarget, false);
+				invoker.perform();
+			} else if ((message.equals(resetMessage)) && (thePreviousTarget != null)) {
+				TargetInvoker invoker = new TargetInvoker(this, previousTarget, false);
+				invoker.perform();
+			} else {
+				TargetInvoker invoker = new TargetInvoker(this, message, false);
+				invoker.perform();
+			}
         }
     }
 
