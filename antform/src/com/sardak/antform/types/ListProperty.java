@@ -24,6 +24,8 @@ import java.util.List;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerListModel;
 
+import org.apache.tools.ant.Task;
+
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.gui.helpers.SpinnerValueGetter;
 import com.sardak.antform.interfaces.ValueHandle;
@@ -74,5 +76,14 @@ public class ListProperty extends DefaultProperty{
 		SpinnerValueGetter valueHandle = new SpinnerValueGetter(spinner);
 		panel.addControl(""+getProperty(), valueHandle);
 		return valueHandle;
+	}
+
+	public boolean validate(Task task) {
+		boolean isValid = super.validate(task, "ListProperty");
+		if (getValues() == null) {
+			task.log("ListProperty : attribute \"values\" missing.");
+			isValid = false;
+		}
+		return isValid;
 	}
 }

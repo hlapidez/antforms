@@ -20,6 +20,7 @@
 package com.sardak.antform.types;
 
 import org.apache.tools.ant.Project;
+import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.interfaces.ValueHandle;
@@ -62,4 +63,14 @@ public abstract class BaseType {
 	}
 
 	public abstract ValueHandle addToControlPanel(ControlPanel panel);
+	
+	/**
+	 * This method is implemented by each widgets and should check widget
+	 * attributes. For each missing or invalid attribute, this method should
+	 * print a corresponding message and return false.
+	 *  
+	 * @param task The current Ant task. Can be used to log.
+	 * @return true if attributes are valid, false otherwise
+	 */
+	public abstract boolean validate(Task task);
 }

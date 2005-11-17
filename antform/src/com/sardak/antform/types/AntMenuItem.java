@@ -26,6 +26,8 @@ import java.util.List;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 
+import org.apache.tools.ant.Task;
+
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.interfaces.ValueHandle;
 import com.sardak.antform.util.MnemonicsUtil;
@@ -109,5 +111,14 @@ public class AntMenuItem extends BaseType{
 		menuBar.add(menu);
 		panel.getControl().addMenuItems(this, menu);
 		return null;
+	}
+
+	public boolean validate(Task task) {
+		boolean attributesAreValid = true;
+		if (getName()==null) {
+			task.log("AntMenuItem : attribute \"name\" missing.");
+			attributesAreValid = false;
+		}		
+		return attributesAreValid;
 	}
 }

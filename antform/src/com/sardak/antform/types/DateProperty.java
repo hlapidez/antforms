@@ -19,6 +19,8 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
+import org.apache.tools.ant.Task;
+
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.gui.DateChooser;
 import com.sardak.antform.gui.helpers.DateChooserGetter;
@@ -54,5 +56,14 @@ public class DateProperty extends DefaultProperty implements Requirable{
 		DateChooserGetter valueHandle =  new DateChooserGetter(chooser);
 		panel.addControl(getProperty(), valueHandle, required);
 		return valueHandle;
+	}
+
+	public boolean validate(Task task) {
+		boolean isValid = super.validate(task, "Date");
+		if (getDateFormat() == null) {
+			task.log("DateProperty : attribute \"dateformat\" missing.");
+			isValid = false;
+		}
+		return isValid;
 	}
 }

@@ -21,6 +21,8 @@ package com.sardak.antform.types;
 
 import javax.swing.JCheckBox;
 
+import org.apache.tools.ant.Task;
+
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.gui.helpers.CheckValueGetter;
 import com.sardak.antform.interfaces.ValueHandle;
@@ -38,5 +40,9 @@ public class BooleanProperty extends DefaultProperty {
 		CheckValueGetter valueHandle = new CheckValueGetter(checkBox);
 		panel.addControl(getProperty(), valueHandle);
 		return valueHandle;
+	}
+	
+	public boolean validate(Task task) {
+		return super.validate(task, "BooleanProperty");
 	}
 }

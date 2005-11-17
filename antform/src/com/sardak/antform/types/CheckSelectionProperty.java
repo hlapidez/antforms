@@ -19,6 +19,8 @@
   \****************************************************************************/
  package com.sardak.antform.types;
 
+import org.apache.tools.ant.Task;
+
 import com.sardak.antform.gui.CheckGroupBox;
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.gui.helpers.MultiCheckGetter;
@@ -47,5 +49,9 @@ public class CheckSelectionProperty extends SelectionProperty{
 		ValueHandle valueHandle =  new MultiCheckGetter(checkGroupBox);
 		panel.addControl(getProperty(), valueHandle);
 		return valueHandle;
+	}
+	
+	public boolean validate(Task task) {
+		return super.validate(task, "CheckSelectionProperty");
 	}
 }

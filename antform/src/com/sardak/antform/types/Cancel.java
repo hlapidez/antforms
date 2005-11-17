@@ -19,6 +19,8 @@
   \****************************************************************************/
 package com.sardak.antform.types;
 
+import org.apache.tools.ant.Task;
+
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.interfaces.ValueHandle;
 
@@ -45,5 +47,14 @@ public class Cancel extends BaseType {
 
 	public ValueHandle addToControlPanel(ControlPanel panel) {
 		return null;
+	}
+	
+	public boolean validate(Task task) {
+		boolean attributesAreValid = true;
+		if (getLabel() == null) {
+            task.log("Cancel : attribute \"label\" missing.");
+            attributesAreValid = false;
+        }		
+		return attributesAreValid;
 	}
 }

@@ -22,6 +22,8 @@ package com.sardak.antform.types;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
+import org.apache.tools.ant.Task;
+
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.gui.helpers.SpinnerValueGetter;
 import com.sardak.antform.interfaces.ValueHandle;
@@ -71,5 +73,9 @@ public class NumberProperty extends DefaultProperty{
 		SpinnerValueGetter valueHandle = new SpinnerValueGetter(spinner);
 		panel.addControl(""+getProperty(), valueHandle);
 		return valueHandle;
+	}
+	
+	public boolean validate(Task task) {
+		return super.validate(task, "NumberProperty");
 	}
 }
