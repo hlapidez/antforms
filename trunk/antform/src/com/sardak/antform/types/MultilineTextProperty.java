@@ -22,6 +22,8 @@ package com.sardak.antform.types;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import org.apache.tools.ant.Task;
+
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.gui.helpers.TextValueGetter;
 import com.sardak.antform.interfaces.Requirable;
@@ -77,5 +79,9 @@ public class MultilineTextProperty extends DefaultProperty implements Requirable
 		TextValueGetter valueHandle = new TextValueGetter(textArea);
 		panel.addControl(getProperty(), valueHandle, required);		
 		return valueHandle;
+	}
+	
+	public boolean validate(Task task) {
+		return super.validate(task, "MultiLineTextProperty");
 	}
 }

@@ -19,6 +19,8 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
+import org.apache.tools.ant.Task;
+
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.gui.RadioGroupBox;
 import com.sardak.antform.gui.helpers.RadioGetter;
@@ -50,4 +52,8 @@ public class RadioSelectionProperty extends SelectionProperty{
     public void setColumns(int columns) {
         this.columns = columns;
     }
+	
+	public boolean validate(Task task) {
+		return super.validate(task, "RadioSelectionProperty");
+	}
 }

@@ -27,6 +27,8 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import org.apache.tools.ant.Task;
+
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.interfaces.ValueHandle;
 
@@ -57,7 +59,8 @@ public class LinkBar extends BaseType {
 			JButton button = new JButton(link.getLabel());			
 			panel.getStylesheetHandler().addLink(button);
 			linkPanel.add(button);
-			linkPanel.add(Box.createHorizontalStrut(10));			
+			linkPanel.add(Box.createHorizontalStrut(10));
+			// this might not be needed...
 			button.addActionListener(panel);
 //			panel.setTeleport(button, link.getTarget(), link.isBackground());
 			panel.listenToLink(button, link.getTarget(), link.isBackground());
@@ -65,5 +68,19 @@ public class LinkBar extends BaseType {
 		}
 		panel.addCentered(linkPanel);
 		return null;
+	}
+	public boolean validate(Task task) {
+		boolean attributesAreValid = true;
+		if (links.isEmpty()) {
+			task.log("LinkBar : no links configured.");
+			attributesAreValid = false;
+		}
+		for (Iterator iter = links.iterator(); iter.hasNext();) {
+			Link link = (Link) iter.next();
+			if (!link.validate(task)) {
+				attributesAreValid = false;
+			}
+		}
+		return attributesAreValid;
 	}
 }

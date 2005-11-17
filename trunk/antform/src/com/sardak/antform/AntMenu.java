@@ -90,14 +90,12 @@ public class AntMenu extends AbstractTaskWindow implements CallBack{
 	 */
 	public void callbackLink(String target) {		
 		nextTarget = target;
-//		quit = true;		
 	}
 	
 	/**
 	 * add a configured link
 	 */
 	public void addConfiguredLink(Link link) {
-		checkBaseAttributes(link);
 		widgets.add(link);
 	}
 	
@@ -105,7 +103,6 @@ public class AntMenu extends AbstractTaskWindow implements CallBack{
 	 * add a configured link
 	 */
 	public void addConfiguredLabel(Label label) {
-		checkBaseAttributes(label);
 		widgets.add(label);
 	}
 		
@@ -115,43 +112,15 @@ public class AntMenu extends AbstractTaskWindow implements CallBack{
 	 */
 	public void callbackCommand(String message){
 		if (message==null) {
-//			quit = true;
 			return;
 		}
 		Hashtable targets = getProject().getTargets();		
 		for (Iterator i=targets.keySet().iterator();i.hasNext();) {
 			String targetName = (String) i.next();			
 			if (targetName.equals(message)) {
-//				quit = true;
 				nextTarget = targetName;
 				break;
 			}
 		}
 	}
-
-	/**
-	 * Check that the base properties are correctly set
-	 */
-	private void checkBaseAttributes(Label label) {
-		if (label.getText()==null) {
-			super.log("text attribute of the label property "+label.getClass().getName()+" cannot be null.");
-			needFail = true;
-		}
-	}
-	
-	/**
-	 * check that the base properties are correctly set.
-	 */
-	private void checkBaseAttributes(Link link) {
-		if (link.getLabel()==null) {
-			super.log("label attribute of the property "+link.getClass().getName()+" cannot be null.");
-			needFail = true;
-		}
-		if (link.getTarget()==null) {
-			super.log("property attribute of the property "+link.getClass().getName()+" cannot be null.");
-			needFail = true;
-		}		
-	}
-
-	
 }

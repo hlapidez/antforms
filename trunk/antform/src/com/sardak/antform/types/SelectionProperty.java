@@ -23,6 +23,8 @@ import java.util.List;
 
 import javax.swing.JComboBox;
 
+import org.apache.tools.ant.Task;
+
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.gui.helpers.ComboIndiceGetter;
 import com.sardak.antform.interfaces.ValueHandle;
@@ -109,5 +111,18 @@ public class SelectionProperty extends DefaultProperty{
 		ComboIndiceGetter valueHandle = new ComboIndiceGetter(comboBox);
 		panel.addControl(getProperty(), valueHandle);
 		return valueHandle;
+	}
+
+	public boolean validate(Task task) {
+		return validate(task, "SelectionProperty");
+	}
+
+	public boolean validate(Task task, String widget) {
+		boolean isValid = super.validate(task, widget);
+		if (getValues() == null) {
+			task.log(getClass().getName() + " : attribute \"values\" missing.");
+			isValid = false;
+		}
+		return isValid;
 	}
 }

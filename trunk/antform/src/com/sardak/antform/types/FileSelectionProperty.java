@@ -19,6 +19,8 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
+import org.apache.tools.ant.Task;
+
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.gui.FileChooser;
 import com.sardak.antform.gui.helpers.FileChooserGetter;
@@ -63,5 +65,9 @@ public class FileSelectionProperty extends DefaultProperty implements Requirable
 		FileChooserGetter valueHandle = new FileChooserGetter(chooser);
 		panel.addControl(getProperty(), valueHandle, required);
 		return valueHandle;
+	}
+	
+	public boolean validate(Task task) {
+		return super.validate(task, "FileSelectionProperty");
 	}
 }

@@ -26,6 +26,8 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.apache.tools.ant.Task;
+
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.interfaces.ValueHandle;
 
@@ -107,5 +109,20 @@ public class Link extends BaseType{
 		panel.setMnemonics(link, label);
 		applyTooltip(link, null, getTooltip());
 		return null;
+	}
+
+	public boolean validate(Task task) {
+		boolean attributesAreValid = true;
+		if (getLabel()==null) {
+			task.log("Link : attribute \"label\" missing.");
+			attributesAreValid = false;
+		}		
+		if (getTarget()==null) {
+			task.log("Link : attribute \"target\" missing.");
+			attributesAreValid = false;
+		}
+		// Do not check for unexisting target.
+		// It can be a good way to exit.
+		return attributesAreValid;
 	}
 }

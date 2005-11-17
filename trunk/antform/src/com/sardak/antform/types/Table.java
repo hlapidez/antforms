@@ -28,6 +28,8 @@ import java.util.List;
 import javax.swing.JScrollPane;
 import javax.swing.table.TableColumn;
 
+import org.apache.tools.ant.Task;
+
 import com.sardak.antform.gui.AntTable;
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.gui.helpers.TableGetter;
@@ -182,5 +184,18 @@ public class Table extends DefaultProperty {
 		ValueHandle valueGetter = new TableGetter(rowSeparator, columnSeparator,table, escapeSequence);
 		panel.addControl(getProperty(), valueGetter);
 		return valueGetter;
+	}
+
+	public boolean validate(Task task) {
+		boolean isValid = super.validate(task, "Table");
+		if (getColumns() == null) {
+			task.log("Table : attribute \"columns\" missing.");
+			isValid = false;
+		}
+		if (getData() == null) {
+			task.log("Table : attribute \"data\" missing.");
+			isValid = false;
+		}
+		return isValid;
 	}
 }

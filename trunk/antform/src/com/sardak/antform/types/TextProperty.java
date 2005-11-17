@@ -22,6 +22,8 @@ package com.sardak.antform.types;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import org.apache.tools.ant.Task;
+
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.gui.helpers.TextValueGetter;
 import com.sardak.antform.interfaces.Requirable;
@@ -76,5 +78,9 @@ public class TextProperty extends DefaultProperty implements Requirable{
 		TextValueGetter valueGetter = new TextValueGetter(textField);
 		panel.addControl(getProperty(), valueGetter, required);
 		return valueGetter;
+	}
+	
+	public boolean validate(Task task) {
+		return super.validate(task, "TextProperty");
 	}
 }

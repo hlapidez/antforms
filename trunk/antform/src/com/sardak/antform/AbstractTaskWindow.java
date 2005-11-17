@@ -45,7 +45,6 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	protected Control control;
 	protected boolean needFail = false;
 	protected String lookAndFeel=null;
-//	protected volatile boolean quit = false;	
 	protected List widgets;	
 	protected boolean dynamic = false;
 	protected boolean tabbed = false;
@@ -75,14 +74,18 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	/**
 	 * construct the gui widgets
 	 */
-	protected void build(){		
+	protected void build(){
 		for (Iterator iter = widgets.iterator(); iter.hasNext();) {
 			BaseType o = (BaseType) iter.next();
-			if (o.shouldBeDisplayed(getProject())) {
-			    o.addToControlPanel(control.getPanel());
-			}
-			if (o.getIf() != null || o.getUnless() != null) {
-				dynamic = true;
+			if (o.validate(this)) {
+				if (o.shouldBeDisplayed(getProject())) {
+				    o.addToControlPanel(control.getPanel());
+				}
+				if (o.getIf() != null || o.getUnless() != null) {
+					dynamic = true;
+				}
+			} else {
+				needFail = true;
 			}
 		}
 	}
@@ -117,12 +120,10 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	 * add a configured menuProperty
 	 */
 	public void addConfiguredAntMenuItem(AntMenuItem menuItem){
-		if (menuItem.getName()==null) {
-			super.log("name attribute of the property "+menuItem.getClass().getName()+" cannot be null.");
-			needFail = true;
-		}		
-		if (needFail==false) {
+		if (menuItem.validate(this)) {
 			widgets.add(menuItem);
+		} else {
+			needFail = true;
 		}
 	}
 	/**
@@ -156,7 +157,6 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 				e.printStackTrace();
 			} 
 		} 				
-//		quit = false;	
 	}
 	
 	/**

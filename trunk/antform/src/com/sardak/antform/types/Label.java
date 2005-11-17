@@ -22,6 +22,8 @@ package com.sardak.antform.types;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
+import org.apache.tools.ant.Task;
+
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.interfaces.ValueHandle;
 
@@ -84,5 +86,9 @@ public class Label extends BaseType{
 		}		
 		panel.getStylesheetHandler().addMessage(textArea);
 		return null;
+	}
+	public boolean validate(Task task) {
+		// Let's allow empty labels.
+		return true;
 	}
 }

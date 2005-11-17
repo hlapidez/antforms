@@ -22,6 +22,8 @@ package com.sardak.antform.types;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
+import org.apache.tools.ant.Task;
+
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.interfaces.Requirable;
 import com.sardak.antform.interfaces.ValueHandle;
@@ -127,4 +129,21 @@ public class DefaultProperty extends BaseType {
         applyTooltip(component, labelComponent, tooltip);
         panel.addRight(component);
     }
+
+	public boolean validate(Task task) {
+		return validate(task, getClass().getName());
+    }
+
+	public boolean validate(Task task, String widget) {
+		boolean attributesAreValid = true;
+		if (getLabel() == null) {
+			task.log(widget + " : attribute \"label\" missing.");
+			attributesAreValid = false;
+		}		
+		if (getProperty() == null) {
+			task.log(widget + " : attribute \"property\" missing.");
+			attributesAreValid = false;
+		}		
+		return attributesAreValid;
+	}
 }

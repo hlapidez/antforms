@@ -10,6 +10,7 @@ import javax.swing.JProgressBar;
 import org.apache.tools.ant.BuildEvent;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.SubBuildListener;
+import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.Sequential;
 
 import com.sardak.antform.gui.ControlPanel;
@@ -131,5 +132,14 @@ public class Wait extends BaseType implements SubBuildListener {
 				}
 			}
 		}
+	}
+
+	public boolean validate(Task task) {
+		boolean attributesAreValid = true;
+		if (sequential == null) {
+			task.log("Wait : Nothing to wait for.");
+			attributesAreValid = false;
+		}		
+		return attributesAreValid;
 	}
 }

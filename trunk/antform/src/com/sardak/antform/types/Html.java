@@ -30,6 +30,8 @@ import javax.swing.JScrollPane;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
+import org.apache.tools.ant.Task;
+
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.interfaces.ValueHandle;
 
@@ -126,5 +128,9 @@ public class Html extends BaseType implements HyperlinkListener {
 
 	private void warnUser(String message) {
 		JOptionPane.showMessageDialog(htmlPane, message, "Error", JOptionPane.ERROR_MESSAGE);
+	}
+
+	public boolean validate(Task task) {
+		return true;
 	}
 }

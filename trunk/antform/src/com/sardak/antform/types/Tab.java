@@ -24,6 +24,8 @@ import java.awt.GridBagLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
+import org.apache.tools.ant.Task;
+
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.interfaces.ValueHandle;
 
@@ -54,5 +56,14 @@ public class Tab extends BaseType{
 		tabPanel.setLayout(aLayout);
 		panel.addToTabbedPane(label, tabPanel, aLayout);
 		return null;
+	}
+	
+	public boolean validate(Task task) {
+		boolean attributesAreValid = true;
+		if (getLabel() == null) {
+			task.log("Tab : attribute \"label\" missing.");
+			attributesAreValid = false;
+		}		
+		return attributesAreValid;
 	}
 }
