@@ -10,6 +10,15 @@ ${ant_home}/lib folder, in which case it doesn't need to be referenced in the
 &lt;taskdef name="antmenu" classname="com.sardak.antform.AntMenu" 
             classpath="${antform.home}/lib/antform.jar"/&gt;
 </pre></blockquote>
+<p>
+	You can also use the provided taskdefs.properties:
+</p>
+<p>
+	<blockquote><pre>
+&lt;taskdef resource="com/sardak/antform/taskdefs.properties"
+            classpath="${antform.home}/lib/antform.jar"/&gt;
+	</pre></blockquote>
+</p>
 
 <p>You're ready to use the freshly-defined tasks in other ant targets. See <a href="usageaf.html">AntForm</a> and <a href="usageam.html">AntMenu</a> for more information on the specificities if the <code>antform</code> and <code>antmenu</code> tasks.</p>
 
