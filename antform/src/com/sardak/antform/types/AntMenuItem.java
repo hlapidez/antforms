@@ -1,4 +1,4 @@
- /***************************************************************************\*
+/***************************************************************************\*
  *                                                                            *
  *    AntForm form-based interaction for Ant scripts                          *
  *    Copyright (C) 2005 René Ghosh                                           *
@@ -33,79 +33,82 @@ import com.sardak.antform.interfaces.ValueHandle;
 import com.sardak.antform.util.MnemonicsUtil;
 
 /**
- * @author René Ghosh
- * 11 mars 2005
+ * @author René Ghosh 11 mars 2005
  */
-public class AntMenuItem extends BaseType{
-	private List subProperties = new ArrayList();
+public class AntMenuItem extends BaseType {
+	private List subMenuItems = new ArrayList();
 	private HashSet usedLetters = new HashSet();
-	private String target,name;
+	private String target, name;
 	private JMenuBar menuBar;
 	private boolean background = false;
-	
-	
+
 	public boolean isBackground() {
 		return background;
 	}
-	
+
 	public void setBackground(boolean background) {
 		this.background = background;
 	}
-	
+
 	/**
 	 * get the list of subProperties
 	 */
-	public List getSubProperties(){
-		return subProperties;
+	public List getSubMenuItems() {
+		return subMenuItems;
 	}
+
 	/**
 	 * get the name
 	 */
 	public String getName() {
 		return name;
 	}
+
 	/**
 	 * set the name
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	/**
 	 * get the target
 	 */
 	public String getTarget() {
 		return target;
 	}
-	
+
 	/**
 	 * set the target
 	 */
 	public void setTarget(String target) {
 		this.target = target;
 	}
+
 	/**
 	 * Add another configured property to this one
 	 */
 	public void addConfiguredAntMenuItem(AntMenuItem menuProperty) {
-		subProperties.add(menuProperty);
+		subMenuItems.add(menuProperty);
 	}
+
 	public HashSet getUsedLetters() {
 		return usedLetters;
 	}
+
 	public void setUsedLetters(HashSet usedLetters) {
 		this.usedLetters = usedLetters;
 	}
 
 	public ValueHandle addToControlPanel(ControlPanel panel) {
-		if (menuBar==null) {
+		if (menuBar == null) {
 			menuBar = new JMenuBar();
 			panel.getControl().setMenuBar(menuBar);
 		}
 		JMenu menu = new JMenu(name);
 		panel.addMenu(menu);
 		String sToUse = MnemonicsUtil.newMnemonic(name, panel.getUsedLetters());
-		if (sToUse!=null) {
+		if (sToUse != null) {
 			menu.setMnemonic(sToUse.charAt(0));
 		}
 		menuBar.add(menu);
@@ -115,10 +118,10 @@ public class AntMenuItem extends BaseType{
 
 	public boolean validate(Task task) {
 		boolean attributesAreValid = true;
-		if (getName()==null) {
+		if (getName() == null) {
 			task.log("AntMenuItem : attribute \"name\" missing.");
 			attributesAreValid = false;
-		}		
+		}
 		return attributesAreValid;
 	}
 }
