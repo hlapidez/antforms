@@ -60,346 +60,380 @@ import com.sardak.antform.util.TargetInvoker;
  * @author René Ghosh
  */
 public class AntForm extends AbstractTaskWindow implements CallBack {
-    private String okMessage = "OK";
+	private String okMessage = "OK";
+	private String resetMessage = "Reset";
+	private String cancelMessage = null;
+	private String save = null;
+	private String nextTarget, previousTarget;
+	private String message = null;
+	private String focus = null;
+	private boolean built = false;
 
-    private String resetMessage = "Reset";
+	//
+	// antform attributes
+	//
 
-    private String cancelMessage = null;
+	/**
+	 * get the focus property
+	 */
+	public String getFocus() {
+		return focus;
+	}
 
-    private String save = null;
+	/**
+	 * set the focus property
+	 */
+	public void setFocus(String focus) {
+		this.focus = focus;
+	}
 
-    private String nextTarget, previousTarget;
+	/**
+	 * get the next target
+	 */
+	public String getNextTarget() {
+		return nextTarget;
+	}
 
-    private String message = null;
+	/**
+	 * set the next target
+	 */
+	public void setNextTarget(String nextTarget) {
+		this.nextTarget = nextTarget;
+	}
 
-    private String focus = null;
+	/**
+	 * get the previous target
+	 */
+	public String getPreviousTarget() {
+		return previousTarget;
+	}
 
-    private boolean built = false;
+	/**
+	 * set the previous target
+	 */
+	public void setPreviousTarget(String previousTarget) {
+		this.previousTarget = previousTarget;
+	}
 
-    /**
-     * get the focus property
-     */
-    public String getFocus() {
-        return focus;
-    }
+	/**
+	 * @return okMessage.
+	 */
+	public String getOkMessage() {
+		return okMessage;
+	}
 
-    /**
-     * set the focus property
-     */
-    public void setFocus(String focus) {
-        this.focus = focus;
-    }
+	/**
+	 * @param okMessage.
+	 */
+	public void setOkMessage(String okMessage) {
+		this.okMessage = okMessage;
+	}
 
-    /**
-     * get the next target
-     */
-    public String getNextTarget() {
-        return nextTarget;
-    }
+	/**
+	 * @return resetMessage.
+	 */
+	public String getResetMessage() {
+		return resetMessage;
+	}
 
-    /**
-     * set the next target
-     */
-    public void setNextTarget(String nextTarget) {
-        this.nextTarget = nextTarget;
-    }
+	/**
+	 * @param resetMessage.
+	 */
+	public void setResetMessage(String resetMessage) {
+		this.resetMessage = resetMessage;
+	}
 
-    /**
-     * get the previous target
-     */
-    public String getPreviousTarget() {
-        return previousTarget;
-    }
+	/**
+	 * @return cancelMessage.
+	 */
+	public String getCancelMessage() {
+		return cancelMessage;
+	}
 
-    /**
-     * set the previous target
-     */
-    public void setPreviousTarget(String previousTarget) {
-        this.previousTarget = previousTarget;
-    }
+	/**
+	 * @param cancelMessage.
+	 */
+	public void setCancelMessage(String cancelMessage) {
+		this.cancelMessage = cancelMessage;
+	}
 
-    /**
-     * check that the base properties are correctly set.
-     */
-//    private void checkBaseProperties(DefaultProperty property) {
-//        if (property.getLabel() == null) {
-//            super.log("label attribute of the property "
-//                    + property.getClass().getName() + " cannot be null.");
-//            needFail = true;
-//        }
-//        if (property.getProperty() == null) {
-//            super.log("property attribute of the property "
-//                    + property.getClass().getName() + " cannot be null.");
-//            needFail = true;
-//        }
-//    }
+	/**
+	 * @return save.
+	 */
+	public String getSave() {
+		return save;
+	}
 
-    /**
-     * add a configured text property
-     * 
-     * @param textProperty
-     */
-    public void addConfiguredTextProperty(TextProperty textProperty) {
-        widgets.add(textProperty);
-    }
+	/**
+	 * @param save.
+	 */
+	public void setSave(String save) {
+		this.save = save;
+	}
 
-    /**
-     * Add a cancel button
-     */
-    public void addConfiguredCancel(Cancel cancel) {
-        cancelMessage = cancel.getLabel();
-    }
+	//
+	// antform widgets
+	//
 
-    /**
-     * add a configured separator
-     * 
-     * @param textProperty
-     */
-    public void addConfiguredSeparator(Separator separator) {
-        widgets.add(separator);
-    }
+	/**
+	 * add a configured text property
+	 * 
+	 * @param textProperty
+	 */
+	public void addConfiguredTextProperty(TextProperty textProperty) {
+		widgets.add(textProperty);
+	}
 
-    /**
-     * add a configured html pane
-     * 
-     * @param html
-     */
-    // public void addConfiguredHtml(Html html){
-    // widgets.add(html);
-    // }
-    /**
-     * add a configured text property
-     * 
-     * @param dateProperty
-     */
-    public void addConfiguredDateProperty(DateProperty dateProperty) {
-        widgets.add(dateProperty);
-    }
+	/**
+	 * Add a cancel button
+	 */
+	public void addConfiguredCancel(Cancel cancel) {
+		cancelMessage = cancel.getLabel();
+	}
 
-    /**
-     * add a configured number property
-     */
-    public void addConfiguredNumberProperty(NumberProperty numberProperty) {
-        widgets.add(numberProperty);
-    }
+	/**
+	 * add a configured separator
+	 * 
+	 * @param textProperty
+	 */
+	public void addConfiguredSeparator(Separator separator) {
+		widgets.add(separator);
+	}
 
-    /**
-     * add a configured list property
-     */
-    public void addConfiguredListProperty(ListProperty listProperty) {
-        widgets.add(listProperty);
-    }
+	/**
+	 * add a configured date property
+	 * 
+	 * @param dateProperty
+	 */
+	public void addConfiguredDateProperty(DateProperty dateProperty) {
+		widgets.add(dateProperty);
+	}
 
-    /**
-     * add a configured multiline text property
-     * 
-     * @param multilineTextProperty
-     */
-    public void addConfiguredMultilineTextProperty(
-            MultilineTextProperty multilineTextProperty) {
-        widgets.add(multilineTextProperty);
-    }
+	/**
+	 * add a configured number property
+	 */
+	public void addConfiguredNumberProperty(NumberProperty numberProperty) {
+		widgets.add(numberProperty);
+	}
 
-    /**
-     * add a configured selection property
-     * 
-     * @param textProperty
-     */
-    public void addConfiguredSelectionProperty(
-            SelectionProperty selectionProperty) {
-        widgets.add(selectionProperty);
-    }
+	/**
+	 * add a configured list property
+	 */
+	public void addConfiguredListProperty(ListProperty listProperty) {
+		widgets.add(listProperty);
+	}
 
-    /**
-     * add a configured selection property
-     * 
-     * @param textProperty
-     */
-    public void addConfiguredTab(Tab tab) {
-        widgets.add(tab);
-        tabbed = true;
-    }
+	/**
+	 * add a configured multiline text property
+	 * 
+	 * @param multilineTextProperty
+	 */
+	public void addConfiguredMultilineTextProperty(MultilineTextProperty multilineTextProperty) {
+		widgets.add(multilineTextProperty);
+	}
 
-    /**
-     * add a configured selection property
-     * 
-     * @param textProperty
-     */
-    public void addConfiguredRadioSelectionProperty(
-            RadioSelectionProperty radioSelectionProperty) {
-        widgets.add(radioSelectionProperty);
-    }
+	/**
+	 * add a configured selection property
+	 * 
+	 * @param textProperty
+	 */
+	public void addConfiguredSelectionProperty(SelectionProperty selectionProperty) {
+		widgets.add(selectionProperty);
+	}
 
-    /**
-     * add a configured checkGroup property
-     * 
-     * @param textProperty
-     */
-    public void addConfiguredCheckSelectionProperty(
-            CheckSelectionProperty checkSelectionProperty) {
-        widgets.add(checkSelectionProperty);
-    }
+	/**
+	 * add a configured tab
+	 * 
+	 * @param textProperty
+	 */
+	public void addConfiguredTab(Tab tab) {
+		widgets.add(tab);
+		tabbed = true;
+	}
 
-    /**
-     * add a configured boolean property
-     * 
-     * @param textProperty
-     */
-    public void addConfiguredBooleanProperty(BooleanProperty booleanProperty) {
-        widgets.add(booleanProperty);
-    }
+	/**
+	 * add a configured radio selection property
+	 * 
+	 * @param textProperty
+	 */
+	public void addConfiguredRadioSelectionProperty(RadioSelectionProperty radioSelectionProperty) {
+		widgets.add(radioSelectionProperty);
+	}
 
-    /**
-     * add a custom widget
-     * 
-     * @param textProperty
-     */
-    public void addConfigured(BaseType widget) {
-        widgets.add(widget);
-    }
+	/**
+	 * add a configured check selection property
+	 * 
+	 * @param textProperty
+	 */
+	public void addConfiguredCheckSelectionProperty(CheckSelectionProperty checkSelectionProperty) {
+		widgets.add(checkSelectionProperty);
+	}
 
-    /**
-     * add a configured link bar
-     */
-    public void addConfiguredLinkBar(LinkBar linkBar) {
-        widgets.add(linkBar);
-    }
+	/**
+	 * add a configured boolean property
+	 * 
+	 * @param textProperty
+	 */
+	public void addConfiguredBooleanProperty(BooleanProperty booleanProperty) {
+		widgets.add(booleanProperty);
+	}
 
-    /**
-     * Construct the gui
-     */
-    public void build() {
-        control.getPanel().addButtonPanel(
-                new ButtonPanel(okMessage, resetMessage, cancelMessage, control
-                        .getPanel()));
-        super.build();
-        built = true;
-    }
+	/**
+	 * add a configured custom widget
+	 * 
+	 * @param textProperty
+	 */
+	public void addConfigured(BaseType widget) {
+		widgets.add(widget);
+	}
 
-    /**
-     * add a configured table
-     */
-    public void addConfiguredTable(Table table) {
-        widgets.add(table);
-    }
+	/**
+	 * add a configured link bar
+	 */
+	public void addConfiguredLinkBar(LinkBar linkBar) {
+		widgets.add(linkBar);
+	}
 
-    /**
-     * add a configured boolean property
-     * 
-     * @param textProperty
-     */
-    public void addConfiguredFileSelectionProperty(
-            FileSelectionProperty fileSelectionProperty) {
-        widgets.add(fileSelectionProperty);
-    }
+	/**
+	 * add a configured table
+	 */
+	public void addConfiguredTable(Table table) {
+		widgets.add(table);
+	}
 
-    /**
-     * add a configured label
-     * 
-     * @param textProperty
-     */
-    public void addConfiguredLabel(Label label) {
-        label.addText(getProject().replaceProperties(label.getText()));
-        widgets.add(label);
-    }
+	/**
+	 * add a configured file selection property
+	 * 
+	 * @param textProperty
+	 */
+	public void addConfiguredFileSelectionProperty(FileSelectionProperty fileSelectionProperty) {
+		widgets.add(fileSelectionProperty);
+	}
 
-    /**
-     * initialize the properties
-     */
-    public void init() throws BuildException {
-        widgets = new ArrayList();
-    }
+	/**
+	 * add a configured label
+	 * 
+	 * @param textProperty
+	 */
+	public void addConfiguredLabel(Label label) {
+		label.addText(getProject().replaceProperties(label.getText()));
+		widgets.add(label);
+	}
 
-    /**
-     * Map properties from the control back to the project
-     */
-    private void getProperties() {
-        Properties props = control.getProperties();
-        Project p = getProject();
-        for (Iterator i = props.keySet().iterator(); i.hasNext();) {
-            String property = (String) i.next();
-            p.setProperty(property, props.getProperty(property));
-        }
-    }
+	//
+	// execution
+	//
 
-    /**
-     * 
-     * @return a Properties object containing the form properties.
-     */
-    private Properties getPropertiesToSave() {
-        if (widgets == null)
-            return null;
-        Properties p = control.getProperties();
-        ListIterator iter = widgets.listIterator();
-        Properties pList = new Properties();
-        while (iter.hasNext()) {
-            Object o = iter.next();
-            if (o instanceof DefaultProperty) {
-                DefaultProperty dp = (DefaultProperty) o;
-                String value = p.getProperty(dp.getProperty());
-                if (value != null)
-                    pList.put(dp.getProperty(), value);
-            }
-        }
-        return pList;
-    }
+	/**
+	 * initialize the properties
+	 */
+	public void init() throws BuildException {
+		widgets = new ArrayList();
+	}
 
-    /**
-     * callback method
-     * 
-     * @see architecture.integration.tests.CallBack#callback()
-     */
-    public void callbackCommand(String message) {
-        this.message = message;
-    }
+	/**
+	 * Construct the gui
+	 */
+	public void build() {
+		control.getPanel().addButtonPanel(new ButtonPanel(okMessage, resetMessage, cancelMessage, control.getPanel()));
+		super.build();
+		built = true;
+	}
 
-    /**
-     * implement a callback that ports to a target by automatically setting
-     * okMessage and nextTarget values
-     */
-    public void callbackLink(String target) {
-        this.message = okMessage;
-        nextTarget = target;
-    }
+	/**
+	 * Map properties from the control back to the project
+	 */
+	private void setProjectProperties() {
+		Properties props = control.getProperties();
+		Project p = getProject();
+		for (Iterator i = props.keySet().iterator(); i.hasNext();) {
+			String property = (String) i.next();
+			p.setProperty(property, props.getProperty(property));
+		}
+	}
 
-    /**
-     * @see org.apache.tools.ant.Task#execute()
-     */
-    public void execute() throws BuildException {
-        preliminaries();
-        if (!built) {
-            build();
-        }
-        super.execute();
-        control.setProperties(getProject().getProperties());
+	/**
+	 * 
+	 * @return a Properties object containing the form properties.
+	 */
+	private Properties getPropertiesToSave() {
+		if (widgets == null)
+			return null;
+		// to test:
+		//return control.getPanel().getCurrentFormProperties();
+		Properties p = control.getProperties();
+		ListIterator iter = widgets.listIterator();
+		Properties pList = new Properties();
+		while (iter.hasNext()) {
+			Object o = iter.next();
+			if (o instanceof DefaultProperty) {
+				DefaultProperty dp = (DefaultProperty) o;
+				String value = p.getProperty(dp.getProperty());
+				if (value != null)
+					pList.put(dp.getProperty(), value);
+			}
+		}
+		return pList;
+	}
 
-        if (previousTarget != null) {
-            control.getPanel().setDisposeOnReset(true);
-        }
-        if (focus != null) {
-            control.getPanel().focus(focus);
-        }
-        control.show();
-        getProperties();
-        if (save != null && !message.equals(cancelMessage)) {
-            try {
-                File file = new File(save);
-                FileProperties props = new FileProperties(file);
-                props.store(getPropertiesToSave());
-            } catch (FileNotFoundException e) {
-                throw new BuildException(e);
-            } catch (IOException e) {
-                throw new BuildException(e);
-            }
-        }
-        Target theNextTarget = findTargetByName(nextTarget);
-        Target thePreviousTarget = findTargetByName(previousTarget);
-        if (dynamic) {
-            built = false;
-            control = null;
-        }
-        if (message != null) {
-        	if ((message.equals(okMessage)) && (theNextTarget != null)) { // 
+	/**
+	 * callback method
+	 * 
+	 * @see architecture.integration.tests.CallBack#callback()
+	 */
+	public void callbackCommand(String message) {
+		this.message = message;
+	}
+
+	/**
+	 * implement a callback that ports to a target by automatically setting
+	 * okMessage and nextTarget values
+	 */
+//	public void callbackLink(String target) {
+//		this.message = okMessage;
+//		nextTarget = target;
+//	}
+
+	/**
+	 * @see org.apache.tools.ant.Task#execute()
+	 */
+	public void execute() throws BuildException {
+		preliminaries();
+		if (!built) {
+			build();
+		}
+		super.execute();
+		control.setProperties(getProject().getProperties());
+
+		if (previousTarget != null) {
+			control.getPanel().setDisposeOnReset(true);
+		}
+		if (focus != null) {
+			control.getPanel().focus(focus);
+		}
+		control.show();
+		if (!message.equals(cancelMessage)) {
+			setProjectProperties();
+			if (save != null) {
+				try {
+					File file = new File(save);
+					FileProperties props = new FileProperties(file);
+					props.store(getPropertiesToSave());
+				} catch (FileNotFoundException e) {
+					throw new BuildException(e);
+				} catch (IOException e) {
+					throw new BuildException(e);
+				}
+			}
+		}
+		if (dynamic) {
+			built = false;
+			control = null;
+		}
+		if (message != null) {
+			Target theNextTarget = findTargetByName(nextTarget);
+			Target thePreviousTarget = findTargetByName(previousTarget);
+			if ((message.equals(okMessage)) && (theNextTarget != null)) {
 				TargetInvoker invoker = new TargetInvoker(this, nextTarget, false);
 				invoker.perform();
 			} else if ((message.equals(resetMessage)) && (thePreviousTarget != null)) {
@@ -409,62 +443,6 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 				TargetInvoker invoker = new TargetInvoker(this, message, false);
 				invoker.perform();
 			}
-        }
-    }
-
-    /**
-     * @return okMessage.
-     */
-    public String getOkMessage() {
-        return okMessage;
-    }
-
-    /**
-     * @param okMessage.
-     */
-    public void setOkMessage(String okMessage) {
-        this.okMessage = okMessage;
-    }
-
-    /**
-     * @return resetMessage.
-     */
-    public String getResetMessage() {
-        return resetMessage;
-    }
-
-    /**
-     * @param resetMessage.
-     */
-    public void setResetMessage(String resetMessage) {
-        this.resetMessage = resetMessage;
-    }
-
-    /**
-     * @return cancelMessage.
-     */
-    public String getCancelMessage() {
-        return cancelMessage;
-    }
-
-    /**
-     * @param cancelMessage.
-     */
-    public void setCancelMessage(String cancelMessage) {
-        this.cancelMessage = cancelMessage;
-    }
-
-    /**
-     * @return save.
-     */
-    public String getSave() {
-        return save;
-    }
-
-    /**
-     * @param save.
-     */
-    public void setSave(String save) {
-        this.save = save;
-    }
+		}
+	}
 }
