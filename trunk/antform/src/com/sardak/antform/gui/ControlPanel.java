@@ -66,10 +66,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 	private JPanel southPanel;
 	private JPanel topPanel;
 	private JPanel overPanel;
-//	private JPanel buttonInnerPanel;
 	private JPanel currentPanel; 
-//	private Font font = null;	
-//	private boolean tabbed;
 	private Properties properties,defaultProperties;
 	private Map controlsMap, requiredMap, mnemonicsMap;
 	private HashSet usedLetters;
@@ -117,21 +114,30 @@ public class ControlPanel extends JPanel implements ActionListener{
 					return;
 				}
 			}
-			properties = new Properties();
-			for (Iterator i=controlsMap.keySet().iterator();i.hasNext();) {
-				String propertyName = (String) i.next();
-				ValueHandle vh = (ValueHandle) controlsMap.get(propertyName);
-				properties.setProperty(propertyName, vh.getValue());
-				if (vh instanceof CheckValueGetter) {
-					CheckValueGetter checkBoxGetter = (CheckValueGetter) vh;					
-					if (!checkBoxGetter.getValue().equals(Boolean.TRUE+"")){
-						properties.remove(propertyName);
-						control.setFalse(propertyName);
-					}
-				}				
-			}					
+			getCurrentFormProperties();
 			control.close(properties, okMessage);
 		}
+	}
+	
+	/**
+	 * Stores the current form properties/values into 'properties' and returns it.
+	 * @return
+	 */
+	public Properties getCurrentFormProperties() {
+		properties = new Properties();
+		for (Iterator i=controlsMap.keySet().iterator();i.hasNext();) {
+			String propertyName = (String) i.next();
+			ValueHandle vh = (ValueHandle) controlsMap.get(propertyName);
+			properties.setProperty(propertyName, vh.getValue());
+			if (vh instanceof CheckValueGetter) {
+				CheckValueGetter checkBoxGetter = (CheckValueGetter) vh;					
+				if (!checkBoxGetter.getValue().equals(Boolean.TRUE+"")){
+					properties.remove(propertyName);
+					control.setFalse(propertyName);
+				}
+			}				
+		}	
+		return properties;
 	}
 	
 	/**
@@ -263,7 +269,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 	 */
 	public ControlPanel(Control control, boolean tabbed){
 		this.control = control;
-//		this.tabbed=tabbed;
 		topLabel = new JLabel(title, JLabel.CENTER);
 		Font font = topLabel.getFont();
 		font = font.deriveFont((float) 16.0);		
