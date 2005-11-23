@@ -88,9 +88,9 @@ public class AntMenu extends AbstractTaskWindow implements CallBack{
 	 * target by autumatically setting okMessage and nextTarget
 	 * values 
 	 */
-	public void callbackLink(String target) {		
-		nextTarget = target;
-	}
+//	public void callbackLink(String target) {		
+//		nextTarget = target;
+//	}
 	
 	/**
 	 * add a configured link

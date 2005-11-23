@@ -43,9 +43,9 @@ public class CallbackTest implements CallBack{
 	/**
 	 * test implementation
 	 */
-	public void callbackLink(String message) {
-		System.out.println("Link message: "+message);
-	}
+//	public void callbackLink(String message) {
+//		System.out.println("Link message: "+message);
+//	}
 	
 	/**
 	 * test implementation
