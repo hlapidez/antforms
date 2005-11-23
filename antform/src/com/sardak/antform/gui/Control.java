@@ -226,7 +226,8 @@ public class Control {
 	/**
 	 * execute a target link
 	 */
-	public void executeLink(String target, boolean background){		
+	public void executeLink(String target, boolean background){
+		properties = panel.getCurrentFormProperties();
 		if (background) {
 			callBack.invokeTarget(target, background);
 		} else {
@@ -268,11 +269,11 @@ public class Control {
 	 */
 	public void addMenuItems(AntMenuItem parentItem, JMenuItem parentMenuItem) {
 		HashSet usedLetters = new HashSet(); 
-		for (Iterator iter = parentItem.getSubProperties().iterator(); iter.hasNext();) {
+		for (Iterator iter = parentItem.getSubMenuItems().iterator(); iter.hasNext();) {
 			final AntMenuItem newItem = (AntMenuItem) iter.next();
 			String name = newItem.getName();
 			String sToUse = MnemonicsUtil.newMnemonic(name, usedLetters);					
-			if (newItem.getSubProperties().size()>0) {
+			if (newItem.getSubMenuItems().size()>0) {
 				JMenu newMenu = new JMenu(name);
 				if (sToUse!=null) {
 					newMenu.setMnemonic(sToUse.charAt(0));
