@@ -120,7 +120,7 @@ public class SelectionProperty extends DefaultProperty{
 	public boolean validate(Task task, String widget) {
 		boolean isValid = super.validate(task, widget);
 		if (getValues() == null) {
-			task.log(getClass().getName() + " : attribute \"values\" missing.");
+			task.log(widget + " : attribute \"values\" missing.");
 			isValid = false;
 		}
 		return isValid;
