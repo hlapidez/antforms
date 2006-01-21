@@ -132,7 +132,9 @@ public class ControlPanel extends JPanel implements ActionListener{
 			if (vh instanceof CheckValueGetter) {
 				CheckValueGetter checkBoxGetter = (CheckValueGetter) vh;					
 				if (!checkBoxGetter.getValue().equals(Boolean.TRUE+"")){
-					properties.remove(propertyName);
+					if (!defaultProperties.containsKey(propertyName)) {
+						properties.remove(propertyName);
+					}
 					control.setFalse(propertyName);
 				}
 			}				
