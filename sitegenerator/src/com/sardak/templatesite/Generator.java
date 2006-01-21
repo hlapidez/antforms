@@ -120,7 +120,7 @@ public class Generator {
 		File[] existing =  outputDirectory.listFiles();
 		for (int i = 0; i < existing.length; i++) {
 			File toErase = existing[i];
-			if (toErase.isFile()) {
+			if (toErase.isFile() && !toErase.getName().equals(".cvsignore")) {
 				toErase.delete();
 			}
 		}		
