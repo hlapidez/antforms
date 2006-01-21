@@ -74,7 +74,7 @@ public class Generator {
 		File[] dirs = transformDir.listFiles();
 		for (int i = 0; i < dirs.length; i++) {
 			File dir = dirs[i];
-			if (dir.isDirectory()) {
+			if (dir.isDirectory() && !dir.getName().equals(("CVS"))) {
 				File outputDirectory  = new File(outputDir+File.separator+dir.getName());
 				outputDirectory.mkdirs();
 				File[] files = dir.listFiles();
