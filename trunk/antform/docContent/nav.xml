@@ -2,12 +2,15 @@
 <navigation>
 	<menu title="Main">		
 		<item label="About" href="index.html" title="About AntForms"/>
-		<item label="Installation &amp;amp; usage"
-			href="installation.html" title="Installation &amp;amp; usage"/>
+		<item label="Installation" href="installation.html" title="Installation"/>
+		<item label="Usage - AntForm" href="usageaf.html" title="Usage - AntForm"/>
+		<item label="Usage - AntMenu" href="usageam.html" title="Usage - AntMenu"/>
+<!--
 		<item label="Requirements" href="requirements.html"/>
+-->
 		<item label="Screenshots" href="screenshots.html" title="Screenshots"/>
 		<item label="Downloading" href="download.html" title="Downloading"/>
-		<item label="Customizing" href="download.html" title="Customizing the generated website"/>
+		<item label="Getting help" href="help.html" title="Getting help"/>
 	</menu>
 	<menu title="News">		
 		<item label="Recent" href="news.html" title="Recent news"/>
