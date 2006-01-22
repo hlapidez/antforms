@@ -91,7 +91,7 @@ public class ControlsTest {
 		
 		Properties props = new Properties();
 		props.setProperty("pasv", "true");
-		control.setProperties(props);
+		control.initProperties(props);
 		g2.setValue("login");
 		control.show();
 		

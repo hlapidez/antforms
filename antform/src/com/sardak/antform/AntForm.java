@@ -403,7 +403,7 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 			build();
 		}
 		super.execute();
-		control.setProperties(getProject().getProperties());
+		control.initProperties(getProject().getProperties());
 
 		if (previousTarget != null) {
 			control.getPanel().setDisposeOnReset(true);

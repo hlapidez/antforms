@@ -101,7 +101,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		if (command.equals(cancelMessage) || command.equals(CANCEL_MSG)){
 			control.close(properties, command);			
 		} else if (command.equals(resetMessage)){
-			setProperties(defaultProperties);	
+			initWidgets(defaultProperties);	
 			if (disposeOnReset) {
 				control.close(properties, resetMessage);
 			}
@@ -423,7 +423,9 @@ public class ControlPanel extends JPanel implements ActionListener{
 	/**
 	 * @param set the Properties.
 	 */
-	public void setProperties(Properties properties) {
+	//TODO: BUG: this method will be called in case of reset.
+	//   There is an issue with widget that were not initialized (check boxes in particular)
+	public void initWidgets(Properties properties) {
 		this.properties = properties;
 		this.defaultProperties=(Properties) properties.clone();		
 		for (Iterator iter = properties.keySet().iterator(); iter.hasNext();) {
