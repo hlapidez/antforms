@@ -246,22 +246,22 @@ public class Control {
 	/**
 	 * @param properties properties to set.
 	 */
-	public void setProperties(Properties properties) {
+	public void initProperties(Properties properties) {
 		this.properties = properties;
-		panel.setProperties(properties);
+		panel.initWidgets(properties);
 	}
 
 	/**
 	 * @param propertyNames properties to set.
 	 */
-	public void setProperties(Hashtable propertyNames) {
+	public void initProperties(Hashtable propertyNames) {
 		Properties props = new Properties();
 		for (Iterator i = propertyNames.keySet().iterator(); i.hasNext();){
 			String aProperty = (String) i.next();
 			String value= ""+propertyNames.get(aProperty);			
 			props.setProperty(aProperty, value);
 		}
-		setProperties(props);
+		initProperties(props);
 	}
 	
 	/**
