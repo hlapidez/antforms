@@ -20,6 +20,7 @@
 package com.sardak.antform.types;
 
 import org.apache.tools.ant.Project;
+import org.apache.tools.ant.ProjectComponent;
 import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.ControlPanel;
@@ -28,7 +29,7 @@ import com.sardak.antform.interfaces.ValueHandle;
 /**
  * @author René Ghosh 1 avr. 2005
  */
-public abstract class BaseType {
+public abstract class BaseType extends ProjectComponent {
 	private String If, unless;
 
 	public String getIf() {
