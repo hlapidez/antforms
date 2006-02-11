@@ -36,6 +36,9 @@ public class Label extends BaseType{
 	private int columns=-1, rows=-1;
 
 	public void addText(String text) {
+		if (null != getProject()) {
+			text = getProject().replaceProperties(text);
+		}
 		this.text = text;
 	}
 	/**

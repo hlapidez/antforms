@@ -316,7 +316,6 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 	 * @param textProperty
 	 */
 	public void addConfiguredLabel(Label label) {
-		label.addText(getProject().replaceProperties(label.getText()));
 		widgets.add(label);
 	}
 
