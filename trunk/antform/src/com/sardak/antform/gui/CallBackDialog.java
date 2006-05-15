@@ -1,4 +1,4 @@
- /***************************************************************************\*
+/***************************************************************************\*
  *                                                                            *
  *    AntForm form-based interaction for Ant scripts                          *
  *    Copyright (C) 2005 René Ghosh                                           *
@@ -20,66 +20,83 @@
 package com.sardak.antform.gui;
 
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 /**
- * A frame for implementing custim behaviour once the 
- * dispose is called: calls a callback function
- * after disposing.
- * @author René Ghosh
- * 24 févr. 2005
+ * A frame for implementing custim behaviour once the dispose is called: calls a
+ * callback function after disposing.
+ * 
+ * @author René Ghosh 24 févr. 2005
  */
-public class CallBackDialog extends JDialog{
-		
+public class CallBackDialog extends JDialog {
+
 	private CallBack callBack;
-	
+
+	private JFrame parentFrame;
+
 	/**
 	 * get callback method
 	 */
 	public CallBack getCallBack() {
 		return callBack;
 	}
-	
+
 	/**
 	 * set callback method
 	 */
 	public void setCallBack(CallBack callBack) {
 		this.callBack = callBack;
 	}
+
 	/**
 	 * Constructor
 	 */
-	public CallBackDialog(){		
-		super(JOptionPane.getRootFrame(), true);			    	    
+	public CallBackDialog() {
+		super(new JFrame(), true);
+		parentFrame = (JFrame) getOwner();
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				parentFrame.setSize(0, 0);
+				parentFrame.setLocation(-500, -500);
+				parentFrame.setVisible(true);
+			}
+		});
 	}
-	
+
 	/**
 	 * dispose() overload
 	 */
 	public void dispose(boolean executeCallBack) {
 		if (!executeCallBack) {
-			if (callBack!=null) {
+			if (callBack != null) {
 				callBack.callbackCommand(null);
 			}
 		}
 		super.hide();
-	}	
-	
+		parentFrame.hide();
+	}
+
 	/**
 	 * Hide the frame
 	 */
 	public void hide() {
-		dispose(true);	
+		dispose(true);
 	}
-	
+
 	/**
 	 * Dispose the frame and call the callback
 	 */
-	public void dispose(String message) {		
-		if (callBack!=null) {
+	public void dispose(String message) {
+		if (callBack != null) {
 			callBack.callbackCommand(message);
 		}
-		super.hide();				
-	}	
+		super.hide();
+		parentFrame.hide();
+	}
+
+	public void setTitle(String title) {
+		super.setTitle(title);
+		parentFrame.setTitle(title);
+	}
 }
