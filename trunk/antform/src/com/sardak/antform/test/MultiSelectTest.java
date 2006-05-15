@@ -20,7 +20,7 @@ public class MultiSelectTest {
 			e.printStackTrace();
 		}
 		
-		Control control = new Control(new CallbackTest(), "Tree component test", null, false);
+		Control control = new Control(new CallbackTest(), "Tree component test", null, null, false);
 		ControlPanel panel = control.getPanel();
 		CheckSelectionProperty csh = new CheckSelectionProperty();
 		csh.setLabel("a multiselect");

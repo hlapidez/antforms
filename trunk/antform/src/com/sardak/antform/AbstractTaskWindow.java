@@ -19,6 +19,7 @@
  \****************************************************************************/
 package com.sardak.antform;
 
+import java.io.File;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
@@ -41,6 +42,7 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	protected String title = null;
 	private String stylesheet = null;
 	protected String image = null;
+	private File iconFile = null;
 	private int height=-1, width=-1; 
 	protected Control control;
 	protected boolean needFail = false;
@@ -132,7 +134,7 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	 */
 	public void preliminaries(){
 		if (control==null){
-			control = new Control(this, title, image, tabbed);			
+			control = new Control(this, title, iconFile, image, tabbed);			
 			if (lookAndFeel!=null) {
 				control.updateLookAndFeel(lookAndFeel);
 			}
@@ -212,6 +214,14 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	 */
 	public void setStylesheet(String stylesheet) {
 		this.stylesheet = stylesheet;
+	}
+	
+	public File getIcon() {
+		return iconFile;
+	}
+	
+	public void setIcon(File icon) {
+		this.iconFile = icon;
 	}
 	
 	public void invokeTarget(String target, boolean background) {

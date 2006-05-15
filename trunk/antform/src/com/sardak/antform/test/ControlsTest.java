@@ -45,7 +45,7 @@ public class ControlsTest {
 			e.printStackTrace();
 		}
 		
-		Control control = new Control(new CallbackTest(), "Configure FTP Servers", null, false);
+		Control control = new Control(new CallbackTest(), "Configure FTP Servers", null, null, false);
 		ControlPanel panel = control.getPanel();
 		
 		LinkBar bar = new LinkBar();

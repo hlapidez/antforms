@@ -18,7 +18,7 @@ public static void main(String[] args) {
 		e.printStackTrace();
 	}
 	
-	Control control = new Control(new CallbackTest(), "Table test", null, false);
+	Control control = new Control(new CallbackTest(), "Table test", null, null, false);
 	ControlPanel panel = control.getPanel();
 	Table t = new Table();
 	t.setLabel("a table");
