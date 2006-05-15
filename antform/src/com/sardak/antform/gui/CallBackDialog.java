@@ -19,6 +19,9 @@
  \****************************************************************************/
 package com.sardak.antform.gui;
 
+import java.io.File;
+
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -98,5 +101,12 @@ public class CallBackDialog extends JDialog {
 	public void setTitle(String title) {
 		super.setTitle(title);
 		parentFrame.setTitle(title);
+	}
+	
+
+	public void setIcon(File iconFile) {
+		if (iconFile != null) {
+			parentFrame.setIconImage(new ImageIcon(iconFile.getAbsolutePath()).getImage());
+		}
 	}
 }

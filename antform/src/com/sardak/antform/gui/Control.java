@@ -88,20 +88,21 @@ public class Control {
 	/**
 	 * Constructor	 
 	 */
-	public Control(final CallBack antCallBack, String title, String image, boolean tabbed){
-		init(antCallBack, title, image, tabbed);
+	public Control(final CallBack antCallBack, String title, File iconFile, String image, boolean tabbed){
+		init(antCallBack, title, iconFile, image, tabbed);
 	}
 	
 	/**
 	 * Manually set the callback method, title and image
 	 */
-	public void init(final CallBack antCallBack, String title, String image,
+	public void init(final CallBack antCallBack, String title, File iconFile, String image,
 			boolean tabbed){
 		this.callBack=antCallBack;
 		if (dialog == null) {
 			dialog = new CallBackDialog();		
 			dialog.setCallBack(antCallBack);
 			dialog.setTitle(title);
+			dialog.setIcon(iconFile);
 			this.title=title;
 			this.image=image;					
 			newPanel(tabbed);
