@@ -19,7 +19,7 @@
 	<!-- compile target -->
 	<target name="compile">
 		<mkdir dir="${bin}"/>
-		<javac srcdir="${src}" destdir="${bin}" classpathref="classpath"/>
+		<javac srcdir="${src}" destdir="${bin}" classpathref="classpath" debug="true" />
 	</target>
 
 
