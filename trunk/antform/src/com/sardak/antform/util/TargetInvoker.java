@@ -55,7 +55,7 @@ public class TargetInvoker extends CallTarget implements Runnable, SubBuildListe
 	}
 
 	public void buildFinished(BuildEvent evt) {
-		log("subBuildFinished event received by TargetInvoker", Project.MSG_DEBUG);
+		log("buildFinished event received by TargetInvoker", Project.MSG_DEBUG);
 		waitForThread(evt);
 	}
 
