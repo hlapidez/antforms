@@ -46,7 +46,10 @@ Date: 07/01/2005.
 	<!-- construct the antform jar file -->
 	<target name="jar" depends="compile">
 		<mkdir dir="${lib}"/>
-		<jar destfile="${lib}/antform.jar" basedir="${bin}"/>
+		<jar destfile="${lib}/antform.jar">
+			<fileset dir="${bin}" />
+			<fileset dir="${src}" includes="com/sardak/antform/taskdefs.properties" />
+		</jar>
 	</target>
 
 	<!-- package the application for deployment, with sources -->
