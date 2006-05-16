@@ -74,7 +74,7 @@ public class Generator {
 		File[] dirs = transformDir.listFiles();
 		for (int i = 0; i < dirs.length; i++) {
 			File dir = dirs[i];
-			if (dir.isDirectory() && !dir.getName().equals(("CVS"))) {
+			if (dir.isDirectory() && !dir.getName().equals("CVS") && !dir.getName().equals(".svn")) {
 				File outputDirectory  = new File(outputDir+File.separator+dir.getName());
 				outputDirectory.mkdirs();
 				File[] files = dir.listFiles();
@@ -147,7 +147,7 @@ public class Generator {
 		for (int i = 0; i < pages.length; i++) {
 			File page = pages[i];
 			log("Page to generate: "+page.getName());
-			if (page.getName().equalsIgnoreCase("cvs")) {
+			if (page.getName().equalsIgnoreCase("cvs") || page.getName().equalsIgnoreCase(".svn")) {
 				continue;
 			}
 			String content = Personalizer.fileContent(page);
