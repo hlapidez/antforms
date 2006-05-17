@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<project default="testmenu">
+	<path id="runtime.cp">
+		<pathelement location="bin/"/>
+		<fileset dir="lib" includes="antform.jar"/>
+	</path>
+	<taskdef name="antform" classname="com.sardak.antform.AntForm"
+		classpathref="runtime.cp"/>
+	<taskdef name="antmenu" classname="com.sardak.antform.AntMenu"
+		classpathref="runtime.cp"/>
+	
+
+	<!-- exit the gui -->
+	<target name="exit" />
+
+	<target name="wizard1">
+	<antform okMessage="Next" resetmessage="Exit" focus="Next" previoustarget="exit" nexttarget="wizard2">
+	<textProperty label="a" property="a"/>
+	</antform>
+	</target>
+
+	<target name="wizard2">
+	<antform okMessage="Exit" resetmessage="Previous"
+	focus="Exit" previoustarget="wizard1" nexttarget="exit">
+	<textProperty label="b" property="b"/>
+	</antform>
+	</target>
+
+	<property name="prop" value="value" />
+	<target name="1174067">
+		<echo>I like ${prop}</echo>
+		<antform>
+		<label>value of property is ${prop}</label>
+		<textProperty label="${prop}" property="a"/>
+	</antform>
+	</target>
+
+	<!-- resolution of fr116909 -->
+	<property name="b" value="true"/>
+	<target name="fr1169909">
+		<echo message="b = ${b}"/>
+		<antform>
+			<booleanProperty label="boolean" property="b" />
+		</antform>
+		<echo message="b = ${b}"/>
+	</target>
+</project>

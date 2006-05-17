@@ -1,0 +1,34 @@
+<project default="test" basedir=".">
+
+	<path id="runtime.cp">
+		<pathelement location="../bin/" />
+		<fileset dir="../lib" includes="antform.jar" />
+	</path>
+	<taskdef name="antform" classname="com.sardak.antform.AntForm" classpathref="runtime.cp" loaderref="antform" />
+	<taskdef name="antmenu" classname="com.sardak.antform.AntMenu" classpathref="runtime.cp" loaderref="antform" />
+
+	<target name="test">
+		<tstamp>
+			<format property="date" pattern="yyMMdd" />
+		</tstamp>
+		<typedef name="myhtml" classname="com.sardak.antform.types.Html" classpath="../bin/" loaderref="antform" />
+		<antform title="Tooltip test" stylesheet="I:\dvlp\antform\style.test">
+			<booleanproperty label="boolean" property="boolean" tooltip="My Boolean Tooltip" />
+			<dateproperty label="date" property="date" tooltip="My Date Tooltip" dateformat="yyMMdd" />
+			<fileselectionproperty label="file" property="file" tooltip="My File Selection Tooltip" />
+			<listproperty label="list" property="list" values="elt1,elt2" tooltip="My List Tooltip" />
+			<multilinetextproperty label="multiline text" property="multitext" tooltip="My Multiline Text Tooltip" rows="3" columns="10" />
+			<numberproperty label="number" property="number" tooltip="My Number Tooltip" />
+			<selectionproperty label="selection" property="selection" values="a,b" tooltip="My Selection Property" />
+			<checkselectionproperty label="check selection" property="checkselection" values="a,b" tooltip="My Check Selection Property" />
+			<radioselectionproperty label="radio selection" property="radioselection" values="a,b" tooltip="My Radio Selection Property" />
+			<table label="table" property="p" tooltip="My Table Tooltip" width="200" height="100" columns="A,B,C" data="a,b,c" columnSeparator="," rowSeparator=";" />
+			<textproperty label="text" property="text" tooltip="My Text Tooltip" />
+			<linkbar>
+				<link label="link1"/>
+				<link label="link2"/>
+			</linkbar>
+			<myhtml file="../doc/index.html" />
+		</antform>
+	</target>
+</project>

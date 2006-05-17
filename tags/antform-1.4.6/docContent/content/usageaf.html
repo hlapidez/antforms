@@ -1,0 +1,1031 @@
+<h2><a name="Form">AntForm</a></h2>
+		<h3>Description</h3>
+		<p>Provides a swing-based form for modifying a group of properties exposed through 
+		the task parameters. The form has a top label with a title, under which are laid out labels and components in two aligned columns. For each component that targets a property, a descriptive text is provided to assist the user interaction by prompting for specific information. At the end of the form, two buttons are laid out, one for resetting the content of the form to the state where it was before any editing occurred, the other to 
+		approve the contents for saving or for a subsequent task/target.</p>
+		<p>Wizard-like mode is enabled when <code>nextTarget</code> and 
+		<code>previousTarget</code> attributes are set. In this case,
+		they are called when user clicks the <code>OK</code> or
+		<code>reset buttons</code>,
+		respectively.</p>
+
+		<h3>Parameters</h3>
+		<table border="0" cellpadding="2" cellspacing="0" width="100%">
+			<tr>
+				<th valign="top" width="10%">Attribute</th>
+				<th valign="top">Description</th>
+				<th align="center" valign="top" width="8%">Required</th>
+			</tr>
+			<tr>
+				<td valign="top">title</td>
+				<td valign="top">title of the form window and also set in a label at the top of the form. Defaults to <code>Ant Controls</code></td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">image</td>
+				<td valign="top">filepath of the image displayed alongside the
+					title in the top panel of the form.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">width</td>
+				<td valign="top">Width of the form window in pixels</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">height</td>
+				<td valign="top">Height of the form window in pixels</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">okMessage</td>
+				<td valign="top">Label text used for the approval button of the form.
+					If set to an empty string, the button won't be displayed.
+					Defaults to <code>OK</code>.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">resetMessage</td>
+				<td valign="top">Label text used for the cancel button of the form.
+					If set to an empty string, the button won't be displayed.
+					Defaults to <code>Reset</code></td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">save</td>
+				<td valign="top">Name of a file in which to save the properties edited in the form.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">editable</td>
+				<td valign="top">Sets property to be editable by default, non-editable otherwise</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">stylesheet</td>
+				<td valign="top">filepath of a stylesheet to
+				affect widget styles</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">focus</td>
+				<td valign="top">Name of the field on which to focus when the form is shown.  Can be not only the name of a a field, but also the name of a button such as the okButton or resetButton.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">nextTarget</td>
+				<td valign="top">Next target to call upon
+					validation for wizard mode.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">previousTarget</td>
+				<td valign="top">Previous target to call upon
+					reset for wizard mode.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">lookAndFeel</td>
+				<td valign="top">Classname of a java look and feel implementation. The look and feel will carry over to other AntForm tasks if not reset.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">icon</td>
+				<td valign="top">The icon file to use (JPG, GIF, PNG).</td>
+				<td valign="top">No</td>
+			</tr>
+		</table>
+
+		<h3>Parameters specified as nested elements</h3>
+
+		<h4>separator</h4>
+		<p>Add a separator line to divide the form into sections.</p>
+		<table border="0" cellpadding="2" cellspacing="0" width="100%">
+			<tr>
+				<th valign="top" width="10%">Attribute</th>
+				<th valign="top">Description</th>
+				<th align="center" valign="top" width="8%">Required</th>
+			</tr>
+			<tr>
+				<td valign="top">if</td>
+				<td valign="top">specify a property that must be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">unless</td>
+				<td valign="top">specify a property that must NOT be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+		</table>
+
+		<h4>label</h4>
+		<p>Add a message box to the form. Maps to a non-editable multiline text field
+		with automatic line wrapping.The text content of the label tag sets the message text.</p>
+		<table border="0" cellpadding="2" cellspacing="0" width="100%">
+			<tr>
+				<th valign="top" width="10%">Attribute</th>
+				<th valign="top">Description</th>
+				<th align="center" valign="top" width="8%">Required</th>
+			</tr>
+			<tr>
+				<td valign="top">if</td>
+				<td valign="top">specify a property that must be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">unless</td>
+				<td valign="top">specify a property that must NOT be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+		</table>
+
+		<h4><a name="textProperty">textProperty</a></h4>
+		<p>Assign editing of a property to a single-line text field.</p>
+		<table border="0" cellpadding="2" cellspacing="0" width="100%">
+			<tr>
+				<th valign="top" width="10%">Attribute</th>
+				<th valign="top">Description</th>
+				<th align="center" valign="top" width="8%">Required</th>
+			</tr>
+			<tr>
+				<td valign="top">if</td>
+				<td valign="top">specify a property that must be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">unless</td>
+				<td valign="top">specify a property that must NOT be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">label</td>
+				<td valign="top">Text of the label used to prompt for information </td>
+				<td valign="top">Yes</td>
+			</tr>
+			<tr>
+				<td valign="top">property</td>
+				<td valign="top">Name of the property to be set by this field of the form</td>
+				<td valign="top">Yes</td>
+			</tr>
+			<tr>
+				<td valign="top">columns</td>
+				<td valign="top">Number of columns used to display the field.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">editable</td>
+				<td valign="top">Sets property to be editable by default, non-editable otherwise</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">password</td>
+				<td valign="top">Sets the field to a password field that hides user entry. Defaults5to <code>false</code></td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top" width="8%">Required</td>
+				<td valign="top">Postpones validation of the
+					form if the property value is null.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">tooltip</td>
+				<td valign="top">Text to display in a tooltip box attached to this widget.</td>
+				<td valign="top">No</td>
+			</tr>
+		</table>
+
+		<h4><a name="numberProperty">numberProperty</a></h4>
+		<p>spinner field used to set numeric property values, with
+		controls to increment or decrement the value.</p>
+		<table border="0" cellpadding="2" cellspacing="0" width="100%">
+			<tr>
+				<th valign="top" width="10%">Attribute</th>
+				<th valign="top">Description</th>
+				<th align="center" valign="top" width="8%">Required</th>
+			</tr>
+			<tr>
+				<td valign="top">if</td>
+				<td valign="top">specify a property that must be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">unless</td>
+				<td valign="top">specify a property that must NOT be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">label</td>
+				<td valign="top">Text of the label used to prompt for information </td>
+				<td valign="top">Yes</td>
+			</tr>
+			<tr>
+				<td valign="top">property</td>
+				<td valign="top">Name of the property to be set by this field of the form</td>
+				<td valign="top">Yes</td>
+			</tr>
+			<tr>
+				<td valign="top">editable</td>
+				<td valign="top">Sets property to be editable by default, non-editable otherwise</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">min</td>
+				<td valign="top">The minimum value that the
+					field can take.<br/>
+					Defaults to 0.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">max</td>
+				<td valign="top">The maximum value that the
+					field can take.<br/>
+					Defaults to 100.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">step</td>
+				<td valign="top">The increment step that the
+					field takes when incremented via its
+					controls.<br/>
+					Defaults to 1.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">tooltip</td>
+				<td valign="top">Text to display in a tooltip box attached to this widget.</td>
+				<td valign="top">No</td>
+			</tr>
+		</table>
+
+		<h4><a name="listProperty">listProperty</a></h4>
+		<p>spinner field used to constrain a property to a list of values.</p>
+		<table border="0" cellpadding="2" cellspacing="0" width="100%">
+			<tr>
+				<th valign="top" width="10%">Attribute</th>
+				<th valign="top">Description</th>
+				<th align="center" valign="top" width="8%">Required</th>
+			</tr>
+			<tr>
+				<td valign="top">if</td>
+				<td valign="top">specify a property that must be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">unless</td>
+				<td valign="top">specify a property that must NOT be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">label</td>
+				<td valign="top">Text of the label used to prompt for information </td>
+				<td valign="top">Yes</td>
+			</tr>
+			<tr>
+				<td valign="top">property</td>
+				<td valign="top">Name of the property to be set by this field of the form</td>
+				<td valign="top">Yes</td>
+			</tr>
+			<tr>
+				<td valign="top">editable</td>
+				<td valign="top">Sets property to be editable by default, non-editable otherwise</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">values</td>
+				<td valign="top">The list of values that the property can take.</td>
+				<td valign="top">Yes</td>
+			</tr>
+			<tr>
+				<td valign="top">separator</td>
+				<td valign="top">The separator for delimiting
+					values in the <code>values</code>
+					attribute. Defaults to ",".</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">escapeSequence</td>
+				<td valign="top">The escape sequence that
+					prefixes the separator when the
+					separator is part of a value. Defaults
+					to "\".</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">tooltip</td>
+				<td valign="top">Text to display in a tooltip box attached to this widget.</td>
+				<td valign="top">No</td>
+			</tr>
+		</table>
+
+		<h4>multiLineTextProperty</h4>
+		<p>Like <a href="#textProperty">textProperty</a>, only uses a multiline text field to edit the targeted property.</p>
+		<table border="0" cellpadding="2" cellspacing="0" width="100%">
+			<tr>
+				<th valign="top" width="10%">Attribute</th>
+				<th valign="top">Description</th>
+				<th align="center" valign="top" width="8%">Required</th>
+			</tr>
+			<tr>
+				<td valign="top">if</td>
+				<td valign="top">specify a property that must be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">unless</td>
+				<td valign="top">specify a property that must NOT be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">label</td>
+				<td valign="top">Text of the label used to prompt for information </td>
+				<td valign="top">Yes</td>
+			</tr>
+			<tr>
+				<td valign="top">property</td>
+				<td valign="top">Name of the property to be set by this field of the form</td>
+				<td valign="top">Yes</td>
+			</tr>
+			<tr>
+				<td valign="top">columns</td>
+				<td valign="top">Number of columns used to display the field.</td>
+				<td valign="top">No</td>				
+			</tr>
+			<tr>
+				<td valign="top">rows</td>
+				<td valign="top">Number of rows used to display the field.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">editable</td>
+				<td valign="top">Sets property to be editable by default, non-editable otherwise</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top" width="8%">Required</td>
+				<td valign="top">Postpones validation of the
+					form if the property value is null.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">tooltip</td>
+				<td valign="top">Text to display in a tooltip box attached to this widget.</td>
+				<td valign="top">No</td>
+			</tr>
+		</table>
+
+		<h4><a name="table">table</a></h4>
+		<p>Provide a table for showing data that can be represented as a two-dimensional 
+		array of values. Since the overall data is mapped to a single value, 
+		column separator and row separator characters are used. The escape sequence
+		for introducing a separator into the data fields is the &quot;\&quot; character.
+		</p>
+		<table border="0" cellpadding="2" cellspacing="0" width="100%">
+			<tr>
+				<th valign="top" width="10%">Attribute</th>
+				<th valign="top">Description</th>
+				<th align="center" valign="top" width="8%">Required</th>
+			</tr>
+			<tr>
+				<td valign="top">if</td>
+				<td valign="top">specify a property that must be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">unless</td>
+				<td valign="top">specify a property that must NOT be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">label</td>
+				<td valign="top">Text of the label used to prompt for information </td>
+				<td valign="top">Yes</td>
+			</tr>
+			<tr>
+				<td valign="top">property</td>
+				<td valign="top">Name of the property to be set by this field of the form</td>
+				<td valign="top">Yes</td>
+			</tr>
+			<tr>
+				<td valign="top">editable</td>
+				<td valign="top">Specify wether the table can be edited. Defaults
+					to <code>true</code></td>
+				<td valign="top">No.</td>
+			</tr>
+			<tr>
+				<td valign="top">rowSeparator</td>
+				<td valign="top">Character used to separate row data in the
+					property string. defaults to &quot;<code>;</code>&quot;</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">columnSeparator</td>
+				<td valign="top">Character used to separate row data in the
+					property string. defaults to &quot;<code>;</code>&quot;</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">columns</td>
+				<td valign="top">String used to construct the column header data.</td>
+				<td valign="top">Yes</td>
+			</tr>
+			<tr>
+				<td valign="top">width</td>
+				<td valign="top">Width in pixels to set the preffered table size.
+					Both width and height must be set and &gt; 0 to be
+					effective.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">height</td>
+				<td valign="top">Height in pixels to set the preffered table size.
+					Both width and height must be set and &gt; 0 to be
+					effective.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">columnWidth</td>
+				<td valign="top">Size in pixels to set the preffered column
+					width.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">bestFitColumns</td>
+				<td valign="top">Specify wether to set each column width according to
+					the content. Defaults to <code>false</code>.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">data</td>
+				<td valign="top">data items used to initialize cells. Will be
+					overridden by the property value if there is one. The
+					data format must use the <code>columnSeparator</code> 
+					to separate individual cells in a single row and 
+					<code>rowSeparator</code> to separate rows.
+				</td>
+				<td valign="top">Yes</td>
+			</tr>
+			<tr>
+				<td valign="top">tooltip</td>
+				<td valign="top">Text to display in a tooltip box attached to this widget.</td>
+				<td valign="top">No</td>
+			</tr>
+		</table>
+
+		<h4>cancel</h4>
+		<p>Add a cancel button to the bottom button bar.</p>
+		<table border="0" cellpadding="2" cellspacing="0" width="100%">
+			<tr>
+				<th valign="top" width="10%">Attribute</th>
+				<th valign="top">Description</th>
+				<th align="center" valign="top" width="8%">Required</th>
+			</tr>
+			<tr>
+				<td valign="top">if</td>
+				<td valign="top">specify a property that must be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">unless</td>
+				<td valign="top">specify a property that must NOT be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">label</td>
+				<td valign="top">Text labelling the cancel button.
+					If set to an empty string, the button won't be displayed.
+				</td>
+				<td valign="top">Yes</td>
+			</tr>
+		</table>
+
+		<h4>tab</h4>
+		<p>Add a tab pane to which subsequent widgets will be added. </p>
+		<p><i>Note: the <code>tab</code> element is not used in the intuitive nested
+			sense. Do not try to add widgets directly to the tab, but rather add
+			widget property fields after a tab declaration. In a sequential manner
+			the property widgets will be added to the tabbed pane.</i></p>
+		<table border="0" cellpadding="2" cellspacing="0" width="100%">
+			<tr>
+				<th valign="top" width="10%">Attribute</th>
+				<th valign="top">Description</th>
+				<th align="center" valign="top" width="8%">Required</th>
+			</tr>
+			<tr>
+				<td valign="top">if</td>
+				<td valign="top">specify a property that must be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">unless</td>
+				<td valign="top">specify a property that must NOT be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">label</td>
+				<td valign="top">Text of the label identifying the current tab.</td>
+				<td valign="top">Yes</td>
+			</tr>
+		</table>
+
+		<h4><a name="selectionProperty">selectionProperty</a></h4>
+		<p>Provide a selection list of values that can be assigned to the targeted property.
+		Functions just like <a href="#listProperty">listProperty</a>,
+		only maps to a drop-down listbox  and not a spinner component.</p>
+		<table border="0" cellpadding="2" cellspacing="0" width="100%">
+			<tr>
+				<th valign="top" width="10%">Attribute</th>
+				<th valign="top">Description</th>
+				<th align="center" valign="top" width="8%">Required</th>
+			</tr>
+			<tr>
+				<td valign="top">if</td>
+				<td valign="top">specify a property that must be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">unless</td>
+				<td valign="top">specify a property that must NOT be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">label</td>
+				<td valign="top">Text of the label used to prompt for information </td>
+				<td valign="top">Yes</td>
+			</tr>
+			<tr>
+				<td valign="top">property</td>
+				<td valign="top">Name of the property to be set by this field of the form</td>
+				<td valign="top">Yes</td>
+			</tr>
+			<tr>
+				<td valign="top">values</td>
+				<td valign="top">list of values available for selecting the
+					property value. Use commas to separate the values by
+					default, <br/>
+					though you can specify another separator with the
+					<code>separator</code> attribute.</td>
+				<td valign="top">No</td>				
+			</tr>
+			<tr>
+				<td valign="top">separator</td>
+				<td valign="top">Specify a different separator from the default comma.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">escapeSequence</td>
+				<td valign="top">The escape sequence that
+					prefixes the separator when the
+					separator is part of a value. Defaults
+					to "\".</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">editable</td>
+				<td valign="top">Sets property to be editable by default, non-editable otherwise</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">tooltip</td>
+				<td valign="top">Text to display in a tooltip box attached to this widget.</td>
+				<td valign="top">No</td>
+			</tr>
+		</table>
+
+		<h4>radioSelectionProperty</h4>
+		<p>Like <a href="#selectionProperty">selectionProperty</a>,
+		only is rendered with radio button fields instead of a drop-down list.</p>
+		<table border="0" cellpadding="2" cellspacing="0" width="100%">
+			<tr>
+				<th valign="top" width="10%">Attribute</th>
+				<th valign="top">Description</th>
+				<th align="center" valign="top" width="8%">Required</th>
+			</tr>
+			<tr>
+				<td valign="top">if</td>
+				<td valign="top">specify a property that must be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">unless</td>
+				<td valign="top">specify a property that must NOT be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">label</td>
+				<td valign="top">Text of the label used to prompt for information </td>
+				<td valign="top">Yes</td>
+			</tr>
+			<tr>
+				<td valign="top">property</td>
+				<td valign="top">Name of the property to be set by this field of the form</td>
+				<td valign="top">Yes</td>
+			</tr>
+			<tr>
+				<td valign="top">values</td>
+				<td valign="top">list of values available for selecting the
+					property value. Use commas to separate the values by
+					default, <br/>
+					though you can specify another separator with the
+					<code>separator</code> attribute.</td>
+				<td valign="top">No</td>				
+			</tr>
+			<tr>
+				<td valign="top">separator</td>
+				<td valign="top">Specify a different separator from the default comma.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">escapeSequence</td>
+				<td valign="top">The escape sequence that
+					prefixes the separator when the
+					separator is part of a value. Defaults
+					to "\".</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">editable</td>
+				<td valign="top">Sets property to be editable by default, non-editable otherwise</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">columns</td>
+				<td valign="top">The number of columns to use. Defaults to 1.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">tooltip</td>
+				<td valign="top">Text to display in a tooltip box attached to this widget.</td>
+				<td valign="top">No</td>
+			</tr>
+		</table>
+
+		<h4>checkSelectionProperty</h4>
+		<p>Like <a href="#selectionProperty">selectionProperty</a>,
+		only is rendered with checkBox fields instead of a drop-down list. In addition,
+		the property is get and set via a list of values separated by the specified
+		separator since multiple selection is allowed with checkBoxes. Think of the
+		checkSelectionProperty as a multi-select list.</p>
+		<table border="0" cellpadding="2" cellspacing="0" width="100%">
+			<tr>
+				<th valign="top" width="10%">Attribute</th>
+				<th valign="top">Description</th>
+				<th align="center" valign="top" width="8%">Required</th>
+			</tr>
+			<tr>
+				<td valign="top">if</td>
+				<td valign="top">specify a property that must be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">unless</td>
+				<td valign="top">specify a property that must NOT be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">label</td>
+				<td valign="top">Text of the label used to prompt for information </td>
+				<td valign="top">Yes</td>
+			</tr>
+			<tr>
+				<td valign="top">property</td>
+				<td valign="top">Name of the property to be set by this field of the form</td>
+				<td valign="top">Yes</td>
+			</tr>
+			<tr>
+				<td valign="top">values</td>
+				<td valign="top">list of values available for selecting the
+					property value. Use commas to separate the values by
+					default, <br/>
+					though you can specify another separator with the
+					<code>separator</code> attribute.</td>
+				<td valign="top">No</td>				
+			</tr>
+			<tr>
+				<td valign="top">separator</td>
+				<td valign="top">Specify a different separator from the default comma.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">escapeSequence</td>
+				<td valign="top">The escape sequence that
+					prefixes the separator when the
+					separator is part of a value. Defaults
+					to "\".</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">editable</td>
+				<td valign="top">Sets property to be editable by default, non-editable otherwise</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">columns</td>
+				<td valign="top">The number of columns to use. Defaults to 1.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">tooltip</td>
+				<td valign="top">Text to display in a tooltip box attached to this widget.</td>
+				<td valign="top">No</td>
+			</tr>
+		</table>
+
+		<h4>dateProperty</h4>
+		<p>Provide a calendar control for assigning a date to a property.</p>
+		<table border="0" cellpadding="2" cellspacing="0" width="100%">
+			<tr>
+				<th valign="top" width="10%">Attribute</th>
+				<th valign="top">Description</th>
+				<th align="center" valign="top" width="8%">Required</th>
+			</tr>
+			<tr>
+				<td valign="top">if</td>
+				<td valign="top">specify a property that must be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">unless</td>
+				<td valign="top">specify a property that must NOT be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">label</td>
+				<td valign="top">Text of the label used to prompt for information </td>
+				<td valign="top">Yes</td>
+			</tr>
+			<tr>
+				<td valign="top">property</td>
+				<td valign="top">Name of the property to be set by this field of the form</td>
+				<td valign="top">Yes</td>
+			</tr>
+			<tr>
+				<td valign="top">dateFormat</td>
+				<td valign="top">date format for transforming to
+				and from dates and strings. Defaults to
+				<code>dd/MM/yyyy</code></td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">editable</td>
+				<td valign="top">Sets property to be editable by default, non-editable otherwise</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top" width="8%">Required</td>
+				<td valign="top">Postpones validation of the
+					form if the property value is null.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">tooltip</td>
+				<td valign="top">Text to display in a tooltip box attached to this widget.</td>
+				<td valign="top">No</td>
+			</tr>
+		</table>
+
+		<h4>booleanProperty</h4>
+		<p>Provide an input field for a property to be assigned to <code>true</code> if checked, 
+		unassigned otherwise. If the property has already been set prior to the form being called, it will be set to <code>true</code> if checked or <code>false</code> otherwise.</p>
+		<table border="0" cellpadding="2" cellspacing="0" width="100%">
+			<tr>
+				<th valign="top" width="10%">Attribute</th>
+				<th valign="top">Description</th>
+				<th align="center" valign="top" width="8%">Required</th>
+			</tr>
+			<tr>
+				<td valign="top">if</td>
+				<td valign="top">specify a property that must be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">unless</td>
+				<td valign="top">specify a property that must NOT be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">label</td>
+				<td valign="top">Text of the label used to prompt for information </td>
+				<td valign="top">Yes</td>
+			</tr>
+			<tr>
+				<td valign="top">property</td>
+				<td valign="top">Name of the property to be set by this field of the form</td>
+				<td valign="top">Yes</td>
+			</tr>
+			<tr>
+				<td valign="top">editable</td>
+				<td valign="top">Sets property to be editable by default, non-editable otherwise</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">tooltip</td>
+				<td valign="top">Text to display in a tooltip box attached to this widget.</td>
+				<td valign="top">No</td>
+			</tr>
+		</table>
+
+		<h4>fileSelectionProperty</h4>
+		<p>provide an input field for selecting files and directories</p>
+		<table border="0" cellpadding="2" cellspacing="0" width="100%">
+			<tr>
+				<th valign="top" width="10%">Attribute</th>
+				<th valign="top">Description</th>
+				<th align="center" valign="top" width="8%">Required</th>
+			</tr>
+			<tr>
+				<td valign="top">if</td>
+				<td valign="top">specify a property that must be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">unless</td>
+				<td valign="top">specify a property that must NOT be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">label</td>
+				<td valign="top">Text of the label used to prompt for information </td>
+				<td valign="top">Yes</td>
+			</tr>
+			<tr>
+				<td valign="top">property</td>
+				<td valign="top">Name of the property to be set by this field of the form</td>
+				<td valign="top">Yes</td>
+			</tr>
+			<tr>
+				<td valign="top">editable</td>
+				<td valign="top">Sets property to be editable by default, non-editable otherwise</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">columns</td>
+				<td valign="top">Number of columns with which to
+					display the text field of the file
+					selection widget. Defaults to 34.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">directoryChooser</td>
+				<td valign="top">if set to <code>true</code>,
+					allows only for selection of
+					directories, not individual files.
+					Defaults to <code>false</code></td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top" width="8%">Required</td>
+				<td valign="top">Postpones validation of the
+					form if the property value is null.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">tooltip</td>
+				<td valign="top">Text to display in a tooltip box attached to this widget.</td>
+				<td valign="top">No</td>
+			</tr>
+		</table>
+
+		<h4>linkBar</h4>
+		<p>Provide a bar with a horizontal layout of links to other
+		targets. This type has no attributes and is basically a holder
+		for <a href="#link">link</a> types.</p>
+
+		<h4><a name="link">link</a></h4>
+		<p>Add a link to some other target in the current Ant process.</p>
+		<table border="0" cellpadding="2" cellspacing="0" width="100%">
+			<tr>
+				<th valign="top" width="10%">Attribute</th>
+				<th valign="top">Description</th>
+				<th align="center" valign="top" width="8%">Required</th>
+			</tr>
+			<tr>
+				<td valign="top">if</td>
+				<td valign="top">specify a property that must be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">unless</td>
+				<td valign="top">specify a property that must NOT be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">label</td>
+				<td valign="top">link label</td>
+				<td valign="top">Yes</td>
+			</tr>
+			<tr>
+				<td valign="top">target</td>
+				<td valign="top">Name of the target to call upon clicking this link</td>
+				<td valign="top">Yes</td>
+			</tr>
+			<tr>
+				<td valign="top">background</td>
+				<td valign="top">Wether to run the target in a separate thread or not.
+					The ant project in which antform is used will not exit until the created
+					thread is finished.
+					Defaults to <code>false</code></td>
+				<td valign="top">No</td>
+			</tr>
+		</table>
+
+		<h4>antMenuItem</h4>
+		<p>Provide a menu bound to the frame menu bar and recursively 
+		hosting other AntMenuItems, each of which links to an Ant
+		target.</p>
+		<table border="0" cellpadding="2" cellspacing="0" width="100%">
+			<tr>
+				<th valign="top" width="10%">Attribute</th>
+				<th valign="top">Description</th>
+				<th align="center" valign="top" width="8%">Required</th>
+			</tr>
+			<tr>
+				<td valign="top">if</td>
+				<td valign="top">specify a property that must be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">unless</td>
+				<td valign="top">specify a property that must NOT be set for this
+					widget to exist.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">target</td>
+				<td valign="top">Name of the target to which the
+				AntMenuItem links.</td>
+				<td valign="top">No</td>
+			</tr>
+			<tr>
+				<td valign="top">name</td>
+				<td valign="top">Label of the file menu item</td>
+				<td valign="top">Yes</td>
+			</tr>
+			<tr>
+				<td valign="top">background</td>
+				<td valign="top">Wether to run the target in a separate thread or not.
+					The ant project in which antform is used will not exit until the created
+					thread is finished.
+					Defaults to <code>false</code></td>
+				<td valign="top">No</td>
+			</tr>
+		</table>
+
+		<h3>Examples</h3>
+		<p>The following example generates properties for sending a mail.</p>
+<blockquote>
+	<pre>
+
+&lt;antform title="Send Mail" 
+	save="properties.txt"
+	stylesheet="style.test"
+	image="doc/images/testlogo.jpg"&gt;
+	&lt;label&gt;To send a mail, use the following form. Pick a recipient,
+ type a subject and a body...the script will do the rest.&lt;/label&gt;
+	&lt;selectionProperty label="Recipient: " 
+	property="recipient" 
+	values="address1@somewhere.com; address2@somewhere.com; address4@somewhere.com" 
+	separator=";"/&gt;
+	&lt;textProperty label="Subject : " property="subject" /&gt;
+	&lt;multilineTextProperty label="Message body: "
+		property="body"/&gt;
+	&lt;booleanProperty label="Send immediately: " property="send"/&gt;
+&lt;/antform&gt;
+
+
+</pre>
+
+</blockquote>

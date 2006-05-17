@@ -1,0 +1,27 @@
+<project default="test">
+  <path id="runtime.cp">
+    <pathelement location="../bin/" />
+    <fileset dir="../lib" includes="antform.jar" />
+  </path>
+  <taskdef name="antform" classname="com.sardak.antform.AntForm"
+  classpathref="runtime.cp" />
+  <taskdef name="antmenu" classname="com.sardak.antform.AntMenu"
+  classpathref="runtime.cp" />
+  <target name="test">
+    <antmenu title="1st menu">
+      <link label="1st call" target="form1" />
+    </antmenu>
+    <antmenu title="2nd menu">
+      <link label="2nd call" target="form1" />
+    </antmenu>
+  </target>
+  <target name="form1">
+    <property name="p" value="b" />
+    <echo message="FORM - start of form1 - p = ${p}" />
+    <antform title="form1">
+      <radioSelectionProperty label="p" property="p"
+      values="a,b" />
+    </antform>
+    <echo message="FORM - end of form1 - p = ${p}" />
+  </target>
+</project>
