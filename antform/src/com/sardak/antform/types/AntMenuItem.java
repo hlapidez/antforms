@@ -21,6 +21,7 @@ package com.sardak.antform.types;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JMenu;
@@ -121,6 +122,14 @@ public class AntMenuItem extends BaseType {
 		if (getName() == null) {
 			task.log("AntMenuItem : attribute \"name\" missing.");
 			attributesAreValid = false;
+		}
+		if (subMenuItems.size() > 0) {
+			for (Iterator iter = subMenuItems.iterator(); iter.hasNext();) {
+				AntMenuItem o = (AntMenuItem) iter.next();
+				if (!o.validate(task)) {
+					attributesAreValid = false;
+				}
+			}
 		}
 		return attributesAreValid;
 	}
