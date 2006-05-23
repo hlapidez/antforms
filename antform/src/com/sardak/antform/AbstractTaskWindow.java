@@ -32,7 +32,9 @@ import com.sardak.antform.gui.CallBack;
 import com.sardak.antform.gui.Control;
 import com.sardak.antform.types.AntMenuItem;
 import com.sardak.antform.types.BaseType;
-import com.sardak.antform.util.TargetInvoker;
+import com.sardak.antform.types.Button;
+import com.sardak.antform.types.ButtonBar;
+import com.sardak.antform.util.ActionRegistry;
 
 /**
  * @author René Ghosh
@@ -50,6 +52,8 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	protected List widgets;	
 	protected boolean dynamic = false;
 	protected boolean tabbed = false;
+	private ActionRegistry actionRegistry;
+	private String targetToInvoke = null;
 	
 	/**
 	 * get image URL
@@ -118,6 +122,10 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 		this.width = width;
 	}
 	
+	public Control getControl() {
+		return control;
+	}
+	
 	/**
 	 * add a configured menuProperty
 	 */
@@ -128,6 +136,20 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 			needFail = true;
 		}
 	}
+	
+	public void addConfiguredButtonBar(ButtonBar buttonBar) {
+		widgets.add(buttonBar);
+		buttonBar.register(getActionRegistry());
+	}
+	
+	public void addConfiguredButton(Button button) {
+		ButtonBar buttonBar = new ButtonBar();
+		buttonBar.setProject(getProject());
+		buttonBar.addConfiguredButton(button);
+		buttonBar.setMargins(0, 100, 0, 100);
+		addConfiguredButtonBar(buttonBar);
+	}
+	
 	/**
 	 * set preliminary gui operations, such as 
 	 * Look & Feel
@@ -178,7 +200,7 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	/**
 	 * Find a target amid the projet targets
 	 */
-	protected Target findTargetByName(String target) {
+	public Target findTargetByName(String target) {
 		Target targetToFind = null;
 		Hashtable targets = getProject().getTargets();
 		for (Iterator i=targets.keySet().iterator();i.hasNext();) {
@@ -224,8 +246,18 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 		this.iconFile = icon;
 	}
 	
-	public void invokeTarget(String target, boolean background) {
-		TargetInvoker invoker = new TargetInvoker(this, target, background);
-		invoker.perform();
+	public void setTargetToInvoke(String target) {
+		targetToInvoke = target;
+	}
+	
+	public String getTargetToInvoke() {
+		return targetToInvoke;
+	}
+
+	public ActionRegistry getActionRegistry() {
+		if (actionRegistry == null) {
+			actionRegistry = new ActionRegistry(this);
+		}
+		return actionRegistry;
 	}
 }

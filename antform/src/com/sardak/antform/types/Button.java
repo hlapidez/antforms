@@ -1,0 +1,104 @@
+ /***************************************************************************\*
+ *                                                                            *
+ *    AntForm form-based interaction for Ant scripts                          *
+ *    Copyright (C) 2005 René Ghosh                                           *
+ *                                                                            *
+ *   This library is free software; you can redistribute it and/or modify it  *
+ *   under the terms of the GNU Lesser General Public License as published by *
+ *   the Free Software Foundation; either version 2.1 of the License, or (at  *
+ *   your option) any later version.                                          *
+ *                                                                            *
+ *   This library is distributed in the hope that it will be useful, but      *
+ *   WITHOUT ANY WARRANTY; without even the implied warranty of               *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser  *
+ *   General Public License for more details.                                 *
+ *                                                                            *
+ *   You should have received a copy of the GNU Lesser General Public License *
+ *   along with this library; if not, write to the Free Software Foundation,  *
+ *   Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA              *
+ \****************************************************************************/
+package com.sardak.antform.types;
+
+import javax.swing.AbstractButton;
+import javax.swing.JButton;
+
+import org.apache.tools.ant.Task;
+
+import com.sardak.antform.gui.ControlPanel;
+import com.sardak.antform.interfaces.ActionComponent;
+import com.sardak.antform.interfaces.ValueHandle;
+import com.sardak.antform.util.ActionType;
+
+public class Button extends BaseType implements ActionComponent {
+	private String target;
+	private boolean background = false;
+	private JButton button = new JButton();
+	private int type = ActionType.OK;
+	
+	public Button() {
+		super();
+	}
+	
+	public Button(String text, String target, int actionType) {
+		super();
+		setLabel(text);
+		setTarget(target);
+	}
+	
+	public String getLabel() {
+		return button.getText();
+	}
+	public void setLabel(String label) {
+		button.setText(label);
+	}
+	public String getTarget() {
+		return target;
+	}
+	public void setTarget(String target) {
+		this.target = target;
+	}
+    public String getTooltip() {
+        return button.getToolTipText();
+    }
+    public void setTooltip(String tooltip) {
+    	if (tooltip != null) {
+    		button.setToolTipText(tooltip);
+    	}
+    }
+	public boolean isBackground() {
+		return background;
+	}
+	public void setBackground(boolean background) {
+		this.background = background;
+	}
+	public int getActionType() {
+		return type;
+	}
+	public void setType(ActionType type) {
+		this.type = type.getType();
+	}
+	
+	public AbstractButton getComponent() {
+		return button;
+	}
+	
+	public boolean validate(Task task) {
+		boolean valid = true;
+		if (getLabel() == null) {
+			task.log("Button has no label");
+			valid = false;
+		}
+		return valid;
+	}
+	
+	public ValueHandle addToControlPanel(ControlPanel panel) {
+		// Always use a ButtonBar to hold a button
+		return null;
+	}
+	
+	public String toString() {
+		return super.toString() + " [label:" + getLabel() +
+				", type:" + ActionType.getType(getActionType()) +
+				", target:" + getTarget() + ", background:" + isBackground() + "]";
+	}
+}

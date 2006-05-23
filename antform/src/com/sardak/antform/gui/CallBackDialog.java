@@ -34,23 +34,7 @@ import javax.swing.SwingUtilities;
  */
 public class CallBackDialog extends JDialog {
 
-	private CallBack callBack;
-
 	private JFrame parentFrame;
-
-	/**
-	 * get callback method
-	 */
-	public CallBack getCallBack() {
-		return callBack;
-	}
-
-	/**
-	 * set callback method
-	 */
-	public void setCallBack(CallBack callBack) {
-		this.callBack = callBack;
-	}
 
 	/**
 	 * Constructor
@@ -71,11 +55,6 @@ public class CallBackDialog extends JDialog {
 	 * dispose() overload
 	 */
 	public void dispose(boolean executeCallBack) {
-		if (!executeCallBack) {
-			if (callBack != null) {
-				callBack.callbackCommand(null);
-			}
-		}
 		super.hide();
 		parentFrame.hide();
 	}
@@ -91,9 +70,6 @@ public class CallBackDialog extends JDialog {
 	 * Dispose the frame and call the callback
 	 */
 	public void dispose(String message) {
-		if (callBack != null) {
-			callBack.callbackCommand(message);
-		}
 		super.hide();
 		parentFrame.hide();
 	}

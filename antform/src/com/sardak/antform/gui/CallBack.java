@@ -19,13 +19,13 @@
  \****************************************************************************/
 package com.sardak.antform.gui;
 
+import com.sardak.antform.util.ActionRegistry;
+
 /**
  * Callback interface for synchronizing execution end with the form approval
  * @author René Ghosh
  */
 public interface CallBack {
-	public void callbackCommand(String message);
-//	public void callbackLink(String message);	
 	public void setFalse(String propertyName);
-	public void invokeTarget(String target, boolean background);
+	public ActionRegistry getActionRegistry();
 }
