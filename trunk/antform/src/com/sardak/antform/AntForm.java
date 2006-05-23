@@ -19,29 +19,26 @@
  \****************************************************************************/
 package com.sardak.antform;
 
+import java.awt.BorderLayout;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.ListIterator;
-import java.util.Properties;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.Target;
 
-import com.sardak.antform.gui.ButtonPanel;
 import com.sardak.antform.gui.CallBack;
+import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.types.BaseType;
 import com.sardak.antform.types.BooleanProperty;
+import com.sardak.antform.types.Button;
+import com.sardak.antform.types.ButtonBar;
 import com.sardak.antform.types.Cancel;
 import com.sardak.antform.types.CheckSelectionProperty;
 import com.sardak.antform.types.DateProperty;
-import com.sardak.antform.types.DefaultProperty;
 import com.sardak.antform.types.FileSelectionProperty;
 import com.sardak.antform.types.Label;
-import com.sardak.antform.types.LinkBar;
 import com.sardak.antform.types.ListProperty;
 import com.sardak.antform.types.MultilineTextProperty;
 import com.sardak.antform.types.NumberProperty;
@@ -51,6 +48,7 @@ import com.sardak.antform.types.Separator;
 import com.sardak.antform.types.Tab;
 import com.sardak.antform.types.Table;
 import com.sardak.antform.types.TextProperty;
+import com.sardak.antform.util.ActionType;
 import com.sardak.antform.util.FileProperties;
 import com.sardak.antform.util.TargetInvoker;
 
@@ -61,13 +59,17 @@ import com.sardak.antform.util.TargetInvoker;
  */
 public class AntForm extends AbstractTaskWindow implements CallBack {
 	private String okMessage = "OK";
+	private boolean okMessageChanged = false;
 	private String resetMessage = "Reset";
+	private boolean resetMessageChanged = false;
 	private String cancelMessage = null;
 	private String save = null;
-	private String nextTarget, previousTarget;
-	private String message = null;
+	private String nextTarget, previousTarget = null;
 	private String focus = null;
 	private boolean built = false;
+	private int actionType = ActionType.UNDEFINED;
+	private ButtonBar controlBar = null;
+	private boolean controlBarIncompatibilityDetected = false;
 
 	//
 	// antform attributes
@@ -98,6 +100,11 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 	 * set the next target
 	 */
 	public void setNextTarget(String nextTarget) {
+		log("nexttarget attribute is deprecated. Use <controlbar> instead.",
+				Project.MSG_WARN);
+		if (controlBar != null) {
+			controlBarIncompatibilityDetected();
+		}
 		this.nextTarget = nextTarget;
 	}
 
@@ -112,6 +119,11 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 	 * set the previous target
 	 */
 	public void setPreviousTarget(String previousTarget) {
+		log("previoustarget attribute is deprecated. Use <controlbar> instead.",
+				Project.MSG_WARN);
+		if (controlBar != null) {
+			controlBarIncompatibilityDetected();
+		}
 		this.previousTarget = previousTarget;
 	}
 
@@ -126,7 +138,13 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 	 * @param okMessage.
 	 */
 	public void setOkMessage(String okMessage) {
+		log("okmessage attribute is deprecated. Use <controlbar> instead.",
+				Project.MSG_WARN);
+		if (controlBar != null) {
+			controlBarIncompatibilityDetected();
+		}
 		this.okMessage = okMessage;
+		okMessageChanged = true;
 	}
 
 	/**
@@ -140,7 +158,13 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 	 * @param resetMessage.
 	 */
 	public void setResetMessage(String resetMessage) {
+		log("resetmessage attribute is deprecated. Use <controlbar> instead.",
+				Project.MSG_WARN);
+		if (controlBar != null) {
+			controlBarIncompatibilityDetected();
+		}
 		this.resetMessage = resetMessage;
+		resetMessageChanged = true;
 	}
 
 	/**
@@ -154,6 +178,11 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 	 * @param cancelMessage.
 	 */
 	public void setCancelMessage(String cancelMessage) {
+		log("cancelmessage attribute is deprecated. Use <controlbar> instead.",
+				Project.MSG_WARN);
+		if (controlBar != null) {
+			controlBarIncompatibilityDetected();
+		}
 		this.cancelMessage = cancelMessage;
 	}
 
@@ -188,6 +217,10 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 	 * Add a cancel button
 	 */
 	public void addConfiguredCancel(Cancel cancel) {
+		log("<cancel> element is deprecated. Use <controlbar> instead.", Project.MSG_WARN);
+		if (controlBar != null) {
+			controlBarIncompatibilityDetected();
+		}
 		cancelMessage = cancel.getLabel();
 	}
 
@@ -228,7 +261,8 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 	 * 
 	 * @param multilineTextProperty
 	 */
-	public void addConfiguredMultilineTextProperty(MultilineTextProperty multilineTextProperty) {
+	public void addConfiguredMultilineTextProperty(
+			MultilineTextProperty multilineTextProperty) {
 		widgets.add(multilineTextProperty);
 	}
 
@@ -256,7 +290,8 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 	 * 
 	 * @param textProperty
 	 */
-	public void addConfiguredRadioSelectionProperty(RadioSelectionProperty radioSelectionProperty) {
+	public void addConfiguredRadioSelectionProperty(
+			RadioSelectionProperty radioSelectionProperty) {
 		widgets.add(radioSelectionProperty);
 	}
 
@@ -265,7 +300,8 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 	 * 
 	 * @param textProperty
 	 */
-	public void addConfiguredCheckSelectionProperty(CheckSelectionProperty checkSelectionProperty) {
+	public void addConfiguredCheckSelectionProperty(
+			CheckSelectionProperty checkSelectionProperty) {
 		widgets.add(checkSelectionProperty);
 	}
 
@@ -290,8 +326,9 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 	/**
 	 * add a configured link bar
 	 */
-	public void addConfiguredLinkBar(LinkBar linkBar) {
-		widgets.add(linkBar);
+	public void addConfiguredLinkBar(ButtonBar buttonBar) {
+		log("<linkbar> nested elements are deprecated. Use <buttonbar> instead.");
+		addConfiguredButtonBar(buttonBar);
 	}
 
 	/**
@@ -306,7 +343,8 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 	 * 
 	 * @param textProperty
 	 */
-	public void addConfiguredFileSelectionProperty(FileSelectionProperty fileSelectionProperty) {
+	public void addConfiguredFileSelectionProperty(
+			FileSelectionProperty fileSelectionProperty) {
 		widgets.add(fileSelectionProperty);
 	}
 
@@ -317,6 +355,15 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 	 */
 	public void addConfiguredLabel(Label label) {
 		widgets.add(label);
+	}
+
+	public void addConfiguredControlBar(ButtonBar buttonBar) {
+		if (okMessageChanged || resetMessageChanged || nextTarget != null
+				|| previousTarget != null || cancelMessage != null) {
+			controlBarIncompatibilityDetected();
+		}
+		controlBar = buttonBar;
+		buttonBar.register(getActionRegistry());
 	}
 
 	//
@@ -334,64 +381,26 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 	 * Construct the gui
 	 */
 	public void build() {
-		control.getPanel().addButtonPanel(new ButtonPanel(okMessage, resetMessage, cancelMessage, control.getPanel()));
+		if (controlBar == null) {
+			createControlButton(ActionType.CANCEL, cancelMessage, null);
+			if (previousTarget == null) {
+				createControlButton(ActionType.RESET, resetMessage, null);
+			} else {
+				createControlButton(ActionType.OK, resetMessage, previousTarget);
+			}
+			createControlButton(ActionType.OK, okMessage, nextTarget);
+		}
+		if (controlBar != null && !controlBar.isEmpty()) { // do not create if no buttons
+			controlBar.setAlign(BorderLayout.EAST);
+			controlBar.setMargins(3, 3, 3, 3);
+			ControlPanel controlPanel = control.getPanel();
+			controlBar.applyStylesheet(controlPanel);
+			controlPanel.addButtonPanel(controlBar.getPanel());
+			controlBar.register(getActionRegistry());
+		}
 		super.build();
 		built = true;
 	}
-
-	/**
-	 * Map properties from the control back to the project
-	 */
-	private void setProjectProperties() {
-		Properties props = control.getProperties();
-		Project p = getProject();
-		for (Iterator i = props.keySet().iterator(); i.hasNext();) {
-			String property = (String) i.next();
-			p.setProperty(property, props.getProperty(property));
-		}
-	}
-
-	/**
-	 * 
-	 * @return a Properties object containing the form properties.
-	 */
-	private Properties getPropertiesToSave() {
-		if (widgets == null)
-			return null;
-		// to test:
-		//return control.getPanel().getCurrentFormProperties();
-		Properties p = control.getProperties();
-		ListIterator iter = widgets.listIterator();
-		Properties pList = new Properties();
-		while (iter.hasNext()) {
-			Object o = iter.next();
-			if (o instanceof DefaultProperty) {
-				DefaultProperty dp = (DefaultProperty) o;
-				String value = p.getProperty(dp.getProperty());
-				if (value != null)
-					pList.put(dp.getProperty(), value);
-			}
-		}
-		return pList;
-	}
-
-	/**
-	 * callback method
-	 * 
-	 * @see architecture.integration.tests.CallBack#callback()
-	 */
-	public void callbackCommand(String message) {
-		this.message = message;
-	}
-
-	/**
-	 * implement a callback that ports to a target by automatically setting
-	 * okMessage and nextTarget values
-	 */
-//	public void callbackLink(String target) {
-//		this.message = okMessage;
-//		nextTarget = target;
-//	}
 
 	/**
 	 * @see org.apache.tools.ant.Task#execute()
@@ -404,44 +413,56 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 		super.execute();
 		control.initProperties(getProject().getProperties());
 
-		if (previousTarget != null) {
-			control.getPanel().setDisposeOnReset(true);
-		}
+//		if (previousTarget != null) {
+//			control.getPanel().setDisposeOnReset(true);
+//		}
 		if (focus != null) {
 			control.getPanel().focus(focus);
 		}
 		control.show();
-		if (!message.equals(cancelMessage)) {
-			setProjectProperties();
-			if (save != null) {
-				try {
-					File file = new File(save);
-					FileProperties props = new FileProperties(file);
-					props.store(getPropertiesToSave());
-				} catch (FileNotFoundException e) {
-					throw new BuildException(e);
-				} catch (IOException e) {
-					throw new BuildException(e);
-				}
+		if (actionType == ActionType.OK && save != null) {
+			try {
+				File file = new File(save);
+				FileProperties props = new FileProperties(file);
+				props.store(control.getPanel().getCurrentFormProperties());
+			} catch (FileNotFoundException e) {
+				throw new BuildException(e);
+			} catch (IOException e) {
+				throw new BuildException(e);
 			}
 		}
 		if (dynamic) {
 			built = false;
 			control = null;
 		}
-		if (message != null) {
-			Target theNextTarget = findTargetByName(nextTarget);
-			Target thePreviousTarget = findTargetByName(previousTarget);
-			if ((message.equals(okMessage)) && (theNextTarget != null)) {
-				TargetInvoker invoker = new TargetInvoker(this, nextTarget, false);
-				invoker.perform();
-			} else if ((message.equals(resetMessage)) && (thePreviousTarget != null)) {
-				TargetInvoker invoker = new TargetInvoker(this, previousTarget, false);
-				invoker.perform();
-			} else if (!message.equals(okMessage) && !message.equals(resetMessage) && !message.equals(cancelMessage)) {
-				TargetInvoker invoker = new TargetInvoker(this, message, false);
-				invoker.perform();
+		if (getTargetToInvoke() != null && findTargetByName(getTargetToInvoke()) != null) {
+			TargetInvoker invoker = new TargetInvoker(this, getTargetToInvoke());
+			invoker.perform();
+		}
+	}
+
+	private void controlBarIncompatibilityDetected() {
+		if (!controlBarIncompatibilityDetected) {
+			log(
+					"<controlbar> is incompatible with attributes okmessage, resetmessage, nexttarget, previoustarget and with <cancel> element. Use <controlbar> only.",
+					Project.MSG_ERR);
+			needFail = true;
+			controlBarIncompatibilityDetected = true;
+		}
+	}
+
+	private void createControlButton(int type, String label, String target) {
+		if (label != null && !label.equals("")) {
+			Button button = new Button();
+			ActionType actionType = new ActionType();
+			actionType.setValue(ActionType.getType(type));
+			button.setType(actionType);
+			button.setLabel(label);
+			button.setTarget(target);
+			if (controlBar == null) {
+				controlBar = new ButtonBar();
 			}
+			controlBar.addConfiguredButton(button);
 		}
 	}
 }

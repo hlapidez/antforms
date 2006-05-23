@@ -3,6 +3,8 @@ package com.sardak.antform.types;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 
+import javax.swing.AbstractButton;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -13,8 +15,11 @@ import org.apache.tools.ant.SubBuildListener;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.Sequential;
 
+import com.sardak.antform.AbstractTaskWindow;
 import com.sardak.antform.gui.ControlPanel;
+import com.sardak.antform.interfaces.ActionComponent;
 import com.sardak.antform.interfaces.ValueHandle;
+import com.sardak.antform.util.ActionType;
 
 public class Wait extends BaseType implements SubBuildListener {
 	private String label = "Please wait ...";
@@ -26,6 +31,7 @@ public class Wait extends BaseType implements SubBuildListener {
 	private Project project;
 	private Thread createdThread;
 	private ControlPanel controlPanel;
+	private AbstractTaskWindow task;
 	
 	public Wait(Project project) {
 		this.project = project;
@@ -104,8 +110,10 @@ public class Wait extends BaseType implements SubBuildListener {
 		if (evt.getTask().equals(sequential)) {
 			executionDone();
 			if (closeWhenDone) {
-				ActionEvent event = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, ControlPanel.CANCEL_MSG);
-				controlPanel.actionPerformed(event);
+				HiddenButton button = new HiddenButton();
+				task.getActionRegistry().register(button);
+				ActionEvent event = new ActionEvent(button.getComponent(), ActionEvent.ACTION_PERFORMED, null);
+				task.getActionRegistry().actionPerformed(event);
 			}
 		}
 	}
@@ -139,7 +147,30 @@ public class Wait extends BaseType implements SubBuildListener {
 		if (sequential == null) {
 			task.log("Wait : Nothing to wait for.");
 			attributesAreValid = false;
-		}		
+		}
+		this.task = (AbstractTaskWindow) task;
 		return attributesAreValid;
+	}
+	
+	private class HiddenButton implements ActionComponent {
+		
+		JButton button = new JButton();
+
+		public int getActionType() {
+			return ActionType.CANCEL;
+		}
+
+		public String getTarget() {
+			return null;
+		}
+
+		public boolean isBackground() {
+			return false;
+		}
+
+		public AbstractButton getComponent() {
+			return button;
+		}
+		
 	}
 }

@@ -24,39 +24,27 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
+import javax.swing.AbstractButton;
+import javax.swing.JMenuItem;
 
 import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.ControlPanel;
+import com.sardak.antform.interfaces.ActionComponent;
 import com.sardak.antform.interfaces.ValueHandle;
-import com.sardak.antform.util.MnemonicsUtil;
+import com.sardak.antform.util.ActionRegistry;
+import com.sardak.antform.util.ActionType;
 
 /**
  * @author René Ghosh 11 mars 2005
  */
-public class AntMenuItem extends BaseType {
+public class AntMenuItem extends BaseType implements ActionComponent {
 	private List subMenuItems = new ArrayList();
 	private HashSet usedLetters = new HashSet();
 	private String target, name;
-	private JMenuBar menuBar;
 	private boolean background = false;
-
-	public boolean isBackground() {
-		return background;
-	}
-
-	public void setBackground(boolean background) {
-		this.background = background;
-	}
-
-	/**
-	 * get the list of subProperties
-	 */
-	public List getSubMenuItems() {
-		return subMenuItems;
-	}
+	private int type = ActionType.OK;
+	private JMenuItem menuItem;
 
 	/**
 	 * get the name
@@ -86,6 +74,29 @@ public class AntMenuItem extends BaseType {
 		this.target = target;
 	}
 
+	public void setType(ActionType type) {
+		this.type = type.getType();
+	}
+
+	public int getActionType() {
+		return type;
+	}
+
+	public void setBackground(boolean background) {
+		this.background = background;
+	}
+
+	public boolean isBackground() {
+		return background;
+	}
+
+	/**
+	 * get the list of subProperties
+	 */
+	public List getSubMenuItems() {
+		return subMenuItems;
+	}
+
 	/**
 	 * Add another configured property to this one
 	 */
@@ -102,18 +113,7 @@ public class AntMenuItem extends BaseType {
 	}
 
 	public ValueHandle addToControlPanel(ControlPanel panel) {
-		if (menuBar == null) {
-			menuBar = new JMenuBar();
-			panel.getControl().setMenuBar(menuBar);
-		}
-		JMenu menu = new JMenu(name);
-		panel.addMenu(menu);
-		String sToUse = MnemonicsUtil.newMnemonic(name, panel.getUsedLetters());
-		if (sToUse != null) {
-			menu.setMnemonic(sToUse.charAt(0));
-		}
-		menuBar.add(menu);
-		panel.getControl().addMenuItems(this, menu);
+		panel.getControl().addAntMenuItem(this, null);
 		return null;
 	}
 
@@ -124,6 +124,10 @@ public class AntMenuItem extends BaseType {
 			attributesAreValid = false;
 		}
 		if (subMenuItems.size() > 0) {
+			if (getTarget() != null) {
+				task.log("AntMenuItem : cannot set \"target\" and sub-AntMenuItem at the same time.");
+				attributesAreValid = false;
+			}
 			for (Iterator iter = subMenuItems.iterator(); iter.hasNext();) {
 				AntMenuItem o = (AntMenuItem) iter.next();
 				if (!o.validate(task)) {
@@ -132,5 +136,17 @@ public class AntMenuItem extends BaseType {
 			}
 		}
 		return attributesAreValid;
+	}
+
+	public AbstractButton getComponent() {
+		return menuItem;
+	}
+	
+	public void setComponent(JMenuItem component) {
+		menuItem = component;
+	}
+
+	public void register(ActionRegistry actionRegistry) {
+		actionRegistry.register(this);
 	}
 }

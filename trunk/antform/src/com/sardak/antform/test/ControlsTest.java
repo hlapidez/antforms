@@ -19,26 +19,33 @@
  \****************************************************************************/
 package com.sardak.antform.test;
 
+import java.awt.BorderLayout;
 import java.util.Properties;
 
 import javax.swing.UIManager;
 
-import com.sardak.antform.gui.ButtonPanel;
+import com.sardak.antform.AbstractTaskWindow;
 import com.sardak.antform.gui.Control;
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.interfaces.ValueHandle;
 import com.sardak.antform.types.BooleanProperty;
-import com.sardak.antform.types.Link;
-import com.sardak.antform.types.LinkBar;
+import com.sardak.antform.types.Button;
+import com.sardak.antform.types.ButtonBar;
 import com.sardak.antform.types.Separator;
 import com.sardak.antform.types.TextProperty;
+import com.sardak.antform.util.ActionRegistry;
+import com.sardak.antform.util.ActionType;
 
 /**
  * @author René Ghosh
  * 20 mars 2005
  */
-public class ControlsTest {
+public class ControlsTest extends AbstractTaskWindow {
 	public static void main(String[] args) {
+		new ControlsTest();
+	}
+	
+	public ControlsTest() {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
@@ -47,11 +54,13 @@ public class ControlsTest {
 		
 		Control control = new Control(new CallbackTest(), "Configure FTP Servers", null, null, false);
 		ControlPanel panel = control.getPanel();
+		ActionRegistry actionRegistry = new ActionRegistry(this);
 		
-		LinkBar bar = new LinkBar();
-		bar.addConfiguredLink(new Link("Add an FTP server", "addserver"));
-		bar.addConfiguredLink(new Link("Remove an FTP server", "removeServer"));
+		ButtonBar bar = new ButtonBar();
+		bar.addConfiguredButton(new Button("Add an FTP server", "addserver", ActionType.OK));
+		bar.addConfiguredButton(new Button("Remove an FTP server", "removeServer", ActionType.OK));
 		bar.addToControlPanel(panel);
+		bar.register(actionRegistry);
 		Separator sep = new Separator();
 		sep.addToControlPanel(panel);
 		
@@ -87,8 +96,16 @@ public class ControlsTest {
 		tp3.setRequired(false);
 		tp3.addToControlPanel(panel);
 		
-		control.getPanel().addButtonPanel(new ButtonPanel("Save properties", "Reset form", null, control.getPanel()));
-		
+		ButtonBar controlBar = new ButtonBar();
+		controlBar.addConfiguredButton(new Button("Save properties", null, ActionType.OK));
+		controlBar.addConfiguredButton(new Button("Reset form", null, ActionType.RESET));
+		controlBar.setAlign(BorderLayout.EAST);
+		controlBar.setMargins(3, 3, 3, 3);
+		ControlPanel controlPanel = control.getPanel();
+		controlBar.applyStylesheet(controlPanel);
+		controlPanel.addButtonPanel(controlBar.getPanel());
+		controlBar.register(actionRegistry);
+
 		Properties props = new Properties();
 		props.setProperty("pasv", "true");
 		control.initProperties(props);

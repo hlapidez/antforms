@@ -20,13 +20,12 @@
 package com.sardak.antform.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
@@ -46,6 +45,7 @@ import javax.swing.JMenu;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 import com.sardak.antform.gui.helpers.CheckValueGetter;
 import com.sardak.antform.interfaces.ValueHandle;
@@ -56,11 +56,10 @@ import com.sardak.antform.util.MnemonicsUtil;
  * input fields in two side-by-side columns
  * @author René Ghosh
  */
-public class ControlPanel extends JPanel implements ActionListener{
-	private boolean disposeOnReset = false; 
+public class ControlPanel extends JPanel {
 	private GridBagLayout layout;	
 	private JPanel buttonPanel;	
-	private String title, okMessage, resetMessage, cancelMessage;
+	private String title;
 	private Control control;
 	private JLabel topLabel;
 	private JPanel southPanel;
@@ -73,8 +72,17 @@ public class ControlPanel extends JPanel implements ActionListener{
 	private JTabbedPane tabbedPane;
 	private StylesheetHandler stylesheetHandler;
 	
-	public static final String CANCEL_MSG = "CANCEL_EVENT";
-
+	// empty space on left
+	private final static int LEFT_MARGIN = 15;
+	// empty space on right
+	private final static int RIGHT_MARGIN = 15;
+	// horizontal gap between components
+	private final static int HGAP = 5;
+	// vertical gap between components
+	private final static int VGAP = 5;
+	
+	private final boolean DEBUG_BORDERS = false;
+	
     public Control getControl() {
         return control;
     }
@@ -90,33 +98,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 		usedLetters = new HashSet();
 		mnemonicsMap = new HashMap();
 		stylesheetHandler = new StylesheetHandler();
-	}
-	
-	/**
-	 * Process action events
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-	 */
-	public void actionPerformed(ActionEvent e) {		
-		String command = e.getActionCommand();
-		if (command.equals(cancelMessage) || command.equals(CANCEL_MSG)){
-			control.close(properties, command);			
-		} else if (command.equals(resetMessage)){
-			initWidgets(defaultProperties);	
-			if (disposeOnReset) {
-				control.close(properties, resetMessage);
-			}
-		} else if (command.equals(okMessage)){			
-			for (Iterator iter = requiredMap.keySet().iterator(); iter.hasNext();) {
-				String property = (String) iter.next();
-				ValueHandle vh = (ValueHandle) requiredMap.get(property);
-				if ((vh.getValue()==null)||(vh.getValue().trim().length()==0)) {
-					vh.getComponent().requestFocus();
-					return;
-				}
-			}
-			getCurrentFormProperties();
-			control.close(properties, okMessage);
-		}
 	}
 	
 	/**
@@ -151,9 +132,12 @@ public class ControlPanel extends JPanel implements ActionListener{
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.anchor = GridBagConstraints.NORTHWEST;
 		gbc.gridwidth=1;
-		gbc.insets = new Insets(5,15,5,5);
+		gbc.insets = new Insets(VGAP, LEFT_MARGIN, VGAP, HGAP);
 		layout.setConstraints(component, gbc);
-		currentPanel.add(component);		
+		currentPanel.add(component);
+		if (DEBUG_BORDERS) {
+			debugBorders((JComponent) component, Color.GREEN);
+		}
 	}
 	
 	/**
@@ -197,9 +181,12 @@ public class ControlPanel extends JPanel implements ActionListener{
 		GridBagConstraints gbc = new GridBagConstraints();		
 		gbc.anchor = GridBagConstraints.NORTHWEST;
 		gbc.gridwidth= GridBagConstraints.REMAINDER;
-		gbc.insets = new Insets(5,5,5,15);
+		gbc.insets = new Insets(VGAP, HGAP, VGAP, RIGHT_MARGIN);
 		layout.setConstraints(component, gbc);
 		currentPanel.add(component);
+		if (DEBUG_BORDERS) {
+			debugBorders((JComponent) component, Color.BLUE);
+		}
 	}	
 	
 	/**
@@ -212,26 +199,14 @@ public class ControlPanel extends JPanel implements ActionListener{
 		gbc.fill = GridBagConstraints.HORIZONTAL;		
 		gbc.weightx = 0.0;		
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
-		gbc.insets = new Insets(15,10,15,10);
-		layout.setConstraints(component, gbc);
-		currentPanel.add(component);			
-	}
-	
-	/**
-	 * add a component to the right side of the form
-	 * @param component
-	 */
-	public final void addLinkToLayout(Component component){
-		GridBagConstraints gbc = new GridBagConstraints();		
-		gbc.anchor = GridBagConstraints.NORTHWEST;
-		gbc.fill = GridBagConstraints.HORIZONTAL;		
-		gbc.weightx = 0.0;		
-		gbc.weighty = 1.0;
-		gbc.gridwidth = GridBagConstraints.REMAINDER;
-		gbc.insets = new Insets(5,0,5,0);
+		gbc.insets = new Insets(VGAP, LEFT_MARGIN, VGAP, RIGHT_MARGIN);
 		layout.setConstraints(component, gbc);
 		currentPanel.add(component);
+		if (DEBUG_BORDERS) {
+			debugBorders((JComponent) component, Color.RED);
+		}
 	}
+	
 	/**
 	 * add a component to the right side of the form
 	 * @param component
@@ -242,9 +217,12 @@ public class ControlPanel extends JPanel implements ActionListener{
 		gbc.fill = GridBagConstraints.NONE;		
 		gbc.weightx = 0.0;		
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
-		gbc.insets = new Insets(15,10,15,10);
+		gbc.insets = new Insets(15,LEFT_MARGIN,15,RIGHT_MARGIN);
 		layout.setConstraints(component, gbc);
 		currentPanel.add(component);
+		if (DEBUG_BORDERS) {
+			debugBorders((JComponent) component, Color.RED);
+		}
 	}	
 	
 	/**
@@ -302,18 +280,10 @@ public class ControlPanel extends JPanel implements ActionListener{
 		}
 	}
 	
-	/**
-	  * add a blank line
-	  */
-	public void addBlank(){
-		JLabel label = new JLabel();
-		label.setOpaque(false);
-		addCentered(label);
-	}
-	
-	public void addButtonPanel(ButtonPanel buttons) {
-		add(buttons, BorderLayout.SOUTH);
-		stylesheetHandler.addPanel(buttons);
+	public void addButtonPanel(JPanel buttonPanel) {
+		add(buttonPanel, BorderLayout.SOUTH);
+		stylesheetHandler.addPanel(buttonPanel);
+		this.buttonPanel = buttonPanel;
 	}
 	
 	/**
@@ -375,21 +345,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 	}
 
 	/**
-	 * set the ok button message
-	 * @param message
-	 */
-	public void setOkMessage(String message){		
-		okMessage = message;
-	}
-	
-	/**
-	 * set the reset button message
-	 */
-	public void setResetMessage(String message){
-		resetMessage = message;
-	}
-	
-	/**
 	 * Focus on a named field 
 	 */
 	public void focus(String focusEntity){
@@ -401,16 +356,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 		if (comp!=null) {			
 			comp.requestFocus();
 		} 
-	}
-	
-	
-	/**
-	 * set the flag governing wether the 
-	 * frame must dispose whe, the reset button
-	 * is hit 
-	 */
-	public void setDisposeOnReset(boolean disposeOnReset){
-		this.disposeOnReset=disposeOnReset;
 	}
 	
 	/**
@@ -436,6 +381,10 @@ public class ControlPanel extends JPanel implements ActionListener{
 				vh.setValue(value);
 			}
 		}
+	}
+	
+	public Properties getDefaultProperties() {
+		return defaultProperties;
 	}
 			
 	public HashSet getUsedLetters() {
@@ -464,10 +413,6 @@ public class ControlPanel extends JPanel implements ActionListener{
 	    requiredMap.put(propertyName, valueHandle);
 	}
 	
-	public void setCancelMessage(String cancelMessage) {
-	    this.cancelMessage = cancelMessage;
-	}
-	
 	public void addToTabbedPane(String label, JPanel tabPanel, GridBagLayout aLayout) {
 	    tabbedPane.addTab(label, tabPanel);
 	    stylesheetHandler.addPanel(tabPanel);
@@ -475,11 +420,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		layout = aLayout;
 	}
 	
-	public void listenToLink(JButton link, final String target, final boolean background) {
-		link.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-					control.executeLink(target, background);
-			}
-		});		
+	private void debugBorders(JComponent jComponent, Color borderColor) {
+		jComponent.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1), jComponent.getBorder()));
 	}
 }

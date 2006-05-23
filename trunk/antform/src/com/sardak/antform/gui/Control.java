@@ -23,14 +23,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
@@ -63,6 +60,7 @@ public class Control {
 	private JScrollPane scrollPane;
 	private boolean firstShow = true;
 	private List menuItems;
+	private JMenuBar menuBar;
 		
 	/**
 	 * set window width
@@ -100,7 +98,6 @@ public class Control {
 		this.callBack=antCallBack;
 		if (dialog == null) {
 			dialog = new CallBackDialog();		
-			dialog.setCallBack(antCallBack);
 			dialog.setTitle(title);
 			dialog.setIcon(iconFile);
 			this.title=title;
@@ -225,19 +222,6 @@ public class Control {
 	}
 	
 	/**
-	 * execute a target link
-	 */
-	public void executeLink(String target, boolean background){
-		properties = panel.getCurrentFormProperties();
-		if (background) {
-			callBack.invokeTarget(target, background);
-		} else {
-			callBack.callbackCommand(target);
-			dialog.dispose(true);
-		}
-	}
-	
-	/**
 	 * @return the properties.
 	 */
 	public Properties getProperties() {
@@ -265,39 +249,47 @@ public class Control {
 		initProperties(props);
 	}
 	
-	/**
-	 * add menu item to menu bar
-	 */
-	public void addMenuItems(AntMenuItem parentItem, JMenuItem parentMenuItem) {
-		HashSet usedLetters = new HashSet(); 
-		for (Iterator iter = parentItem.getSubMenuItems().iterator(); iter.hasNext();) {
-			final AntMenuItem newItem = (AntMenuItem) iter.next();
-			String name = newItem.getName();
-			String sToUse = MnemonicsUtil.newMnemonic(name, usedLetters);					
-			if (newItem.getSubMenuItems().size()>0) {
-				JMenu newMenu = new JMenu(name);
-				if (sToUse!=null) {
-					newMenu.setMnemonic(sToUse.charAt(0));
-				}				
-				parentMenuItem.add(newMenu);
-				addMenuItems(newItem, newMenu);
-				menuItems.add(newMenu);
-			} else {
-				JMenuItem newMenuItem = new JMenuItem(name);			
-				if (sToUse!=null) {
-					newMenuItem.setMnemonic(sToUse.charAt(0));
-				}				
-				parentMenuItem.add(newMenuItem);
-				menuItems.add(newMenuItem);
-//				newMenuItem.addActionListener(this);
-//				newMenuItem.setActionCommand(newItem.getTarget());
-				newMenuItem.addActionListener(new ActionListener(){
-					public void actionPerformed(ActionEvent e) {
-							executeLink(newItem.getTarget(), newItem.isBackground());
-					}
-				});		
+	public JMenuBar getMenuBar() {
+		if (menuBar == null) {
+			menuBar = new JMenuBar();
+		    dialog.setJMenuBar(menuBar);
+		}
+		return menuBar;
+	}
+	
+	public void addAntMenuItem(AntMenuItem antMenuItem, JMenuItem parentMenu) {
+		//create button
+		JMenuItem item;
+		if (antMenuItem.getSubMenuItems().size() == 0) {
+			item = new JMenuItem();
+		} else {
+			item = new JMenu();
+		}
+		//setup button
+		item.setText(antMenuItem.getName());
+		String sToUse = MnemonicsUtil.newMnemonic(antMenuItem.getName(), panel.getUsedLetters());
+		if (sToUse != null) {
+			item.setMnemonic(sToUse.charAt(0));
+		}
+		//add to parent
+		if (parentMenu == null) {
+			getMenuBar().add(item);
+			if (antMenuItem.getSubMenuItems().size() != 0) {
+				addMenu((JMenu) item);
 			}
-		}		
+		} else {
+			parentMenu.add(item);
+		}
+		// set behaviour or add children
+		if (antMenuItem.getSubMenuItems().size() == 0) { // action menu
+			antMenuItem.setComponent(item);
+			antMenuItem.register(callBack.getActionRegistry());
+		} else {
+			for (int i = 0 ; i < antMenuItem.getSubMenuItems().size() ; i++) {
+				AntMenuItem childItem = (AntMenuItem) antMenuItem.getSubMenuItems().get(i);
+				addAntMenuItem(childItem, item);
+			}
+		}
 	}
 
 	/**
@@ -321,9 +313,5 @@ public class Control {
 	
 	public void addMenu(JMenu menu) {
 	    menuItems.add(menu);
-	}
-	
-	public void setMenuBar(JMenuBar menuBar) {
-	    dialog.setJMenuBar(menuBar);
 	}
 }

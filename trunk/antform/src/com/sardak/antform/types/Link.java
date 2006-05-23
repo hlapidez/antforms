@@ -19,110 +19,11 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
-import java.awt.BorderLayout;
-
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import org.apache.tools.ant.Task;
-
-import com.sardak.antform.gui.ControlPanel;
-import com.sardak.antform.interfaces.ValueHandle;
 
 /**
  * @author René Ghosh
  * 12 janv. 2005
  */
-public class Link extends BaseType{
-	private String label, target, tooltip;
-	private boolean background = false;
-	
-	/**
-	 * Constructor
-	 */
-	public Link(String label, String target){
-		this.label=label;
-		this.target=target;
-	}
-	
-	/**
-	 * Constructor
-	 */
-	public Link(){	
-	}
-	
-	public String getLabel() {
-		return label;
-	}
-	public void setLabel(String label) {
-		this.label = label;
-	}
-	public String getTarget() {
-		return target;
-	}
-	public void setTarget(String target) {
-		this.target = target;
-	}
-    public String getTooltip() {
-        return tooltip;
-    }
-    public void setTooltip(String tooltip) {
-        this.tooltip = tooltip;
-    }
-	public boolean isBackground() {
-		return background;
-	}
-	public void setBackground(boolean background) {
-		this.background = background;
-	}
-
-	/**
-	 * Apply tooltip text to the specified JComponent (and optionnaly its label)
-	 */
-	private void applyTooltip(JComponent component, JLabel label, String tooltipText) {
-		if (null != tooltipText && !tooltipText.equals("")) {
-			component.setToolTipText(tooltipText);
-			if (label != null) {
-			    label.setToolTipText(tooltipText);
-			}
-			for (int i = 0 ; i < component.getComponentCount() ; i++) {
-				if (component.getComponent(i) instanceof JComponent) {
-					applyTooltip((JComponent) component.getComponent(i), null, tooltipText);
-				}
-			}
-		}
-	}
-	
-	public ValueHandle addToControlPanel(ControlPanel panel) {
-		final JButton link = new JButton(label);
-		final String linkLocation = target;
-		JPanel linkPanel = new JPanel();
-		linkPanel.setBorder(ControlPanel.linkBorder());
-		linkPanel.setLayout(new BorderLayout());
-		linkPanel.add(link, BorderLayout.CENTER);
-		linkPanel.setOpaque(false);
-		panel.getStylesheetHandler().addLink(link);		
-		panel.addLinkToLayout(linkPanel);
-		panel.listenToLink(link, linkLocation, background);
-		panel.setMnemonics(link, label);
-		applyTooltip(link, null, getTooltip());
-		return null;
-	}
-
-	public boolean validate(Task task) {
-		boolean attributesAreValid = true;
-		if (getLabel()==null) {
-			task.log("Link : attribute \"label\" missing.");
-			attributesAreValid = false;
-		}		
-		if (getTarget()==null) {
-			task.log("Link : attribute \"target\" missing.");
-			attributesAreValid = false;
-		}
-		// Do not check for unexisting target.
-		// It can be a good way to exit.
-		return attributesAreValid;
-	}
+public class Link extends Button {
+	// Keep it just to avoid breaking user code
 }

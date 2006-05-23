@@ -19,68 +19,11 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-
-import org.apache.tools.ant.Task;
-
-import com.sardak.antform.gui.ControlPanel;
-import com.sardak.antform.interfaces.ValueHandle;
 
 /**
  * @author René Ghosh
  * 13 mars 2005
  */
-public class LinkBar extends BaseType {
-	private List links = new ArrayList(); 
-	/**
-	 * add a link to the link bar
-	 */
-	public void addConfiguredLink(Link link) {
-		links.add(link);
-	}
-	/**
-	 * get links
-	 */
-	public List getLinks() {
-		return links;
-	}
-	
-	public ValueHandle addToControlPanel(ControlPanel panel) {
-		JPanel linkPanel = new JPanel();
-		linkPanel.setOpaque(false);
-		for (Iterator iter = links.iterator(); iter.hasNext();) {
-			final Link link = (Link) iter.next();
-			JButton button = new JButton(link.getLabel());			
-			panel.getStylesheetHandler().addLink(button);
-			linkPanel.add(button);
-			linkPanel.add(Box.createHorizontalStrut(10));
-			// this might not be needed...
-			button.addActionListener(panel);
-//			panel.setTeleport(button, link.getTarget(), link.isBackground());
-			panel.listenToLink(button, link.getTarget(), link.isBackground());
-			panel.setMnemonics(button, link.getLabel());
-		}
-		panel.addCentered(linkPanel);
-		return null;
-	}
-	public boolean validate(Task task) {
-		boolean attributesAreValid = true;
-		if (links.isEmpty()) {
-			task.log("LinkBar : no links configured.");
-			attributesAreValid = false;
-		}
-		for (Iterator iter = links.iterator(); iter.hasNext();) {
-			Link link = (Link) iter.next();
-			if (!link.validate(task)) {
-				attributesAreValid = false;
-			}
-		}
-		return attributesAreValid;
-	}
+public class LinkBar extends ButtonBar {
+	// Keep it just to avoid breaking user code
 }

@@ -20,14 +20,12 @@
 package com.sardak.antform;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Iterator;
 
 import org.apache.tools.ant.BuildException;
 
 import com.sardak.antform.gui.CallBack;
+import com.sardak.antform.types.Button;
 import com.sardak.antform.types.Label;
-import com.sardak.antform.types.Link;
 import com.sardak.antform.types.Separator;
 import com.sardak.antform.util.TargetInvoker;
 
@@ -37,7 +35,6 @@ import com.sardak.antform.util.TargetInvoker;
  * 12 janv. 2005
  */
 public class AntMenu extends AbstractTaskWindow implements CallBack{
-	private String nextTarget = null;
 	private boolean built = false;
 	/**
 	 * Initialisation
@@ -77,26 +74,18 @@ public class AntMenu extends AbstractTaskWindow implements CallBack{
 			built = false;
 			control = null;
 		}
-		if (nextTarget!=null) {
-			TargetInvoker invoker = new TargetInvoker(this, nextTarget, false);
+		if (getTargetToInvoke() != null && findTargetByName(getTargetToInvoke()) != null) {
+			TargetInvoker invoker = new TargetInvoker(this, getTargetToInvoke());
 			invoker.perform();
 		}
 	}
 	
 	/**
-	 * implement a callback that ports to a 
-	 * target by autumatically setting okMessage and nextTarget
-	 * values 
-	 */
-//	public void callbackLink(String target) {		
-//		nextTarget = target;
-//	}
-	
-	/**
 	 * add a configured link
 	 */
-	public void addConfiguredLink(Link link) {
-		widgets.add(link);
+	public void addConfiguredLink(Button button) {
+		log("<link> nested elements are deprecated. Use <button> or <buttonbar> instead.");
+		addConfiguredButton(button);
 	}
 	
 	/**
@@ -104,23 +93,5 @@ public class AntMenu extends AbstractTaskWindow implements CallBack{
 	 */
 	public void addConfiguredLabel(Label label) {
 		widgets.add(label);
-	}
-		
-	
-	/**
-	 * callback for control panel
-	 */
-	public void callbackCommand(String message){
-		if (message==null) {
-			return;
-		}
-		Hashtable targets = getProject().getTargets();		
-		for (Iterator i=targets.keySet().iterator();i.hasNext();) {
-			String targetName = (String) i.next();			
-			if (targetName.equals(message)) {
-				nextTarget = targetName;
-				break;
-			}
-		}
 	}
 }
