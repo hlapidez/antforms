@@ -41,9 +41,6 @@ public class ActionRegistry implements ActionListener {
 		if (source.getActionType() == ActionType.OK) {
 			// save properties
 			setProjectProperties();
-			if (!source.isBackground() && task instanceof AntForm) {
-
-			}
 			// close form (unless background)
 			// run target (if set)
 			runTarget(source);
