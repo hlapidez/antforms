@@ -11,7 +11,6 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
 import com.sardak.antform.AbstractTaskWindow;
-import com.sardak.antform.AntForm;
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.interfaces.ActionComponent;
 
