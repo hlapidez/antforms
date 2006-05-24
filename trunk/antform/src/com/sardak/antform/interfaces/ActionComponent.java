@@ -1,4 +1,4 @@
- /***************************************************************************\*
+/***************************************************************************\*
  *                                                                            *
  *    AntForm form-based interaction for Ant scripts                          *
  *    Copyright (C) 2005 René Ghosh                                           *
@@ -21,9 +21,17 @@ package com.sardak.antform.interfaces;
 
 import javax.swing.AbstractButton;
 
+/**
+ * An Antform/Antmenu component that generate actions (ok, cancel, reset)
+ * 
+ * @author patmartin
+ */
 public interface ActionComponent {
 	public int getActionType();
+
 	public String getTarget();
+
 	public boolean isBackground();
+
 	public AbstractButton getComponent();
 }
