@@ -71,6 +71,8 @@ public class ActionRegistry implements ActionListener {
 				invoker.perform();
 			}
 		} else {
+			// tell form/menu what kind of action occured
+			task.setActionType(source.getActionType());
 			// tell form/menu which target to run
 			task.setTargetToInvoke(source.getTarget());
 			// close the form/menu

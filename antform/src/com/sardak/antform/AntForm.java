@@ -67,7 +67,6 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 	private String nextTarget, previousTarget = null;
 	private String focus = null;
 	private boolean built = false;
-	private int actionType = ActionType.UNDEFINED;
 	private ButtonBar controlBar = null;
 	private boolean controlBarIncompatibilityDetected = false;
 
@@ -420,7 +419,9 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 			control.getPanel().focus(focus);
 		}
 		control.show();
-		if (actionType == ActionType.OK && save != null) {
+		System.out.println("actiontype: " + getActionType());
+		System.out.println("save: " + save);
+		if (getActionType() == ActionType.OK && save != null) {
 			try {
 				File file = new File(save);
 				FileProperties props = new FileProperties(file);
