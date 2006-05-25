@@ -122,7 +122,7 @@ public class DefaultProperty extends BaseType {
      * adding tooltip info
      */
     protected void initComponent(JComponent component, ControlPanel panel) {
-        if (this instanceof Requirable)
+        if (this instanceof Requirable && ((Requirable) this).isRequired())
             setLabel("*" + getLabel());
         JLabel labelComponent = panel.makeLabel(label);
         labelComponent.setLabelFor(component);
