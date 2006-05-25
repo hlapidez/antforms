@@ -35,6 +35,7 @@ import com.sardak.antform.types.BaseType;
 import com.sardak.antform.types.Button;
 import com.sardak.antform.types.ButtonBar;
 import com.sardak.antform.util.ActionRegistry;
+import com.sardak.antform.util.ActionType;
 
 /**
  * @author René Ghosh
@@ -53,6 +54,7 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	protected boolean dynamic = false;
 	protected boolean tabbed = false;
 	private ActionRegistry actionRegistry;
+	private int actionType = ActionType.UNDEFINED;
 	private String targetToInvoke = null;
 	
 	/**
@@ -244,6 +246,14 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	
 	public void setIcon(File icon) {
 		this.iconFile = icon;
+	}
+	
+	public int getActionType() {
+		return actionType;
+	}
+	
+	public void setActionType(int actionType) {
+		this.actionType = actionType;
 	}
 	
 	public void setTargetToInvoke(String target) {
