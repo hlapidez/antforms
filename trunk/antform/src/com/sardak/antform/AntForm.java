@@ -419,8 +419,6 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 			control.getPanel().focus(focus);
 		}
 		control.show();
-		System.out.println("actiontype: " + getActionType());
-		System.out.println("save: " + save);
 		if (getActionType() == ActionType.OK && save != null) {
 			try {
 				File file = new File(save);
