@@ -31,6 +31,7 @@ import org.apache.tools.ant.Task;
 import com.sardak.antform.gui.CallBack;
 import com.sardak.antform.gui.Control;
 import com.sardak.antform.interfaces.ActionListenerComponent;
+import com.sardak.antform.interfaces.Requirable;
 import com.sardak.antform.types.AntMenuItem;
 import com.sardak.antform.types.BaseType;
 import com.sardak.antform.types.Button;
@@ -285,6 +286,17 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 		return actionRegistry;
 	}
 	
+	public boolean requiredStatusOk() {
+		Iterator iter = widgets.iterator();
+		while (iter.hasNext()) {
+			Object o = iter.next();
+			if (o instanceof Requirable && !((Requirable) o).requiredStatusOk()) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	public void ok() {
 		Iterator iter = widgets.iterator();
 		while (iter.hasNext()) {
@@ -304,6 +316,7 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 			}
 		}
 	}
+	
 	public void reset() {
 		Iterator iter = widgets.iterator();
 		while (iter.hasNext()) {

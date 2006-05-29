@@ -30,6 +30,10 @@ public class ActionRegistry implements ActionListener {
 			throw new BuildException("Received event from unknown source.");
 		}
 		if (source.getActionType() == ActionType.OK) {
+			// check required components
+			if (!task.requiredStatusOk()) {
+				return;
+			}
 			// notify components
 			task.ok();
 			// close form (unless background) and run target (if set and valid)

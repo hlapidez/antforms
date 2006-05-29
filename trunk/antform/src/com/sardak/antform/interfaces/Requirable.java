@@ -28,4 +28,5 @@ package com.sardak.antform.interfaces;
 public interface Requirable {
 	public boolean isRequired();
 	public void setRequired(boolean required);
+	public boolean requiredStatusOk();
 }

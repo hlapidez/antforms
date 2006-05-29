@@ -97,4 +97,13 @@ public class TextProperty extends DefaultProperty implements Requirable,
 	public void reset() {
 		textField.setText(getInitialPropertyValue());
 	}
+
+	public boolean requiredStatusOk() {
+		boolean ok = true;
+		if (isRequired() && "".equals(textField.getText())) {
+			ok = false;
+			textField.requestFocus();
+		}
+		return ok;
+	}
 }

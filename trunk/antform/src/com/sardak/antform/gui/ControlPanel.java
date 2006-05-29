@@ -361,10 +361,6 @@ public class ControlPanel extends JPanel {
 		}
 	}
 
-	public void addRequired(String propertyName, ValueHandle valueHandle) {
-	    requiredMap.put(propertyName, valueHandle);
-	}
-	
 	public void addToTabbedPane(String label, JPanel tabPanel, GridBagLayout aLayout) {
 	    tabbedPane.addTab(label, tabPanel);
 	    stylesheetHandler.addPanel(tabPanel);

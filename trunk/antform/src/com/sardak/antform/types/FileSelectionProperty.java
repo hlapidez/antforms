@@ -78,4 +78,13 @@ public class FileSelectionProperty extends DefaultProperty implements Requirable
 	public void reset() {
 		chooser.setText(getInitialPropertyValue());
 	}
+
+	public boolean requiredStatusOk() {
+		boolean ok = true;
+		if (isRequired() && "".equals(chooser.getText())) {
+			ok = false;
+			chooser.requestFocus();
+		}
+		return ok;
+	}
 }
