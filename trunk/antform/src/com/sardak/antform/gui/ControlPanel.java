@@ -30,7 +30,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
@@ -47,7 +46,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
-import com.sardak.antform.gui.helpers.CheckValueGetter;
 import com.sardak.antform.interfaces.ValueHandle;
 import com.sardak.antform.util.MnemonicsUtil;
 
@@ -66,7 +64,7 @@ public class ControlPanel extends JPanel {
 	private JPanel topPanel;
 	private JPanel overPanel;
 	private JPanel currentPanel; 
-	private Properties properties,defaultProperties;
+	private Properties properties;
 	private Map controlsMap, requiredMap, mnemonicsMap;
 	private HashSet usedLetters;
 	private JTabbedPane tabbedPane;
@@ -92,35 +90,11 @@ public class ControlPanel extends JPanel {
 	 */
 	public void init() {		
 		properties = new Properties();
-		defaultProperties = new Properties();		
 		controlsMap = new HashMap();
 		requiredMap = new HashMap();
 		usedLetters = new HashSet();
 		mnemonicsMap = new HashMap();
 		stylesheetHandler = new StylesheetHandler();
-	}
-	
-	/**
-	 * Stores the current form properties/values into 'properties' and returns it.
-	 * @return
-	 */
-	public Properties getCurrentFormProperties() {
-		properties = new Properties();
-		for (Iterator i=controlsMap.keySet().iterator();i.hasNext();) {
-			String propertyName = (String) i.next();
-			ValueHandle vh = (ValueHandle) controlsMap.get(propertyName);
-			properties.setProperty(propertyName, vh.getValue());
-			if (vh instanceof CheckValueGetter) {
-				CheckValueGetter checkBoxGetter = (CheckValueGetter) vh;					
-				if (!checkBoxGetter.getValue().equals(Boolean.TRUE+"")){
-					if (!defaultProperties.containsKey(propertyName)) {
-						properties.remove(propertyName);
-					}
-					control.setFalse(propertyName);
-				}
-			}				
-		}	
-		return properties;
 	}
 	
 	/**
@@ -365,28 +339,6 @@ public class ControlPanel extends JPanel {
 		return properties;
 	}
 	
-	/**
-	 * @param set the Properties.
-	 */
-	//TODO: BUG: this method will be called in case of reset.
-	//   There is an issue with widget that were not initialized (check boxes in particular)
-	public void setDefaultProperties(Properties properties) {
-//		this.properties = properties;
-		this.defaultProperties=(Properties) properties.clone();		
-//		for (Iterator iter = properties.keySet().iterator(); iter.hasNext();) {
-//			String property = (String) iter.next();
-//			if (controlsMap.containsKey(property)) {
-//				String value = properties.getProperty(property);
-//				ValueHandle vh = (ValueHandle) controlsMap.get(property);
-//				vh.setValue(value);
-//			}
-//		}
-	}
-	
-//	public Properties getDefaultProperties() {
-//		return defaultProperties;
-//	}
-			
 	public HashSet getUsedLetters() {
 		return usedLetters;
 	}
