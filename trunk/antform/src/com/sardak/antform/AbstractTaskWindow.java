@@ -20,9 +20,12 @@
 package com.sardak.antform;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.swing.JComponent;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Target;
@@ -31,6 +34,7 @@ import org.apache.tools.ant.Task;
 import com.sardak.antform.gui.CallBack;
 import com.sardak.antform.gui.Control;
 import com.sardak.antform.interfaces.ActionListenerComponent;
+import com.sardak.antform.interfaces.Focusable;
 import com.sardak.antform.interfaces.Requirable;
 import com.sardak.antform.types.AntMenuItem;
 import com.sardak.antform.types.BaseType;
@@ -53,7 +57,8 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	protected Control control;
 	protected boolean needFail = false;
 	protected String lookAndFeel=null;
-	protected List widgets;	
+	protected List widgets;
+	protected List displayedWidgets;	
 	protected boolean dynamic = false;
 	protected boolean tabbed = false;
 	private ActionRegistry actionRegistry;
@@ -86,11 +91,13 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	 * construct the gui widgets
 	 */
 	protected void build(){
+		displayedWidgets = new ArrayList();
 		for (Iterator iter = widgets.iterator(); iter.hasNext();) {
 			BaseType o = (BaseType) iter.next();
 			if (o.validate(this)) {
 				if (o.shouldBeDisplayed(getProject())) {
 				    o.addToControlPanel(control.getPanel());
+				    displayedWidgets.add(o);
 				}
 				if (o.getIf() != null || o.getUnless() != null) {
 					dynamic = true;
@@ -197,7 +204,8 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 			} catch (Exception e) {
 				e.printStackTrace();
 			} 
-		} 				
+		}
+		control.setFocusedComponent(getFocusedComponent());
 	}
 	
 	/**
@@ -287,7 +295,7 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	}
 	
 	public boolean requiredStatusOk() {
-		Iterator iter = widgets.iterator();
+		Iterator iter = displayedWidgets.iterator();
 		while (iter.hasNext()) {
 			Object o = iter.next();
 			if (o instanceof Requirable && !((Requirable) o).requiredStatusOk()) {
@@ -298,7 +306,7 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	}
 	
 	public void ok() {
-		Iterator iter = widgets.iterator();
+		Iterator iter = displayedWidgets.iterator();
 		while (iter.hasNext()) {
 			Object o = iter.next();
 			if (o instanceof ActionListenerComponent) {
@@ -308,7 +316,7 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	}
 	
 	public void cancel() {
-		Iterator iter = widgets.iterator();
+		Iterator iter = displayedWidgets.iterator();
 		while (iter.hasNext()) {
 			Object o = iter.next();
 			if (o instanceof ActionListenerComponent) {
@@ -318,12 +326,35 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	}
 	
 	public void reset() {
-		Iterator iter = widgets.iterator();
+		Iterator iter = displayedWidgets.iterator();
 		while (iter.hasNext()) {
 			Object o = iter.next();
 			if (o instanceof ActionListenerComponent) {
 				((ActionListenerComponent) o).reset();
 			}
 		}
+	}
+
+	private JComponent getFocusedComponent() {
+		JComponent focusableComponent = null;
+		JComponent firstFocusableComponent = null;
+		Iterator iter = displayedWidgets.iterator();
+		while (iter.hasNext()) {
+			Object o = iter.next();
+			if (o instanceof Focusable) {
+				Focusable f = (Focusable) o;
+				if (firstFocusableComponent == null) {
+					firstFocusableComponent = f.getFocusableComponent();
+				}
+				if (f.isFocus()) {
+					focusableComponent = f.getFocusableComponent();
+					break;
+				}
+			}
+		}
+		if (focusableComponent == null && firstFocusableComponent != null) {
+			focusableComponent = firstFocusableComponent;
+		}
+		return focusableComponent;
 	}
 }
