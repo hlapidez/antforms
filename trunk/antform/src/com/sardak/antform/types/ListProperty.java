@@ -21,15 +21,14 @@ package com.sardak.antform.types;
 
 import java.util.List;
 
+import javax.swing.JComponent;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerListModel;
 
 import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.ControlPanel;
-import com.sardak.antform.gui.helpers.SpinnerValueGetter;
 import com.sardak.antform.interfaces.ActionListenerComponent;
-import com.sardak.antform.interfaces.ValueHandle;
 import com.sardak.antform.util.CSVReader;
 
 /**
@@ -73,15 +72,12 @@ public class ListProperty extends DefaultProperty implements ActionListenerCompo
 		return new CSVReader(separator, escapeSequence).digest(values, true);
 	}
 
-	public ValueHandle addToControlPanel(ControlPanel panel) {
+	public void addToControlPanel(ControlPanel panel) {
 		model = new SpinnerListModel(asList());
 		spinner = new JSpinner(model);
 		panel.getStylesheetHandler().addSpinner(spinner);
 		spinner.setEnabled(isEditable());
 		initComponent(spinner, panel);
-		SpinnerValueGetter valueHandle = new SpinnerValueGetter(spinner);
-		panel.addControl("" + getProperty(), valueHandle);
-		return valueHandle;
 	}
 
 	public boolean validate(Task task) {
@@ -106,5 +102,9 @@ public class ListProperty extends DefaultProperty implements ActionListenerCompo
 		} else {
 			spinner.setValue(model.getList().get(0));
 		}
+	}
+
+	public JComponent getFocusableComponent() {
+		return spinner;
 	}
 }

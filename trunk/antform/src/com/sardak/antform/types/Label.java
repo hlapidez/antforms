@@ -25,7 +25,6 @@ import javax.swing.JTextArea;
 import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.ControlPanel;
-import com.sardak.antform.interfaces.ValueHandle;
 
 /**
  * @author René Ghosh
@@ -68,7 +67,7 @@ public class Label extends BaseType{
 		this.rows = rows;
 	}
 
-	public ValueHandle addToControlPanel(ControlPanel panel) {
+	public void addToControlPanel(ControlPanel panel) {
 		JTextArea textArea = new JTextArea(text);
 		JLabel getFont = new JLabel("");		
 		if ((columns>0)&&(rows>0)) {
@@ -88,8 +87,8 @@ public class Label extends BaseType{
 		    panel.addCentered(textArea);
 		}		
 		panel.getStylesheetHandler().addMessage(textArea);
-		return null;
 	}
+	
 	public boolean validate(Task task) {
 		// Let's allow empty labels.
 		return true;

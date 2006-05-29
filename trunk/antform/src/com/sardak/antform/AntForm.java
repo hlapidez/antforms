@@ -27,11 +27,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;
 
+import javax.swing.JComponent;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
 import com.sardak.antform.gui.CallBack;
 import com.sardak.antform.gui.ControlPanel;
+import com.sardak.antform.interfaces.Focusable;
 import com.sardak.antform.interfaces.PropertyComponent;
 import com.sardak.antform.types.BaseType;
 import com.sardak.antform.types.BooleanProperty;
@@ -67,7 +70,6 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 	private String cancelMessage = null;
 	private String save = null;
 	private String nextTarget, previousTarget = null;
-	private String focus = null;
 	private boolean built = false;
 	private ButtonBar controlBar = null;
 	private boolean controlBarIncompatibilityDetected = false;
@@ -77,17 +79,14 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 	//
 
 	/**
-	 * get the focus property
-	 */
-	public String getFocus() {
-		return focus;
-	}
-
-	/**
 	 * set the focus property
 	 */
 	public void setFocus(String focus) {
-		this.focus = focus;
+		log(
+				"Attribute 'focus' of antform is not supported anymore. Use the widget 'focus' attribute instead.",
+				Project.MSG_WARN);
+//		let's not fail for that and avoid breaking existing build files
+//		needFail = true;
 	}
 
 	/**
@@ -407,9 +406,7 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 		// widgets are there. Initialize them.
 		reset();
 
-		if (focus != null) {
-			control.getPanel().focus(focus);
-		}
+		control.setFocusedComponent(getFocusedComponent());
 		control.show();
 		if (getActionType() == ActionType.OK && save != null) {
 			save();
@@ -448,7 +445,7 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 			controlBar.addConfiguredButton(button);
 		}
 	}
-	
+
 	private void save() {
 		try {
 			File file = new File(save);
@@ -475,5 +472,28 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 			}
 		}
 		return formProperties;
+	}
+
+	private JComponent getFocusedComponent() {
+		JComponent focusableComponent = null;
+		JComponent firstFocusableComponent = null;
+		Iterator iter = widgets.iterator();
+		while (iter.hasNext()) {
+			Object o = iter.next();
+			if (o instanceof Focusable) {
+				Focusable f = (Focusable) o;
+				if (firstFocusableComponent == null) {
+					firstFocusableComponent = f.getFocusableComponent();
+				}
+				if (f.isFocus()) {
+					focusableComponent = f.getFocusableComponent();
+					break;
+				}
+			}
+		}
+		if (focusableComponent == null && firstFocusableComponent != null) {
+			focusableComponent = firstFocusableComponent;
+		}
+		return focusableComponent;
 	}
 }

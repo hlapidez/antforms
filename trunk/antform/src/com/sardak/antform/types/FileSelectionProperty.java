@@ -19,14 +19,14 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
+import javax.swing.JComponent;
+
 import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.gui.FileChooser;
-import com.sardak.antform.gui.helpers.FileChooserGetter;
 import com.sardak.antform.interfaces.ActionListenerComponent;
 import com.sardak.antform.interfaces.Requirable;
-import com.sardak.antform.interfaces.ValueHandle;
 
 /**
  * File selection property
@@ -58,13 +58,10 @@ public class FileSelectionProperty extends DefaultProperty implements Requirable
 		this.directoryChooser = directoryChooser;
 	}
 
-	public ValueHandle addToControlPanel(ControlPanel panel) {
+	public void addToControlPanel(ControlPanel panel) {
 		chooser = new FileChooser(columns, directoryChooser);
 		panel.getStylesheetHandler().addFileChooser(chooser);
 		initComponent(chooser, panel);
-		FileChooserGetter valueHandle = new FileChooserGetter(chooser);
-		panel.addControl(getProperty(), valueHandle);
-		return valueHandle;
 	}
 	
 	public boolean validate(Task task) {
@@ -86,5 +83,9 @@ public class FileSelectionProperty extends DefaultProperty implements Requirable
 			chooser.requestFocus();
 		}
 		return ok;
+	}
+
+	public JComponent getFocusableComponent() {
+		return chooser;
 	}
 }

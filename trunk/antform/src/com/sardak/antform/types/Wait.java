@@ -18,7 +18,6 @@ import org.apache.tools.ant.taskdefs.Sequential;
 import com.sardak.antform.AbstractTaskWindow;
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.interfaces.ActionComponent;
-import com.sardak.antform.interfaces.ValueHandle;
 import com.sardak.antform.util.ActionType;
 
 public class Wait extends BaseType implements SubBuildListener {
@@ -53,7 +52,7 @@ public class Wait extends BaseType implements SubBuildListener {
 		sequential = s;
 	}
 
-	public ValueHandle addToControlPanel(ControlPanel panel) {
+	public void addToControlPanel(ControlPanel panel) {
 		this.controlPanel = panel;
 		controlPanel.addCentered(buildPanel());
 		if (sequential != null) {
@@ -65,7 +64,6 @@ public class Wait extends BaseType implements SubBuildListener {
 			createdThread.start();
 			sequential.getProject().addBuildListener(this);
 		}
-		return null;
 	}
 
 	private void executionDone() {

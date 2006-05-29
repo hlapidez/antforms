@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -59,6 +60,7 @@ public class Control {
 	private boolean firstShow = true;
 	private List menuItems;
 	private JMenuBar menuBar;
+	private JComponent focusedComponent = null;
 		
 	/**
 	 * set window width
@@ -160,6 +162,10 @@ public class Control {
 		dialog.setTitle(title);
 	}
 	
+	public void setFocusedComponent(JComponent focusedComponent) {
+		this.focusedComponent = focusedComponent;
+	}
+
 	/**
 	 * pack the frame
 	 *
@@ -188,10 +194,11 @@ public class Control {
 				
 			}			
 			firstShow = false;			
-			dialog.show();			
-		} else {
-			dialog.show();
-		}					
+		}
+		if (focusedComponent != null) {
+			focusedComponent.requestFocus();
+		}
+		dialog.show();
 	}
 	
 	/**
@@ -227,7 +234,7 @@ public class Control {
 	}
 
 	/**
-	 * @param properties properties to set.
+	 * @return the menubar. Create it if it does not exist.
 	 */
 	public JMenuBar getMenuBar() {
 		if (menuBar == null) {

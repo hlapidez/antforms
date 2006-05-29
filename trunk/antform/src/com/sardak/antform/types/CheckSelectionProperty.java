@@ -19,13 +19,13 @@
   \****************************************************************************/
  package com.sardak.antform.types;
 
+import javax.swing.JComponent;
+
 import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.CheckGroupBox;
 import com.sardak.antform.gui.ControlPanel;
-import com.sardak.antform.gui.helpers.MultiCheckGetter;
 import com.sardak.antform.interfaces.ActionListenerComponent;
-import com.sardak.antform.interfaces.ValueHandle;
 
 /**
  * @author René Ghosh
@@ -43,14 +43,11 @@ public class CheckSelectionProperty extends SelectionProperty implements ActionL
         this.columns = columns;
     }
     
-	public ValueHandle addToControlPanel(ControlPanel panel) {
+	public void addToControlPanel(ControlPanel panel) {
 		checkGroupBox = new CheckGroupBox(getSplitValues(), getSeparator(), getEscapeSequence(), getColumns());		
 		checkGroupBox.setEnabled(isEditable());
 		panel.getStylesheetHandler().addCheckGroupBox(checkGroupBox);
 		initComponent(checkGroupBox, panel);
-		ValueHandle valueHandle =  new MultiCheckGetter(checkGroupBox);
-		panel.addControl(getProperty(), valueHandle);
-		return valueHandle;
 	}
 	
 	public boolean validate(Task task) {
@@ -63,5 +60,9 @@ public class CheckSelectionProperty extends SelectionProperty implements ActionL
 
 	public void reset() {
 		checkGroupBox.setValue(getInitialPropertyValue());
+	}
+	
+	public JComponent getFocusableComponent() {
+		return checkGroupBox;
 	}
 }

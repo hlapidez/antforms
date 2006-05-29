@@ -25,18 +25,19 @@ import javax.swing.JLabel;
 import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.ControlPanel;
+import com.sardak.antform.interfaces.Focusable;
 import com.sardak.antform.interfaces.PropertyComponent;
 import com.sardak.antform.interfaces.Requirable;
-import com.sardak.antform.interfaces.ValueHandle;
 
 /**
  * Default property attributes: include the label and target property.
  * 
  * @author René Ghosh
  */
-public class DefaultProperty extends BaseType implements PropertyComponent {
+public abstract class DefaultProperty extends BaseType implements PropertyComponent, Focusable {
     private String label, property, tooltip;
     private String initialPropertyValue;
+    private boolean focus = false;
 
     private boolean editable = true;
 
@@ -99,9 +100,17 @@ public class DefaultProperty extends BaseType implements PropertyComponent {
         this.tooltip = tooltip;
     }
 
-    public ValueHandle addToControlPanel(ControlPanel panel) {
-        return null;
-    }
+    public boolean isFocus() {
+		return focus;
+	}
+
+	public void setFocus(boolean focus) {
+		this.focus = focus;
+	}
+
+	public abstract void addToControlPanel(ControlPanel panel);
+	
+	public abstract JComponent getFocusableComponent();
 
     /**
      * Apply tooltip text to the specified JComponent (and optionnaly its label)

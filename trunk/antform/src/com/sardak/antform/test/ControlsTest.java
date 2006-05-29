@@ -27,7 +27,6 @@ import javax.swing.UIManager;
 import com.sardak.antform.AbstractTaskWindow;
 import com.sardak.antform.gui.Control;
 import com.sardak.antform.gui.ControlPanel;
-import com.sardak.antform.interfaces.ValueHandle;
 import com.sardak.antform.types.BooleanProperty;
 import com.sardak.antform.types.Button;
 import com.sardak.antform.types.ButtonBar;
@@ -69,7 +68,7 @@ public class ControlsTest extends AbstractTaskWindow {
 		bp.setProperty("pasv");
 		bp.setEditable(true);
 //		ValueHandle g1 = panel.addBooleanProperty("Passive-mode connection:", "pasv", true, null);
-		ValueHandle g1 = bp.addToControlPanel(panel);
+		bp.addToControlPanel(panel);
 		TextProperty tp1 = new TextProperty();
 		tp1.setLabel("Server address:");
 		tp1.setProperty("serverAddress");
@@ -77,7 +76,7 @@ public class ControlsTest extends AbstractTaskWindow {
 		tp1.setEditable(true);
 		tp1.setPassword(false);
 		tp1.setRequired(false);
-		ValueHandle g2 = tp1.addToControlPanel(panel);
+		tp1.addToControlPanel(panel);
 //		ValueHandle g2 = panel.addTextProperty("Server address:", "serverAddress", 30, true, false, false, null);
 		TextProperty tp2 = new TextProperty();
 		tp2.setLabel("Server login:");
@@ -109,12 +108,12 @@ public class ControlsTest extends AbstractTaskWindow {
 		Properties props = new Properties();
 		props.setProperty("pasv", "true");
 //		control.initProperties(props);
-		g2.setValue("login");
+//		g2.setValue("login");
 		control.show();
 		
 		
-		panel.getProperties().list(System.out);
-		System.out.println(g1.getValue());
+//		panel.getProperties().list(System.out);
+//		System.out.println(g1.getValue());
 		System.exit(0);
 	}
 }

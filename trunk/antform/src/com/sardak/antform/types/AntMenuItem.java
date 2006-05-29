@@ -31,7 +31,6 @@ import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.interfaces.ActionComponent;
-import com.sardak.antform.interfaces.ValueHandle;
 import com.sardak.antform.util.ActionRegistry;
 import com.sardak.antform.util.ActionType;
 
@@ -112,9 +111,8 @@ public class AntMenuItem extends BaseType implements ActionComponent {
 		this.usedLetters = usedLetters;
 	}
 
-	public ValueHandle addToControlPanel(ControlPanel panel) {
+	public void addToControlPanel(ControlPanel panel) {
 		panel.getControl().addAntMenuItem(this, null);
-		return null;
 	}
 
 	public boolean validate(Task task) {

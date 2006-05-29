@@ -19,13 +19,13 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
+import javax.swing.JComponent;
+
 import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.gui.RadioGroupBox;
-import com.sardak.antform.gui.helpers.RadioGetter;
 import com.sardak.antform.interfaces.ActionListenerComponent;
-import com.sardak.antform.interfaces.ValueHandle;
 
 /**
  * Selection property using radio fields
@@ -37,14 +37,11 @@ public class RadioSelectionProperty extends SelectionProperty implements
 	private int columns = 1;
 	private RadioGroupBox radioBox;
 
-	public ValueHandle addToControlPanel(ControlPanel panel) {
+	public void addToControlPanel(ControlPanel panel) {
 		radioBox = new RadioGroupBox(getSplitValues(), getColumns());
 		radioBox.setEnabled(isEditable());
 		panel.getStylesheetHandler().addRadioGroupBox(radioBox);
 		initComponent(radioBox, panel);
-		RadioGetter valueHandle = new RadioGetter(radioBox);
-		panel.addControl(getProperty(), valueHandle);
-		return valueHandle;
 	}
 
 	public int getColumns() {
@@ -69,5 +66,9 @@ public class RadioSelectionProperty extends SelectionProperty implements
 		} else {
 			radioBox.setSelectedValue(getSplitValues()[0]);
 		}
+	}
+	
+	public JComponent getFocusableComponent() {
+		return radioBox;
 	}
 }

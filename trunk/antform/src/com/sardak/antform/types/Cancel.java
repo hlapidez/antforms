@@ -22,7 +22,6 @@ package com.sardak.antform.types;
 import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.ControlPanel;
-import com.sardak.antform.interfaces.ValueHandle;
 
 
 /**
@@ -45,8 +44,7 @@ public class Cancel extends BaseType {
 		this.label = label;
 	}
 
-	public ValueHandle addToControlPanel(ControlPanel panel) {
-		return null;
+	public void addToControlPanel(ControlPanel panel) {
 	}
 	
 	public boolean validate(Task task) {

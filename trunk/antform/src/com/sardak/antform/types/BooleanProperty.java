@@ -20,14 +20,13 @@
 package com.sardak.antform.types;
 
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.ControlPanel;
-import com.sardak.antform.gui.helpers.CheckValueGetter;
 import com.sardak.antform.interfaces.ActionListenerComponent;
-import com.sardak.antform.interfaces.ValueHandle;
 
 /**
  * Boolean, or true/false, property
@@ -37,14 +36,11 @@ import com.sardak.antform.interfaces.ValueHandle;
 public class BooleanProperty extends DefaultProperty implements ActionListenerComponent {
 	private JCheckBox checkBox;
 
-	public ValueHandle addToControlPanel(ControlPanel panel) {
+	public void addToControlPanel(ControlPanel panel) {
 		checkBox = new JCheckBox();
 		checkBox.setEnabled(isEditable());
 		initComponent(checkBox, panel);
 		panel.getStylesheetHandler().addCheckBox(checkBox);
-		CheckValueGetter valueHandle = new CheckValueGetter(checkBox);
-		panel.addControl(getProperty(), valueHandle);
-		return valueHandle;
 	}
 
 	public boolean validate(Task task) {
@@ -63,5 +59,9 @@ public class BooleanProperty extends DefaultProperty implements ActionListenerCo
 
 	public void reset() {
 		checkBox.setSelected(Project.toBoolean(getInitialPropertyValue()));
+	}
+
+	public JComponent getFocusableComponent() {
+		return checkBox;
 	}
 }

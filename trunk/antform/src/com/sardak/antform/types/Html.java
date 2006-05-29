@@ -33,7 +33,6 @@ import javax.swing.event.HyperlinkListener;
 import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.ControlPanel;
-import com.sardak.antform.interfaces.ValueHandle;
 
 /**
  * Text property.
@@ -92,7 +91,7 @@ public class Html extends BaseType implements HyperlinkListener {
 		this.urlString = urlString;
 	}
 
-	public ValueHandle addToControlPanel(ControlPanel panel) {
+	public void addToControlPanel(ControlPanel panel) {
 		htmlPane = new JEditorPane();
 		htmlPane.setEditable(false);
 		htmlPane.setPreferredSize(new Dimension(width, height));
@@ -113,7 +112,6 @@ public class Html extends BaseType implements HyperlinkListener {
 		JLabel labelComponent = panel.makeLabel("");
 		labelComponent.setLabelFor(scrollPane);
 		panel.addRight(scrollPane);
-		return null;
 	}
 
 	public void hyperlinkUpdate(HyperlinkEvent event) {
