@@ -41,7 +41,6 @@ import com.sardak.antform.types.Cancel;
 import com.sardak.antform.types.CheckSelectionProperty;
 import com.sardak.antform.types.DateProperty;
 import com.sardak.antform.types.FileSelectionProperty;
-import com.sardak.antform.types.Label;
 import com.sardak.antform.types.ListProperty;
 import com.sardak.antform.types.MultilineTextProperty;
 import com.sardak.antform.types.NumberProperty;
@@ -348,15 +347,6 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 	public void addConfiguredFileSelectionProperty(
 			FileSelectionProperty fileSelectionProperty) {
 		widgets.add(fileSelectionProperty);
-	}
-
-	/**
-	 * add a configured label
-	 * 
-	 * @param textProperty
-	 */
-	public void addConfiguredLabel(Label label) {
-		widgets.add(label);
 	}
 
 	public void addConfiguredControlBar(ButtonBar buttonBar) {
