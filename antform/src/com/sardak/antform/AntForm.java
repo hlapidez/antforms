@@ -406,7 +406,6 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 		// widgets are there. Initialize them.
 		reset();
 
-		control.setFocusedComponent(getFocusedComponent());
 		control.show();
 		if (getActionType() == ActionType.OK && save != null) {
 			save();
@@ -460,7 +459,7 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 
 	private Properties getFormProperties() {
 		Properties formProperties = null;
-		Iterator iter = widgets.iterator();
+		Iterator iter = displayedWidgets.iterator();
 		while (iter.hasNext()) {
 			Object o = iter.next();
 			if (o instanceof PropertyComponent) {
@@ -472,28 +471,5 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 			}
 		}
 		return formProperties;
-	}
-
-	private JComponent getFocusedComponent() {
-		JComponent focusableComponent = null;
-		JComponent firstFocusableComponent = null;
-		Iterator iter = widgets.iterator();
-		while (iter.hasNext()) {
-			Object o = iter.next();
-			if (o instanceof Focusable) {
-				Focusable f = (Focusable) o;
-				if (firstFocusableComponent == null) {
-					firstFocusableComponent = f.getFocusableComponent();
-				}
-				if (f.isFocus()) {
-					focusableComponent = f.getFocusableComponent();
-					break;
-				}
-			}
-		}
-		if (focusableComponent == null && firstFocusableComponent != null) {
-			focusableComponent = firstFocusableComponent;
-		}
-		return focusableComponent;
 	}
 }
