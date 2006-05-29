@@ -35,6 +35,7 @@ import com.sardak.antform.types.AntMenuItem;
 import com.sardak.antform.types.BaseType;
 import com.sardak.antform.types.Button;
 import com.sardak.antform.types.ButtonBar;
+import com.sardak.antform.types.Label;
 import com.sardak.antform.util.ActionRegistry;
 import com.sardak.antform.util.ActionType;
 
@@ -117,7 +118,6 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	public int getWidth() {
 		return width;
 	}
-	
 	/**
 	 * set window width
 	 */
@@ -130,7 +130,7 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	}
 	
 	/**
-	 * add a configured menuProperty
+	 * add a menu
 	 */
 	public void addConfiguredAntMenuItem(AntMenuItem menuItem){
 		if (menuItem.validate(this)) {
@@ -140,11 +140,17 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 		}
 	}
 	
+	/**
+	 * add a button bar
+	 */
 	public void addConfiguredButtonBar(ButtonBar buttonBar) {
 		widgets.add(buttonBar);
 		buttonBar.register(getActionRegistry());
 	}
 	
+	/**
+	 * add a button
+	 */
 	public void addConfiguredButton(Button button) {
 		ButtonBar buttonBar = new ButtonBar();
 		buttonBar.setProject(getProject());
@@ -153,6 +159,13 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 		addConfiguredButtonBar(buttonBar);
 	}
 	
+	/**
+	 * add a label
+	 */
+	public void addConfiguredLabel(Label label) {
+		widgets.add(label);
+	}
+
 	/**
 	 * set preliminary gui operations, such as 
 	 * Look & Feel

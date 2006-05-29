@@ -25,7 +25,6 @@ import org.apache.tools.ant.BuildException;
 
 import com.sardak.antform.gui.CallBack;
 import com.sardak.antform.types.Button;
-import com.sardak.antform.types.Label;
 import com.sardak.antform.types.Separator;
 import com.sardak.antform.util.TargetInvoker;
 
@@ -86,12 +85,5 @@ public class AntMenu extends AbstractTaskWindow implements CallBack{
 	public void addConfiguredLink(Button button) {
 		log("<link> nested elements are deprecated. Use <button> or <buttonbar> instead.");
 		addConfiguredButton(button);
-	}
-	
-	/**
-	 * add a configured link
-	 */
-	public void addConfiguredLabel(Label label) {
-		widgets.add(label);
 	}
 }
