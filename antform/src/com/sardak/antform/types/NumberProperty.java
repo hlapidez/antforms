@@ -19,15 +19,14 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
+import javax.swing.JComponent;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
 import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.ControlPanel;
-import com.sardak.antform.gui.helpers.SpinnerValueGetter;
 import com.sardak.antform.interfaces.ActionListenerComponent;
-import com.sardak.antform.interfaces.ValueHandle;
 
 /**
  * @author René Ghosh
@@ -67,15 +66,12 @@ public class NumberProperty extends DefaultProperty implements ActionListenerCom
 		this.step = step;
 	}
 
-	public ValueHandle addToControlPanel(ControlPanel panel) {
+	public void addToControlPanel(ControlPanel panel) {
 		model = new SpinnerNumberModel(min,min, max, step); 
 		spinner = new JSpinner(model);
 		panel.getStylesheetHandler().addSpinner(spinner);
 		spinner.setEnabled(isEditable());
 		initComponent(spinner, panel);
-		SpinnerValueGetter valueHandle = new SpinnerValueGetter(spinner);
-		panel.addControl(""+getProperty(), valueHandle);
-		return valueHandle;
 	}
 	
 	public boolean validate(Task task) {
@@ -102,5 +98,9 @@ public class NumberProperty extends DefaultProperty implements ActionListenerCom
 			isDouble = false;
 		}
 		return isDouble;
+	}
+
+	public JComponent getFocusableComponent() {
+		return spinner;
 	}
 }

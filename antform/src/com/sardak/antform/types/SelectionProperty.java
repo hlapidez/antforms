@@ -22,13 +22,12 @@ package com.sardak.antform.types;
 import java.util.List;
 
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 
 import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.ControlPanel;
-import com.sardak.antform.gui.helpers.ComboIndiceGetter;
 import com.sardak.antform.interfaces.ActionListenerComponent;
-import com.sardak.antform.interfaces.ValueHandle;
 import com.sardak.antform.util.CSVReader;
 
 /**
@@ -110,14 +109,11 @@ public class SelectionProperty extends DefaultProperty implements ActionListener
 		split();
 	}
 
-	public ValueHandle addToControlPanel(ControlPanel panel) {
+	public void addToControlPanel(ControlPanel panel) {
 		comboBox = new JComboBox(getSplitValues());
 		comboBox.setEnabled(isEditable());
 		panel.getStylesheetHandler().addComboBox(comboBox);
 		initComponent(comboBox, panel);
-		ComboIndiceGetter valueHandle = new ComboIndiceGetter(comboBox);
-		panel.addControl(getProperty(), valueHandle);
-		return valueHandle;
 	}
 
 	public boolean validate(Task task) {
@@ -154,5 +150,9 @@ public class SelectionProperty extends DefaultProperty implements ActionListener
 			}
 		}
 		return isValidValue;
+	}
+
+	public JComponent getFocusableComponent() {
+		return comboBox;
 	}
 }

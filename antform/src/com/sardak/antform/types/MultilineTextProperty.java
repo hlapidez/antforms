@@ -19,16 +19,15 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
+import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.ControlPanel;
-import com.sardak.antform.gui.helpers.TextValueGetter;
 import com.sardak.antform.interfaces.ActionListenerComponent;
 import com.sardak.antform.interfaces.Requirable;
-import com.sardak.antform.interfaces.ValueHandle;
 
 /**
  * Text property edited over multiple lines.
@@ -77,16 +76,13 @@ public class MultilineTextProperty extends DefaultProperty implements Requirable
 		this.rows = rows;
 	}
 
-	public ValueHandle addToControlPanel(ControlPanel panel) {
+	public void addToControlPanel(ControlPanel panel) {
 		textArea = new JTextArea(rows, columns);
 		textArea.setEditable(isEditable());
 		JScrollPane scrollPane = new JScrollPane(textArea);
 		panel.getStylesheetHandler().addMultiLineTextArea(textArea);
 		panel.getStylesheetHandler().addScrollPane(scrollPane);
 		initComponent(scrollPane, panel);
-		TextValueGetter valueHandle = new TextValueGetter(textArea);
-		panel.addControl(getProperty(), valueHandle);
-		return valueHandle;
 	}
 
 	public boolean validate(Task task) {
@@ -108,5 +104,9 @@ public class MultilineTextProperty extends DefaultProperty implements Requirable
 			textArea.requestFocus();
 		}
 		return ok;
+	}
+
+	public JComponent getFocusableComponent() {
+		return textArea;
 	}
 }

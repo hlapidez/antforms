@@ -56,6 +56,11 @@ appropriately-labeled buttons.</p>
 This type has no attributes and is basically a holder for <a
 	href="#button">button</a> types.</p>
 
+<h4><a name="buttonbar">ButtonBar</a></h4>
+<p>Provide a bar with a horizontal layout of buttons to other targets.
+This type has no attributes and is basically a holder for <a
+	href="#button">button</a> types.</p>
+
 <h4>link</h4>
 Deprecated. Use
 <a href="#button">button</a>
@@ -110,6 +115,14 @@ instead
 		<td valign="top">Wether to run the target in a separate thread or not.
 		The ant project in which antform is used will not exit until the
 		created thread is finished. Defaults to <code>false</code></td>
+		<td valign="top">No</td>
+	</tr>
+	<tr>
+		<td valign="top">focus</td>
+		<td valign="top">Specifies that this widget should get the focus when
+		the form is shown. If several widgets have this set to true, the first
+		one will get the focus.<br />
+		Default to false.</td>
 		<td valign="top">No</td>
 	</tr>
 </table>
@@ -191,8 +204,7 @@ other AntMenuItems, each of which links to an Ant target.</p>
 <blockquote><pre>
 
 &lt;antmenu image="doc/images/logo-small.jpg" 
-	title="AntForm &amp; AntMenu tests"
-	stylesheet="style.test"&gt;
+	title="AntForm &amp; AntMenu tests"&gt;
 	&lt;AntMenuItem name="AntMenu Tests"&gt;
 		&lt;AntMenuItem name="Mail-type form" target="test"/&gt;
 		&lt;AntMenuItem name="Spinners &amp; dateProperty test" target="spinners"/&gt;

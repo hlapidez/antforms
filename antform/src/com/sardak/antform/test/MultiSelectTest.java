@@ -7,7 +7,6 @@ import javax.swing.UIManager;
 import com.sardak.antform.AbstractTaskWindow;
 import com.sardak.antform.gui.Control;
 import com.sardak.antform.gui.ControlPanel;
-import com.sardak.antform.interfaces.ValueHandle;
 import com.sardak.antform.types.Button;
 import com.sardak.antform.types.ButtonBar;
 import com.sardak.antform.types.CheckSelectionProperty;
@@ -41,7 +40,7 @@ public class MultiSelectTest extends AbstractTaskWindow {
 		csh.setSeparator(",");
 		csh.setEscapeSequence("\\");
 		csh.setEditable(true);
-		ValueHandle handle = csh.addToControlPanel(panel);
+		csh.addToControlPanel(panel);
 
 		ButtonBar controlBar = new ButtonBar();
 		controlBar.addConfiguredButton(new Button("ok", null, ActionType.OK));
@@ -53,9 +52,7 @@ public class MultiSelectTest extends AbstractTaskWindow {
 		controlPanel.addButtonPanel(controlBar.getPanel());
 		controlBar.register(actionRegistry);
 
-		handle.setValue("element1,element4");
 		control.show();
-		System.out.println(handle.getValue());
 		System.exit(0);
 	}
 }

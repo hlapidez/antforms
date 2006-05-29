@@ -21,19 +21,21 @@ package com.sardak.antform.types;
 
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 
 import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.interfaces.ActionComponent;
-import com.sardak.antform.interfaces.ValueHandle;
+import com.sardak.antform.interfaces.Focusable;
 import com.sardak.antform.util.ActionType;
 
-public class Button extends BaseType implements ActionComponent {
+public class Button extends BaseType implements ActionComponent, Focusable {
 	private String target;
 	private boolean background = false;
 	private JButton button = new JButton();
 	private int type = ActionType.OK;
+	private boolean focus = false;
 	
 	public Button() {
 		super();
@@ -91,14 +93,25 @@ public class Button extends BaseType implements ActionComponent {
 		return valid;
 	}
 	
-	public ValueHandle addToControlPanel(ControlPanel panel) {
+	public void addToControlPanel(ControlPanel panel) {
 		// Always use a ButtonBar to hold a button
-		return null;
 	}
 	
 	public String toString() {
 		return super.toString() + " [label:" + getLabel() +
 				", type:" + ActionType.getType(getActionType()) +
 				", target:" + getTarget() + ", background:" + isBackground() + "]";
+	}
+
+	public void setFocus(boolean focus) {
+		this.focus = focus;
+	}
+
+	public boolean isFocus() {
+		return focus;
+	}
+
+	public JComponent getFocusableComponent() {
+		return button;
 	}
 }

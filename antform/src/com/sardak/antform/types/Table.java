@@ -25,6 +25,7 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.table.TableColumn;
 
@@ -32,9 +33,7 @@ import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.AntTable;
 import com.sardak.antform.gui.ControlPanel;
-import com.sardak.antform.gui.helpers.TableGetter;
 import com.sardak.antform.interfaces.ActionListenerComponent;
-import com.sardak.antform.interfaces.ValueHandle;
 import com.sardak.antform.util.CSVReader;
 import com.sardak.antform.util.StringUtil;
 
@@ -164,7 +163,7 @@ public class Table extends DefaultProperty implements ActionListenerComponent {
 		this.bestFitColumns = bestFitColumns;
 	}
 
-	public ValueHandle addToControlPanel(ControlPanel panel) {
+	public void addToControlPanel(ControlPanel panel) {
 	    splitColumns();
 		table = new AntTable(splitData(), cols);		
 		table.setEnabled(isEditable());
@@ -184,9 +183,6 @@ public class Table extends DefaultProperty implements ActionListenerComponent {
 			table.setAutoResizeMode(AntTable.AUTO_RESIZE_OFF);
 		}		
 		initComponent(scrollPane, panel);
-		ValueHandle valueGetter = new TableGetter(rowSeparator, columnSeparator,table, escapeSequence);
-		panel.addControl(getProperty(), valueGetter);
-		return valueGetter;
 	}
 
 	public boolean validate(Task task) {
@@ -231,5 +227,9 @@ public class Table extends DefaultProperty implements ActionListenerComponent {
 				table.getModel().setValueAt(cell[row][col], row, col);
 			}
 		}
+	}
+
+	public JComponent getFocusableComponent() {
+		return table;
 	}
 }

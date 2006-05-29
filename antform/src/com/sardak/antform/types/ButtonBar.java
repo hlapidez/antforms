@@ -27,16 +27,17 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.interfaces.ActionComponent;
-import com.sardak.antform.interfaces.ValueHandle;
+import com.sardak.antform.interfaces.Focusable;
 import com.sardak.antform.util.ActionRegistry;
 
-public class ButtonBar extends BaseType {
+public class ButtonBar extends BaseType implements Focusable {
 	private List buttons = new ArrayList();
 	private Object align = BorderLayout.CENTER;
 	private JPanel mainPanel;
@@ -49,11 +50,10 @@ public class ButtonBar extends BaseType {
 		return buttons;
 	}
 	
-	public ValueHandle addToControlPanel(ControlPanel panel) {
+	public void addToControlPanel(ControlPanel panel) {
 		buildMainPanel();
 		applyStylesheet(panel);
 		panel.addCentered(mainPanel);
-		return null;
 	}
 	
 	public boolean validate(Task task) {
@@ -121,5 +121,32 @@ public class ButtonBar extends BaseType {
 	
 	public void setMargins(int top, int left, int bottom, int right) {
 		getPanel().setBorder(BorderFactory.createEmptyBorder(top, left, bottom, right));		
+	}
+
+	public void setFocus(boolean focus) {
+	}
+
+	public boolean isFocus() {
+		boolean focus = false;
+		for (Iterator iter = buttons.iterator(); iter.hasNext();) {
+			Button button = (Button) iter.next();
+			if (button.isFocus()) {
+				focus = true;
+				break;
+			}
+		}
+		return focus;
+	}
+
+	public JComponent getFocusableComponent() {
+		JComponent c = null;
+		for (Iterator iter = buttons.iterator(); iter.hasNext();) {
+			Button button = (Button) iter.next();
+			if (button.isFocus()) {
+				c = button.getFocusableComponent();
+				break;
+			}
+		}
+		return c;
 	}
 }

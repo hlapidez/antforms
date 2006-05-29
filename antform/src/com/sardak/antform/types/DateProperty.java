@@ -19,14 +19,14 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
+import javax.swing.JComponent;
+
 import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.gui.DateChooser;
-import com.sardak.antform.gui.helpers.DateChooserGetter;
 import com.sardak.antform.interfaces.ActionListenerComponent;
 import com.sardak.antform.interfaces.Requirable;
-import com.sardak.antform.interfaces.ValueHandle;
 
 /**
  * @author René Ghosh 2 mars 2005
@@ -53,14 +53,11 @@ public class DateProperty extends DefaultProperty implements Requirable,
 		this.dateFormat = dateFormat;
 	}
 
-	public ValueHandle addToControlPanel(ControlPanel panel) {
+	public void addToControlPanel(ControlPanel panel) {
 		chooser = new DateChooser(dateFormat);
 		panel.getStylesheetHandler().addDateChooser(chooser);
 		chooser.setEnabled(isEditable());
 		initComponent(chooser, panel);
-		DateChooserGetter valueHandle = new DateChooserGetter(chooser);
-		panel.addControl(getProperty(), valueHandle);
-		return valueHandle;
 	}
 
 	public boolean validate(Task task) {
@@ -87,5 +84,9 @@ public class DateProperty extends DefaultProperty implements Requirable,
 			chooser.requestFocus();
 		}
 		return ok;
+	}
+
+	public JComponent getFocusableComponent() {
+		return chooser;
 	}
 }

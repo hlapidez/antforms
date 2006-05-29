@@ -5,13 +5,11 @@ exposed through the task parameters. The form has a top label with a
 title, under which are laid out labels and components in two aligned
 columns. For each component that targets a property, a descriptive text
 is provided to assist the user interaction by prompting for specific
-information. At the end of the form, two buttons are laid out, one for
-resetting the content of the form to the state where it was before any
-editing occurred, the other to approve the contents for saving or for a
-subsequent task/target.</p>
-<p>Wizard-like mode is enabled when <code>nextTarget</code> and <code>previousTarget</code>
-attributes are set. In this case, they are called when user clicks the <code>OK</code>
-or <code>reset buttons</code>, respectively.</p>
+information. At the end of the form, by default, two buttons are laid
+out, one for resetting the content of the form to the state where it was
+before any editing occurred, the other to approve the contents for
+saving or for a subsequent task/target. You can change this default by
+using <code>controlbar</code></p>
 
 <h3>Parameters</h3>
 <table border="0" cellpadding="2" cellspacing="0" width="100%">
@@ -80,7 +78,9 @@ or <code>reset buttons</code>, respectively.</p>
 		<td valign="top">focus</td>
 		<td valign="top">Name of the field on which to focus when the form is
 		shown. Can be not only the name of a a field, but also the name of a
-		button such as the okButton or resetButton.</td>
+		button such as the okButton or resetButton.<br />
+		<b><i>Not supported anymore:</i></b> use nested elements <code>focus</code>
+		attribute instead.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -229,6 +229,14 @@ sets the message text.</p>
 		widget.</td>
 		<td valign="top">No</td>
 	</tr>
+	<tr>
+		<td valign="top">focus</td>
+		<td valign="top">Specifies that this widget should get the focus when
+		the form is shown. If several widgets have this set to true, the first
+		one will get the focus.<br />
+		Default to false.</td>
+		<td valign="top">No</td>
+	</tr>
 </table>
 
 <h4><a name="numberProperty">numberProperty</a></h4>
@@ -294,6 +302,14 @@ increment or decrement the value.</p>
 		widget.</td>
 		<td valign="top">No</td>
 	</tr>
+	<tr>
+		<td valign="top">focus</td>
+		<td valign="top">Specifies that this widget should get the focus when
+		the form is shown. If several widgets have this set to true, the first
+		one will get the focus.<br />
+		Default to false.</td>
+		<td valign="top">No</td>
+	</tr>
 </table>
 
 <h4><a name="listProperty">listProperty</a></h4>
@@ -356,6 +372,14 @@ increment or decrement the value.</p>
 		widget.</td>
 		<td valign="top">No</td>
 	</tr>
+	<tr>
+		<td valign="top">focus</td>
+		<td valign="top">Specifies that this widget should get the focus when
+		the form is shown. If several widgets have this set to true, the first
+		one will get the focus.<br />
+		Default to false.</td>
+		<td valign="top">No</td>
+	</tr>
 </table>
 
 <h4>multiLineTextProperty</h4>
@@ -416,6 +440,14 @@ text field to edit the targeted property.</p>
 		<td valign="top">tooltip</td>
 		<td valign="top">Text to display in a tooltip box attached to this
 		widget.</td>
+		<td valign="top">No</td>
+	</tr>
+	<tr>
+		<td valign="top">focus</td>
+		<td valign="top">Specifies that this widget should get the focus when
+		the form is shown. If several widgets have this set to true, the first
+		one will get the focus.<br />
+		Default to false.</td>
 		<td valign="top">No</td>
 	</tr>
 </table>
@@ -512,6 +544,14 @@ the &quot;\&quot; character.</p>
 		<td valign="top">tooltip</td>
 		<td valign="top">Text to display in a tooltip box attached to this
 		widget.</td>
+		<td valign="top">No</td>
+	</tr>
+	<tr>
+		<td valign="top">focus</td>
+		<td valign="top">Specifies that this widget should get the focus when
+		the form is shown. If several widgets have this set to true, the first
+		one will get the focus.<br />
+		Default to false.</td>
 		<td valign="top">No</td>
 	</tr>
 </table>
@@ -641,6 +681,14 @@ only maps to a drop-down listbox and not a spinner component.</p>
 		widget.</td>
 		<td valign="top">No</td>
 	</tr>
+	<tr>
+		<td valign="top">focus</td>
+		<td valign="top">Specifies that this widget should get the focus when
+		the form is shown. If several widgets have this set to true, the first
+		one will get the focus.<br />
+		Default to false.</td>
+		<td valign="top">No</td>
+	</tr>
 </table>
 
 <h4>radioSelectionProperty</h4>
@@ -709,6 +757,14 @@ rendered with radio button fields instead of a drop-down list.</p>
 		<td valign="top">tooltip</td>
 		<td valign="top">Text to display in a tooltip box attached to this
 		widget.</td>
+		<td valign="top">No</td>
+	</tr>
+	<tr>
+		<td valign="top">focus</td>
+		<td valign="top">Specifies that this widget should get the focus when
+		the form is shown. If several widgets have this set to true, the first
+		one will get the focus.<br />
+		Default to false.</td>
 		<td valign="top">No</td>
 	</tr>
 </table>
@@ -784,6 +840,14 @@ Think of the checkSelectionProperty as a multi-select list.</p>
 		widget.</td>
 		<td valign="top">No</td>
 	</tr>
+	<tr>
+		<td valign="top">focus</td>
+		<td valign="top">Specifies that this widget should get the focus when
+		the form is shown. If several widgets have this set to true, the first
+		one will get the focus.<br />
+		Default to false.</td>
+		<td valign="top">No</td>
+	</tr>
 </table>
 
 <h4>dateProperty</h4>
@@ -841,6 +905,14 @@ Think of the checkSelectionProperty as a multi-select list.</p>
 		widget.</td>
 		<td valign="top">No</td>
 	</tr>
+	<tr>
+		<td valign="top">focus</td>
+		<td valign="top">Specifies that this widget should get the focus when
+		the form is shown. If several widgets have this set to true, the first
+		one will get the focus.<br />
+		Default to false.</td>
+		<td valign="top">No</td>
+	</tr>
 </table>
 
 <h4>booleanProperty</h4>
@@ -887,6 +959,14 @@ checked or <code>false</code> otherwise.</p>
 		<td valign="top">tooltip</td>
 		<td valign="top">Text to display in a tooltip box attached to this
 		widget.</td>
+		<td valign="top">No</td>
+	</tr>
+	<tr>
+		<td valign="top">focus</td>
+		<td valign="top">Specifies that this widget should get the focus when
+		the form is shown. If several widgets have this set to true, the first
+		one will get the focus.<br />
+		Default to false.</td>
 		<td valign="top">No</td>
 	</tr>
 </table>
@@ -950,6 +1030,14 @@ checked or <code>false</code> otherwise.</p>
 		<td valign="top">tooltip</td>
 		<td valign="top">Text to display in a tooltip box attached to this
 		widget.</td>
+		<td valign="top">No</td>
+	</tr>
+	<tr>
+		<td valign="top">focus</td>
+		<td valign="top">Specifies that this widget should get the focus when
+		the form is shown. If several widgets have this set to true, the first
+		one will get the focus.<br />
+		Default to false.</td>
 		<td valign="top">No</td>
 	</tr>
 </table>
@@ -1020,6 +1108,14 @@ instead
 		created thread is finished. Defaults to <code>false</code></td>
 		<td valign="top">No</td>
 	</tr>
+	<tr>
+		<td valign="top">focus</td>
+		<td valign="top">Specifies that this widget should get the focus when
+		the form is shown. If several widgets have this set to true, the first
+		one will get the focus.<br />
+		Default to false.</td>
+		<td valign="top">No</td>
+	</tr>
 </table>
 
 <h4>antMenuItem</h4>
@@ -1081,7 +1177,6 @@ other AntMenuItems, each of which links to an Ant target.</p>
 
 &lt;antform title="Send Mail" 
 	save="properties.txt"
-	stylesheet="style.test"
 	image="doc/images/testlogo.jpg"&gt;
 	&lt;label&gt;To send a mail, use the following form. Pick a recipient,
  type a subject and a body...the script will do the rest.&lt;/label&gt;

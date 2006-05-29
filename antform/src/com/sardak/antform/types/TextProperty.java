@@ -19,16 +19,15 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
+import javax.swing.JComponent;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.ControlPanel;
-import com.sardak.antform.gui.helpers.TextValueGetter;
 import com.sardak.antform.interfaces.ActionListenerComponent;
 import com.sardak.antform.interfaces.Requirable;
-import com.sardak.antform.interfaces.ValueHandle;
 
 /**
  * Text property.
@@ -72,7 +71,7 @@ public class TextProperty extends DefaultProperty implements Requirable,
 		this.password = password;
 	}
 
-	public ValueHandle addToControlPanel(ControlPanel panel) {
+	public void addToControlPanel(ControlPanel panel) {
 		if (!isPassword()) {
 			textField = new JTextField(getColumns());
 		} else {
@@ -81,9 +80,6 @@ public class TextProperty extends DefaultProperty implements Requirable,
 		panel.getStylesheetHandler().addTextField(textField);
 		textField.setEditable(isEditable());
 		initComponent(textField, panel);
-		TextValueGetter valueGetter = new TextValueGetter(textField);
-		panel.addControl(getProperty(), valueGetter);
-		return valueGetter;
 	}
 
 	public boolean validate(Task task) {
@@ -105,5 +101,9 @@ public class TextProperty extends DefaultProperty implements Requirable,
 			textField.requestFocus();
 		}
 		return ok;
+	}
+
+	public JComponent getFocusableComponent() {
+		return textField;
 	}
 }

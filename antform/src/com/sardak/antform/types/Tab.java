@@ -27,7 +27,6 @@ import javax.swing.JPanel;
 import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.ControlPanel;
-import com.sardak.antform.interfaces.ValueHandle;
 
 /**
  * @author René Ghosh
@@ -49,13 +48,12 @@ public class Tab extends BaseType{
 		this.label = label;
 	}
 
-	public ValueHandle addToControlPanel(ControlPanel panel) {
+	public void addToControlPanel(ControlPanel panel) {
 		GridBagLayout aLayout = new GridBagLayout();
 		JPanel tabPanel  = new JPanel();	
 		tabPanel.setBorder(BorderFactory.createEmptyBorder(15,5,15,5));
 		tabPanel.setLayout(aLayout);
 		panel.addToTabbedPane(label, tabPanel, aLayout);
-		return null;
 	}
 	
 	public boolean validate(Task task) {

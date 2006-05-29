@@ -24,7 +24,6 @@ import org.apache.tools.ant.ProjectComponent;
 import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.ControlPanel;
-import com.sardak.antform.interfaces.ValueHandle;
 
 /**
  * @author René Ghosh 1 avr. 2005
@@ -63,7 +62,7 @@ public abstract class BaseType extends ProjectComponent {
 		return shouldBeDisplayed;
 	}
 
-	public abstract ValueHandle addToControlPanel(ControlPanel panel);
+	public abstract void addToControlPanel(ControlPanel panel);
 	
 	/**
 	 * This method is implemented by each widgets and should check widget

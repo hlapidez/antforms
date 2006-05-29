@@ -31,7 +31,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -46,7 +45,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
-import com.sardak.antform.interfaces.ValueHandle;
 import com.sardak.antform.util.MnemonicsUtil;
 
 /**
@@ -64,8 +62,7 @@ public class ControlPanel extends JPanel {
 	private JPanel topPanel;
 	private JPanel overPanel;
 	private JPanel currentPanel; 
-	private Properties properties;
-	private Map controlsMap, mnemonicsMap;
+	private Map mnemonicsMap;
 	private HashSet usedLetters;
 	private JTabbedPane tabbedPane;
 	private StylesheetHandler stylesheetHandler;
@@ -89,8 +86,6 @@ public class ControlPanel extends JPanel {
 	 * Initiallize local collections
 	 */
 	public void init() {		
-		properties = new Properties();
-		controlsMap = new HashMap();
 		usedLetters = new HashSet();
 		mnemonicsMap = new HashMap();
 		stylesheetHandler = new StylesheetHandler();
@@ -317,27 +312,6 @@ public class ControlPanel extends JPanel {
 		}
 	}
 
-	/**
-	 * Focus on a named field 
-	 */
-	public void focus(String focusEntity){
-		ValueHandle vh= (ValueHandle) controlsMap.get(focusEntity);
-		if (vh==null) {
-			return;
-		}
-		JComponent comp = (JComponent) vh.getComponent();		
-		if (comp!=null) {			
-			comp.requestFocus();
-		} 
-	}
-	
-	/**
-	 * @return properties.
-	 */
-	public Properties getProperties() {
-		return properties;
-	}
-	
 	public HashSet getUsedLetters() {
 		return usedLetters;
 	}
@@ -349,10 +323,6 @@ public class ControlPanel extends JPanel {
 	    control.addMenu(menu);
 	}
 	
-	public void addControl(String propertyName, ValueHandle valueHandle) {
-	    controlsMap.put(propertyName, valueHandle);
-	}
-
 	public void addToTabbedPane(String label, JPanel tabPanel, GridBagLayout aLayout) {
 	    tabbedPane.addTab(label, tabPanel);
 	    stylesheetHandler.addPanel(tabPanel);
