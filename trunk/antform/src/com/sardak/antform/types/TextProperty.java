@@ -82,7 +82,7 @@ public class TextProperty extends DefaultProperty implements Requirable,
 		textField.setEditable(isEditable());
 		initComponent(textField, panel);
 		TextValueGetter valueGetter = new TextValueGetter(textField);
-		panel.addControl(getProperty(), valueGetter, required);
+		panel.addControl(getProperty(), valueGetter);
 		return valueGetter;
 	}
 
