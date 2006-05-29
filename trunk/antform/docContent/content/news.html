@@ -1,50 +1,66 @@
-<h2>Antform 1.4.6 is coming</h2>
-<p>Antform 1.4.6 is coming.</p>
+<h2>16/05/2006 Antform 1.4.6 Released</h2>
+<p>Antform version 1.4.6 released.</p>
 <ul>
-     <li>Fixed bug: properties are now expanded in antmenu labels as well</li>
+	<li>Labels expand properties in antmenu (was working only in antform)</li>
+	<li>On Windows (not tested on Unix like OS), the taskbar will contain
+	an icon for each antform/antmenu</li>
+	<li>Possibility to specify an icon image (will replace the default
+	coffee cup)</li>
+	<li>Addition of taskdefs.properties in antform.jar (was documented, but
+	not there...)</li>
+	<li>Creation of the mailing list <a
+		href="https://lists.sourceforge.net/lists/listinfo/antforms-user">antforms-user@lists.sourceforge.net</a></li>
+	<li>Migration to a SVN repository</li>
+	<li>Make sure the target JVM is 1.4 during compilation</li>
 </ul>
 <h2>23/01/2006 Antform 1.4.6beta2 Released</h2>
-<p>Antform version 1.4.6beta2 released. </p>
+<p>Antform version 1.4.6beta2 released.</p>
 <ul>
-     <li>New table attribute: <code>bestFitColumns</code></li>
-     <li>Add tooltips</li>
-     <li>New <code>checkSelectionproperty</code> and <code>radioSelectionProperty</code> attribute: <code>columns</code></li>
-     <li>Hide <code>ok</code>, <code>reset</code> or <code>cancel</code> button when <code>label</code> is empty.</li>
-     <li><code>background</code> attribute for links (experimental)</li>
-     <li>It is now possible to use custom widgets. Such widgets must extend <code>com.sardak.antform.types.BaseType</code></li>
-     <li>The properties <code>save</code> feature keeps the original property file layout and content</li>
-     <li>Form properties are now saved in the ant project before <code>link</code> invocation</li>
-     <li>Fixed bug: properties were saved when clicking <code>cancel</code></li>
-     <li>Several bug fixes and cleanup</li>
+	<li>New table attribute: <code>bestFitColumns</code></li>
+	<li>Add tooltips</li>
+	<li>New <code>checkSelectionproperty</code> and <code>radioSelectionProperty</code>
+	attribute: <code>columns</code></li>
+	<li>Hide <code>ok</code>, <code>reset</code> or <code>cancel</code>
+	button when <code>label</code> is empty.</li>
+	<li><code>background</code> attribute for links (experimental)</li>
+	<li>It is now possible to use custom widgets. Such widgets must extend
+	<code>com.sardak.antform.types.BaseType</code></li>
+	<li>The properties <code>save</code> feature keeps the original
+	property file layout and content</li>
+	<li>Form properties are now saved in the ant project before <code>link</code>
+	invocation</li>
+	<li>Fixed bug: properties were saved when clicking <code>cancel</code></li>
+	<li>Several bug fixes and cleanup</li>
 </ul>
 <h2>03/05/2005 Antform 1.4.5 Released</h2>
 <p>Antform 1.4.5 Released</p>
 <ul>
-	<li>Added support for table column widths that can now be set through properties</li>
+	<li>Added support for table column widths that can now be set through
+	properties</li>
 </ul>
 <h2>13/03/2005 Antform 1.4.4 Released</h2>
-<p>AntForm version 1.4.4 released. </p>
+<p>AntForm version 1.4.4 released.</p>
 <ul>
 	<li>More swing interface stabilization: frames are no longer created on
 	each task execution but rather created once per target and reused
 	whenever possible.</li>
-	<li>Added support for radio buttons via the
-	<code>radioSelectionPropery</code> type.</li>
-	<li>Added <code>AntMenuItem</code> type for adding menu links to 
-	<code>AntForm</code> and <code>AntMenu</code> tasks.</li>
-	<li>Added <code>LinkBar</code> type for adding links directly into 
-	<code>AntForm</code> tasks.</li>
+	<li>Added support for radio buttons via the <code>radioSelectionPropery</code>
+	type.</li>
+	<li>Added <code>AntMenuItem</code> type for adding menu links to <code>AntForm</code>
+	and <code>AntMenu</code> tasks.</li>
+	<li>Added <code>LinkBar</code> type for adding links directly into <code>AntForm</code>
+	tasks.</li>
 	<li>Minor bug fixing.</li>
 </ul>
 <h2>10/03/2005 Antform 1.4.3 Released</h2>
-<p>AntForm version 1.4.3 released. </p>
+<p>AntForm version 1.4.3 released.</p>
 <ul>
 	<li>Complete overhaul of the presentation layer.</li>
 	<li>Stabilized window packing behaviour.</li>
 	<li>Minor bug fixing.</li>
 </ul>
 <h2>05/03/2005 Antform 1.4.2 Released</h2>
-<p>AntForm version 1.4.2 released. </p>
+<p>AntForm version 1.4.2 released.</p>
 <ul>
 	<li>Added support for required fields.</li>
 	<li>Added documentation in the distribution.</li>
@@ -52,7 +68,7 @@
 	<li>Minor bug fixing.</li>
 </ul>
 <h2>04/03/2005 Antform 1.4.1 Released</h2>
-<p>AntForm version 1.4.1 released. </p>
+<p>AntForm version 1.4.1 released.</p>
 <ul>
 	<li>Added support for file- and directory- chooser properties</li>
 	<li>Removed default LAF</li>
@@ -60,7 +76,7 @@
 	labels so as to be able to set dimensions on labels.</li>
 </ul>
 <h2>03/03/2005 Antform 1.4 Released</h2>
-<p>AntForm version 1.4 released. </p>
+<p>AntForm version 1.4 released.</p>
 <ul>
 	<li>Added <code>numberProperty</code> and <code>listProperty</code>
 	tasks associated to spinner controls (requires Java 1.4 to run these
@@ -69,42 +85,51 @@
 	custom calendar control.</li>
 </ul>
 <h2>24/02/2005 AntForm 1.3.1 Released</h2>
-<p>AntForm version 1.3.1 released. </p>
+<p>AntForm version 1.3.1 released.</p>
 <ul>
 	<li>Added suppport for wizard mode on the AntForm task. NextTarget and
-	PreviousTarget attributes, when set, call specified targets when their 
-       respective buttons are clicked.</li>
+	PreviousTarget attributes, when set, call specified targets when their
+	respective buttons are clicked.</li>
 </ul>
 <h2>22/02/2005 AntForm 1.3 Released</h2>
-<p>AntForm version 1.3 released. </p>
+<p>AntForm version 1.3 released.</p>
 <ul>
 	<li>Added suppport for stylesheets: font family, color, background
 	color, font size, border width, border color and font weight can be
 	configured on form widgets.</li>
 </ul>
 <h2>13/02/2005 AntForm 1.2.2 Released</h2>
-<p>AntForm version 1.2.2 released. </p>
+<p>AntForm version 1.2.2 released.</p>
 <ul>
-	<li>Added support for images on the top panel of AntForm and AntMenu task frames.</li>
+	<li>Added support for images on the top panel of AntForm and AntMenu
+	task frames.</li>
 	<li>Added label sub-task to AntMenu tasks</li>
 </ul>
 <h2>28/01/2005 AntForm 1.2.1 Released</h2>
-<p>AntForm version 1.2.1 released. </p>
+<p>AntForm version 1.2.1 released.</p>
 <ul>
-	<li>Added support for password fields on the AntForm task, using a password attribute that enables user input masking when set to <code>true</code>.</li>
+	<li>Added support for password fields on the AntForm task, using a
+	password attribute that enables user input masking when set to <code>true</code>.</li>
 </ul>
 <h2>13/01/2005 AntForm 1.2 Released</h2>
-<p>AntForm version 1.2 released. </p>
+<p>AntForm version 1.2 released.</p>
 <ul>
-	<li>Added support for the AntMenu task, which provides a menu bar for moving to other ant targets through a single click on a button. See homepage for usage information.</li>
+	<li>Added support for the AntMenu task, which provides a menu bar for
+	moving to other ant targets through a single click on a button. See
+	homepage for usage information.</li>
 </ul>
 <h2>10/01/2005 AntForm 1.1 Released</h2>
-<p>AntForm version 1.1 released. </p>
+<p>AntForm version 1.1 released.</p>
 <ul>
-	<li>Added support for editable/non-editable properties. The editable attribute is supported for textProperty, multilineTextProperty, selectionProperty and booleanProperty. </li>
-	<li>Added a label field for adding message boxes to the forms that take up both columns and present a brief explanatory text message to the user for assisting in form edition.</li>
+	<li>Added support for editable/non-editable properties. The editable
+	attribute is supported for textProperty, multilineTextProperty,
+	selectionProperty and booleanProperty.</li>
+	<li>Added a label field for adding message boxes to the forms that take
+	up both columns and present a brief explanatory text message to the
+	user for assisting in form edition.</li>
 </ul>
 <h2>07/01/2005 AntForm 1.0 Released</h2>
-<p>AntForm version 1.0 released. Both sources and compiled binary are available for <a href="download.html">download</a>.</p>
+<p>AntForm version 1.0 released. Both sources and compiled binary are
+available for <a href="download.html">download</a>.</p>
 
 
