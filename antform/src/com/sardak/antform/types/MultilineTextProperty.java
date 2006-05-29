@@ -100,4 +100,13 @@ public class MultilineTextProperty extends DefaultProperty implements Requirable
 	public void reset() {
 		textArea.setText(getInitialPropertyValue());
 	}
+
+	public boolean requiredStatusOk() {
+		boolean ok = true;
+		if (isRequired() && "".equals(textArea.getText())) {
+			ok = false;
+			textArea.requestFocus();
+		}
+		return ok;
+	}
 }

@@ -180,4 +180,7 @@ public class DateChooser extends JPanel implements ActionListener{
 		return textField.getText();
 	}
 
+	public void requestFocus() {
+		textField.requestFocus();
+	}
 }

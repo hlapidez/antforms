@@ -1,4 +1,4 @@
- /***************************************************************************\*
+/***************************************************************************\*
  *                                                                            *
  *    AntForm form-based interaction for Ant scripts                          *
  *    Copyright (C) 2005 René Ghosh                                           *
@@ -29,23 +29,26 @@ import com.sardak.antform.interfaces.Requirable;
 import com.sardak.antform.interfaces.ValueHandle;
 
 /**
- * @author René Ghosh
- * 2 mars 2005
+ * @author René Ghosh 2 mars 2005
  */
-public class DateProperty extends DefaultProperty implements Requirable, ActionListenerComponent {
+public class DateProperty extends DefaultProperty implements Requirable,
+		ActionListenerComponent {
 	private String dateFormat;
 	private boolean required;
 	private DateChooser chooser;
-	
+
 	public boolean isRequired() {
 		return required;
 	}
+
 	public void setRequired(boolean required) {
 		this.required = required;
 	}
+
 	public String getDateFormat() {
 		return dateFormat;
 	}
+
 	public void setDateFormat(String dateFormat) {
 		this.dateFormat = dateFormat;
 	}
@@ -55,7 +58,7 @@ public class DateProperty extends DefaultProperty implements Requirable, ActionL
 		panel.getStylesheetHandler().addDateChooser(chooser);
 		chooser.setEnabled(isEditable());
 		initComponent(chooser, panel);
-		DateChooserGetter valueHandle =  new DateChooserGetter(chooser);
+		DateChooserGetter valueHandle = new DateChooserGetter(chooser);
 		panel.addControl(getProperty(), valueHandle, required);
 		return valueHandle;
 	}
@@ -75,5 +78,14 @@ public class DateProperty extends DefaultProperty implements Requirable, ActionL
 
 	public void reset() {
 		chooser.setText(getInitialPropertyValue());
+	}
+
+	public boolean requiredStatusOk() {
+		boolean ok = true;
+		if (isRequired() && "".equals(chooser.getText())) {
+			ok = false;
+			chooser.requestFocus();
+		}
+		return ok;
 	}
 }
