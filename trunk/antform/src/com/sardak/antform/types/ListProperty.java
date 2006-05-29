@@ -1,4 +1,4 @@
- /***************************************************************************\*
+/***************************************************************************\*
  *                                                                            *
  *    AntForm form-based interaction for Ant scripts                          *
  *    Copyright (C) 2005 René Ghosh                                           *
@@ -28,53 +28,59 @@ import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.gui.helpers.SpinnerValueGetter;
+import com.sardak.antform.interfaces.ActionListenerComponent;
 import com.sardak.antform.interfaces.ValueHandle;
 import com.sardak.antform.util.CSVReader;
 
-
 /**
- * @author René Ghosh
- * 2 mars 2005
+ * @author René Ghosh 2 mars 2005
  */
-public class ListProperty extends DefaultProperty{
-	String values;
-	String separator=",";
-	String escapeSequence="\\";
-	
+public class ListProperty extends DefaultProperty implements ActionListenerComponent {
+	private String values;
+	private String separator = ",";
+	private String escapeSequence = "\\";
+	private SpinnerListModel model;
+	private JSpinner spinner;
+
 	public String getSeparator() {
 		return separator;
 	}
+
 	public void setSeparator(String separator) {
 		this.separator = separator;
 	}
+
 	public String getValues() {
 		return values;
 	}
+
 	public void setValues(String values) {
 		this.values = values;
 	}
+
 	public String getEscapeSequence() {
 		return escapeSequence;
 	}
+
 	public void setEscapeSequence(String escapeSequence) {
 		this.escapeSequence = escapeSequence;
 	}
+
 	/**
 	 * get the properry s a list of values
 	 */
-	public List asList(){
+	public List asList() {
 		return new CSVReader(separator, escapeSequence).digest(values, true);
-		
 	}
 
 	public ValueHandle addToControlPanel(ControlPanel panel) {
-		SpinnerListModel model = new SpinnerListModel(asList()); 
-		JSpinner spinner = new JSpinner(model);
+		model = new SpinnerListModel(asList());
+		spinner = new JSpinner(model);
 		panel.getStylesheetHandler().addSpinner(spinner);
 		spinner.setEnabled(isEditable());
 		initComponent(spinner, panel);
 		SpinnerValueGetter valueHandle = new SpinnerValueGetter(spinner);
-		panel.addControl(""+getProperty(), valueHandle);
+		panel.addControl("" + getProperty(), valueHandle);
 		return valueHandle;
 	}
 
@@ -83,7 +89,22 @@ public class ListProperty extends DefaultProperty{
 		if (getValues() == null) {
 			task.log("ListProperty : attribute \"values\" missing.");
 			isValid = false;
+		} else if (getValues().length() == 0) {
+			task.log("ListProperty : attribute \"values\" is empty.");
+			isValid = false;
 		}
 		return isValid;
+	}
+
+	public void ok() {
+		getProject().setProperty(getProperty(), spinner.getValue().toString());
+	}
+
+	public void reset() {
+		if (model.getList().contains(getInitialPropertyValue())) {
+			spinner.setValue(getInitialPropertyValue());
+		} else {
+			spinner.setValue(model.getList().get(0));
+		}
 	}
 }

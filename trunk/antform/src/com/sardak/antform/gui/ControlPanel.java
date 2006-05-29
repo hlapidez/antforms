@@ -370,22 +370,22 @@ public class ControlPanel extends JPanel {
 	 */
 	//TODO: BUG: this method will be called in case of reset.
 	//   There is an issue with widget that were not initialized (check boxes in particular)
-	public void initWidgets(Properties properties) {
-		this.properties = properties;
+	public void setDefaultProperties(Properties properties) {
+//		this.properties = properties;
 		this.defaultProperties=(Properties) properties.clone();		
-		for (Iterator iter = properties.keySet().iterator(); iter.hasNext();) {
-			String property = (String) iter.next();
-			if (controlsMap.containsKey(property)) {
-				String value = properties.getProperty(property);
-				ValueHandle vh = (ValueHandle) controlsMap.get(property);
-				vh.setValue(value);
-			}
-		}
+//		for (Iterator iter = properties.keySet().iterator(); iter.hasNext();) {
+//			String property = (String) iter.next();
+//			if (controlsMap.containsKey(property)) {
+//				String value = properties.getProperty(property);
+//				ValueHandle vh = (ValueHandle) controlsMap.get(property);
+//				vh.setValue(value);
+//			}
+//		}
 	}
 	
-	public Properties getDefaultProperties() {
-		return defaultProperties;
-	}
+//	public Properties getDefaultProperties() {
+//		return defaultProperties;
+//	}
 			
 	public HashSet getUsedLetters() {
 		return usedLetters;

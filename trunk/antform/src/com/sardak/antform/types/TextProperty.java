@@ -1,4 +1,4 @@
- /***************************************************************************\*
+/***************************************************************************\*
  *                                                                            *
  *    AntForm form-based interaction for Ant scripts                          *
  *    Copyright (C) 2005 René Ghosh                                           *
@@ -26,47 +26,53 @@ import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.gui.helpers.TextValueGetter;
+import com.sardak.antform.interfaces.ActionListenerComponent;
 import com.sardak.antform.interfaces.Requirable;
 import com.sardak.antform.interfaces.ValueHandle;
 
-
 /**
  * Text property.
+ * 
  * @author René Ghosh
  */
-public class TextProperty extends DefaultProperty implements Requirable{ 
-	private int columns=34; 
+public class TextProperty extends DefaultProperty implements Requirable,
+		ActionListenerComponent {
+	private int columns = 34;
 	private boolean password = false;
 	private boolean required;
-	
-	
+	private JTextField textField;
+
 	public boolean isRequired() {
 		return required;
 	}
+
 	public void setRequired(boolean required) {
 		this.required = required;
 	}
+
 	/**
 	 * @return columns.
 	 */
 	public int getColumns() {
 		return columns;
 	}
+
 	/**
 	 * @param columns.
 	 */
 	public void setColumns(int columns) {
 		this.columns = columns;
 	}
+
 	public boolean isPassword() {
 		return password;
 	}
+
 	public void setPassword(boolean password) {
 		this.password = password;
 	}
 
 	public ValueHandle addToControlPanel(ControlPanel panel) {
-		JTextField textField = null;		
 		if (!isPassword()) {
 			textField = new JTextField(getColumns());
 		} else {
@@ -79,8 +85,16 @@ public class TextProperty extends DefaultProperty implements Requirable{
 		panel.addControl(getProperty(), valueGetter, required);
 		return valueGetter;
 	}
-	
+
 	public boolean validate(Task task) {
 		return super.validate(task, "TextProperty");
+	}
+
+	public void ok() {
+		getProject().setProperty(getProperty(), textField.getText());
+	}
+	
+	public void reset() {
+		textField.setText(getInitialPropertyValue());
 	}
 }

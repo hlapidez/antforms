@@ -33,14 +33,16 @@ import org.apache.tools.ant.Task;
 import com.sardak.antform.gui.AntTable;
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.gui.helpers.TableGetter;
+import com.sardak.antform.interfaces.ActionListenerComponent;
 import com.sardak.antform.interfaces.ValueHandle;
 import com.sardak.antform.util.CSVReader;
+import com.sardak.antform.util.StringUtil;
 
 /**
  * @author René Ghosh
  * 1 avr. 2005
  */
-public class Table extends DefaultProperty {
+public class Table extends DefaultProperty implements ActionListenerComponent {
 	private String columns, data;
 	private String rowSeparator=",", columnSeparator=";";
 	private String escapeSequence = "\\";
@@ -48,6 +50,7 @@ public class Table extends DefaultProperty {
 	private int width=-1, height=-1;
 	private int columnWidth = -1;
 	private boolean bestFitColumns=false;
+	private AntTable table;
 	
 	public int getColumnWidth() {
 		return columnWidth;
@@ -163,7 +166,7 @@ public class Table extends DefaultProperty {
 
 	public ValueHandle addToControlPanel(ControlPanel panel) {
 	    splitColumns();
-		AntTable table = new AntTable(splitData(), cols);		
+		table = new AntTable(splitData(), cols);		
 		table.setEnabled(isEditable());
 		if (columnWidth!=-1) {
 			table.setAutoResizeMode(AntTable.AUTO_RESIZE_OFF);
@@ -197,5 +200,36 @@ public class Table extends DefaultProperty {
 			isValid = false;
 		}
 		return isValid;
+	}
+	
+	public void ok() {
+		StringBuffer buffer = new StringBuffer();
+		int noRows= table.getRowCount();
+		int noCols = table.getColumnCount();
+		for (int i = 0; i < noRows; i++) {
+			for (int j = 0; j < noCols; j++) {
+				String value = table.getValueAt(i,j)+"";
+				value = StringUtil.searchReplace(value, escapeSequence, escapeSequence+escapeSequence);
+				value = StringUtil.searchReplace(value, rowSeparator, escapeSequence+rowSeparator);
+				value = StringUtil.searchReplace(value, columnSeparator, escapeSequence+columnSeparator);
+				buffer.append(value);
+				if (j!=noCols-1){
+					buffer.append(columnSeparator);
+				}
+			}
+			if (i!=noRows-1){
+				buffer.append(rowSeparator);
+			}
+		}
+		getProject().setProperty(getProperty(), buffer.toString());
+	}
+
+	public void reset() {
+		String[][] cell = splitData();
+		for (int row = 0 ; row < cell.length ; row++) {
+			for  (int col = 0 ; col < cell[row].length ; col++) {
+				table.getModel().setValueAt(cell[row][col], row, col);
+			}
+		}
 	}
 }

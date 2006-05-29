@@ -24,14 +24,16 @@ import org.apache.tools.ant.Task;
 import com.sardak.antform.gui.CheckGroupBox;
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.gui.helpers.MultiCheckGetter;
+import com.sardak.antform.interfaces.ActionListenerComponent;
 import com.sardak.antform.interfaces.ValueHandle;
 
 /**
  * @author René Ghosh
  * 30 mars 2005
  */
-public class CheckSelectionProperty extends SelectionProperty{
-    int columns = 1;
+public class CheckSelectionProperty extends SelectionProperty implements ActionListenerComponent {
+    private int columns = 1;
+    private CheckGroupBox checkGroupBox;
     
     public int getColumns() {
         return columns;
@@ -42,7 +44,7 @@ public class CheckSelectionProperty extends SelectionProperty{
     }
     
 	public ValueHandle addToControlPanel(ControlPanel panel) {
-		CheckGroupBox checkGroupBox = new CheckGroupBox(getSplitValues(), getSeparator(), getEscapeSequence(), getColumns());		
+		checkGroupBox = new CheckGroupBox(getSplitValues(), getSeparator(), getEscapeSequence(), getColumns());		
 		checkGroupBox.setEnabled(isEditable());
 		panel.getStylesheetHandler().addCheckGroupBox(checkGroupBox);
 		initComponent(checkGroupBox, panel);
@@ -53,5 +55,13 @@ public class CheckSelectionProperty extends SelectionProperty{
 	
 	public boolean validate(Task task) {
 		return super.validate(task, "CheckSelectionProperty");
+	}
+	
+	public void ok() {
+		getProject().setProperty(getProperty(), checkGroupBox.getValue());
+	}
+
+	public void reset() {
+		checkGroupBox.setValue(getInitialPropertyValue());
 	}
 }

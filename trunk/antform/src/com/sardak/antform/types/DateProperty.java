@@ -24,6 +24,7 @@ import org.apache.tools.ant.Task;
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.gui.DateChooser;
 import com.sardak.antform.gui.helpers.DateChooserGetter;
+import com.sardak.antform.interfaces.ActionListenerComponent;
 import com.sardak.antform.interfaces.Requirable;
 import com.sardak.antform.interfaces.ValueHandle;
 
@@ -31,9 +32,10 @@ import com.sardak.antform.interfaces.ValueHandle;
  * @author René Ghosh
  * 2 mars 2005
  */
-public class DateProperty extends DefaultProperty implements Requirable{
+public class DateProperty extends DefaultProperty implements Requirable, ActionListenerComponent {
 	private String dateFormat;
 	private boolean required;
+	private DateChooser chooser;
 	
 	public boolean isRequired() {
 		return required;
@@ -49,7 +51,7 @@ public class DateProperty extends DefaultProperty implements Requirable{
 	}
 
 	public ValueHandle addToControlPanel(ControlPanel panel) {
-		DateChooser chooser = new DateChooser(dateFormat);
+		chooser = new DateChooser(dateFormat);
 		panel.getStylesheetHandler().addDateChooser(chooser);
 		chooser.setEnabled(isEditable());
 		initComponent(chooser, panel);
@@ -65,5 +67,13 @@ public class DateProperty extends DefaultProperty implements Requirable{
 			isValid = false;
 		}
 		return isValid;
+	}
+
+	public void ok() {
+		getProject().setProperty(getProperty(), chooser.getText());
+	}
+
+	public void reset() {
+		chooser.setText(getInitialPropertyValue());
 	}
 }

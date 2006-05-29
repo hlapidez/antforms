@@ -30,6 +30,7 @@ import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.CallBack;
 import com.sardak.antform.gui.Control;
+import com.sardak.antform.interfaces.ActionListenerComponent;
 import com.sardak.antform.types.AntMenuItem;
 import com.sardak.antform.types.BaseType;
 import com.sardak.antform.types.Button;
@@ -269,5 +270,34 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 			actionRegistry = new ActionRegistry(this);
 		}
 		return actionRegistry;
+	}
+	
+	public void ok() {
+		Iterator iter = widgets.iterator();
+		while (iter.hasNext()) {
+			Object o = iter.next();
+			if (o instanceof ActionListenerComponent) {
+				((ActionListenerComponent) o).ok();
+			}
+		}
+	}
+	
+	public void cancel() {
+		Iterator iter = widgets.iterator();
+		while (iter.hasNext()) {
+			Object o = iter.next();
+			if (o instanceof ActionListenerComponent) {
+				((ActionListenerComponent) o).cancel();
+			}
+		}
+	}
+	public void reset() {
+		Iterator iter = widgets.iterator();
+		while (iter.hasNext()) {
+			Object o = iter.next();
+			if (o instanceof ActionListenerComponent) {
+				((ActionListenerComponent) o).reset();
+			}
+		}
 	}
 }

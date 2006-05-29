@@ -233,7 +233,7 @@ public class Control {
 	 */
 	public void initProperties(Properties properties) {
 		this.properties = properties;
-		panel.initWidgets(properties);
+		panel.setDefaultProperties(properties);
 	}
 
 	/**

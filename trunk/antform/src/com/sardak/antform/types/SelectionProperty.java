@@ -1,4 +1,4 @@
- /***************************************************************************\*
+/***************************************************************************\*
  *                                                                            *
  *    AntForm form-based interaction for Ant scripts                          *
  *    Copyright (C) 2005 René Ghosh                                           *
@@ -27,51 +27,57 @@ import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.gui.helpers.ComboIndiceGetter;
+import com.sardak.antform.interfaces.ActionListenerComponent;
 import com.sardak.antform.interfaces.ValueHandle;
 import com.sardak.antform.util.CSVReader;
 
 /**
  * Property for selecting a value among a list of proposed values.
+ * 
  * @author René Ghosh
  */
-public class SelectionProperty extends DefaultProperty{
+public class SelectionProperty extends DefaultProperty implements ActionListenerComponent {
 	private String values;
 	private String separator = ",";
-	private String escapeSequence="\\";
+	private String escapeSequence = "\\";
 	private String[] splitValues;
-	
-	
+	private JComboBox comboBox;
+
 	/**
 	 * set the escape sequence
 	 */
 	public void setEscapeSequence(String escapeSequence) {
 		this.escapeSequence = escapeSequence;
 	}
+
 	/**
 	 * return the escape sequence
 	 */
 	public String getEscapeSequence() {
 		return escapeSequence;
 	}
-	
+
 	/**
 	 * @return splitValues.
 	 */
 	public String[] getSplitValues() {
 		return splitValues;
 	}
+
 	/**
 	 * @param splitValues.
 	 */
 	public void setSplitValues(String[] splitValues) {
 		this.splitValues = splitValues;
 	}
+
 	/**
 	 * @return separator.
 	 */
 	public String getSeparator() {
 		return separator;
 	}
+
 	/**
 	 * @param separator.
 	 */
@@ -79,22 +85,23 @@ public class SelectionProperty extends DefaultProperty{
 		this.separator = separator;
 		split();
 	}
-	
-	
+
 	/**
 	 * @return values.
 	 */
 	public String getValues() {
 		return values;
 	}
+
 	/**
-	 * split the values	 
+	 * split the values
 	 */
-	private void split(){
+	private void split() {
 		CSVReader reader = new CSVReader(separator, escapeSequence);
 		List valueList = reader.digest(values, true);
-		splitValues = (String[]) valueList.toArray(new String[valueList.size()]);		
+		splitValues = (String[]) valueList.toArray(new String[valueList.size()]);
 	}
+
 	/**
 	 * @param values
 	 */
@@ -104,7 +111,7 @@ public class SelectionProperty extends DefaultProperty{
 	}
 
 	public ValueHandle addToControlPanel(ControlPanel panel) {
-		JComboBox comboBox = new JComboBox(getSplitValues());		
+		comboBox = new JComboBox(getSplitValues());
 		comboBox.setEnabled(isEditable());
 		panel.getStylesheetHandler().addComboBox(comboBox);
 		initComponent(comboBox, panel);
@@ -124,5 +131,28 @@ public class SelectionProperty extends DefaultProperty{
 			isValid = false;
 		}
 		return isValid;
+	}
+
+	public void ok() {
+		getProject().setProperty(getProperty(), comboBox.getSelectedItem().toString());
+	}
+
+	public void reset() {
+		if (isValidValue(getInitialPropertyValue())) {
+			comboBox.setSelectedItem(getInitialPropertyValue());
+		} else {
+			comboBox.setSelectedIndex(0);
+		}
+	}
+	
+	protected boolean isValidValue(String s) {
+		boolean isValidValue = false;
+		for (int i = 0 ; i < splitValues.length ; i++) {
+			if (splitValues[i].equals(s)) {
+				isValidValue = true;
+				break;
+			}
+		}
+		return isValidValue;
 	}
 }

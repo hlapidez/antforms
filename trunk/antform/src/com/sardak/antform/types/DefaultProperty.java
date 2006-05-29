@@ -35,6 +35,7 @@ import com.sardak.antform.interfaces.ValueHandle;
  */
 public class DefaultProperty extends BaseType {
     private String label, property, tooltip;
+    private String initialPropertyValue;
 
     private boolean editable = true;
 
@@ -78,6 +79,9 @@ public class DefaultProperty extends BaseType {
      */
     public void setProperty(String property) {
         this.property = property;
+        if (getProject() != null) {
+        	initialPropertyValue = getProject().getProperty(property);
+        }
     }
 
     /**
@@ -146,4 +150,11 @@ public class DefaultProperty extends BaseType {
 		}		
 		return attributesAreValid;
 	}
+	
+	public String getInitialPropertyValue() {
+		return initialPropertyValue;
+	}
+	
+	//default cancel() implementation: do nothing
+	public void cancel() {}
 }
