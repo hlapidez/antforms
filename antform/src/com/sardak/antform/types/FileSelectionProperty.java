@@ -63,7 +63,7 @@ public class FileSelectionProperty extends DefaultProperty implements Requirable
 		panel.getStylesheetHandler().addFileChooser(chooser);
 		initComponent(chooser, panel);
 		FileChooserGetter valueHandle = new FileChooserGetter(chooser);
-		panel.addControl(getProperty(), valueHandle, required);
+		panel.addControl(getProperty(), valueHandle);
 		return valueHandle;
 	}
 	

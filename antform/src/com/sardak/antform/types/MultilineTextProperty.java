@@ -85,7 +85,7 @@ public class MultilineTextProperty extends DefaultProperty implements Requirable
 		panel.getStylesheetHandler().addScrollPane(scrollPane);
 		initComponent(scrollPane, panel);
 		TextValueGetter valueHandle = new TextValueGetter(textArea);
-		panel.addControl(getProperty(), valueHandle, required);
+		panel.addControl(getProperty(), valueHandle);
 		return valueHandle;
 	}
 

@@ -65,7 +65,7 @@ public class ControlPanel extends JPanel {
 	private JPanel overPanel;
 	private JPanel currentPanel; 
 	private Properties properties;
-	private Map controlsMap, requiredMap, mnemonicsMap;
+	private Map controlsMap, mnemonicsMap;
 	private HashSet usedLetters;
 	private JTabbedPane tabbedPane;
 	private StylesheetHandler stylesheetHandler;
@@ -91,7 +91,6 @@ public class ControlPanel extends JPanel {
 	public void init() {		
 		properties = new Properties();
 		controlsMap = new HashMap();
-		requiredMap = new HashMap();
 		usedLetters = new HashSet();
 		mnemonicsMap = new HashMap();
 		stylesheetHandler = new StylesheetHandler();
@@ -351,14 +350,7 @@ public class ControlPanel extends JPanel {
 	}
 	
 	public void addControl(String propertyName, ValueHandle valueHandle) {
-	    addControl(propertyName, valueHandle, false);
-	}
-
-	public void addControl(String propertyName, ValueHandle valueHandle, boolean required) {
 	    controlsMap.put(propertyName, valueHandle);
-		if (required){
-			requiredMap.put(propertyName, valueHandle);
-		}
 	}
 
 	public void addToTabbedPane(String label, JPanel tabPanel, GridBagLayout aLayout) {

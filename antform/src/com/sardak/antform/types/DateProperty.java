@@ -59,7 +59,7 @@ public class DateProperty extends DefaultProperty implements Requirable,
 		chooser.setEnabled(isEditable());
 		initComponent(chooser, panel);
 		DateChooserGetter valueHandle = new DateChooserGetter(chooser);
-		panel.addControl(getProperty(), valueHandle, required);
+		panel.addControl(getProperty(), valueHandle);
 		return valueHandle;
 	}
 
