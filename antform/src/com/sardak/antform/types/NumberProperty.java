@@ -26,14 +26,17 @@ import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.gui.helpers.SpinnerValueGetter;
+import com.sardak.antform.interfaces.ActionListenerComponent;
 import com.sardak.antform.interfaces.ValueHandle;
 
 /**
  * @author René Ghosh
  * 2 mars 2005
  */
-public class NumberProperty extends DefaultProperty{
+public class NumberProperty extends DefaultProperty implements ActionListenerComponent {
 	private double min=0,max=100,step=1;
+	private SpinnerNumberModel model;
+	private JSpinner spinner;
 	
 	/**
 	 * get Max
@@ -65,8 +68,8 @@ public class NumberProperty extends DefaultProperty{
 	}
 
 	public ValueHandle addToControlPanel(ControlPanel panel) {
-		SpinnerNumberModel model = new SpinnerNumberModel(min,min, max, step); 
-		JSpinner spinner = new JSpinner(model);
+		model = new SpinnerNumberModel(min,min, max, step); 
+		spinner = new JSpinner(model);
 		panel.getStylesheetHandler().addSpinner(spinner);
 		spinner.setEnabled(isEditable());
 		initComponent(spinner, panel);
@@ -77,5 +80,27 @@ public class NumberProperty extends DefaultProperty{
 	
 	public boolean validate(Task task) {
 		return super.validate(task, "NumberProperty");
+	}
+	
+	public void ok() {
+		getProject().setProperty(getProperty(), spinner.getValue().toString());
+	}
+
+	public void reset() {
+		if (isDouble(getInitialPropertyValue())) {
+			spinner.setValue(new Double(getInitialPropertyValue()));
+		} else {
+			spinner.setValue(new Double(0));
+		}
+	}
+	
+	private boolean isDouble(String s) {
+		boolean isDouble = true;
+		try {
+			Double.parseDouble(s);
+		} catch (Exception e) { // NumberFormatException or NullPointerException
+			isDouble = false;
+		}
+		return isDouble;
 	}
 }

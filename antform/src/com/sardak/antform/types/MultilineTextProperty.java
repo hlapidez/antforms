@@ -1,4 +1,4 @@
- /***************************************************************************\*
+/***************************************************************************\*
  *                                                                            *
  *    AntForm form-based interaction for Ant scripts                          *
  *    Copyright (C) 2005 René Ghosh                                           *
@@ -26,42 +26,50 @@ import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.gui.helpers.TextValueGetter;
+import com.sardak.antform.interfaces.ActionListenerComponent;
 import com.sardak.antform.interfaces.Requirable;
 import com.sardak.antform.interfaces.ValueHandle;
 
-
 /**
  * Text property edited over multiple lines.
+ * 
  * @author René Ghosh
  */
-public class MultilineTextProperty extends DefaultProperty implements Requirable{
-	private int columns=40, rows=5;
+public class MultilineTextProperty extends DefaultProperty implements Requirable,
+		ActionListenerComponent {
+	private int columns = 40, rows = 5;
 	private boolean required;
-	
+	private JTextArea textArea;
+
 	public boolean isRequired() {
 		return required;
 	}
+
 	public void setRequired(boolean required) {
 		this.required = required;
 	}
+
 	/**
 	 * @return columns.
 	 */
 	public int getColumns() {
 		return columns;
 	}
+
 	/**
 	 * @param columns.
 	 */
 	public void setColumns(int columns) {
 		this.columns = columns;
 	}
+
 	/**
 	 * @return rows.
 	 */
 	public int getRows() {
 		return rows;
 	}
+
 	/**
 	 * @param rows.
 	 */
@@ -70,18 +78,26 @@ public class MultilineTextProperty extends DefaultProperty implements Requirable
 	}
 
 	public ValueHandle addToControlPanel(ControlPanel panel) {
-		JTextArea textArea = new JTextArea(rows,columns);		
-		textArea.setEditable(isEditable());		
+		textArea = new JTextArea(rows, columns);
+		textArea.setEditable(isEditable());
 		JScrollPane scrollPane = new JScrollPane(textArea);
-		panel.getStylesheetHandler().addMultiLineTextArea(textArea); 
+		panel.getStylesheetHandler().addMultiLineTextArea(textArea);
 		panel.getStylesheetHandler().addScrollPane(scrollPane);
 		initComponent(scrollPane, panel);
 		TextValueGetter valueHandle = new TextValueGetter(textArea);
-		panel.addControl(getProperty(), valueHandle, required);		
+		panel.addControl(getProperty(), valueHandle, required);
 		return valueHandle;
 	}
-	
+
 	public boolean validate(Task task) {
 		return super.validate(task, "MultiLineTextProperty");
+	}
+
+	public void ok() {
+		getProject().setProperty(getProperty(), textArea.getText());
+	}
+
+	public void reset() {
+		textArea.setText(getInitialPropertyValue());
 	}
 }

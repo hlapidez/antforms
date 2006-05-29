@@ -1,4 +1,4 @@
- /***************************************************************************\*
+/***************************************************************************\*
  *                                                                            *
  *    AntForm form-based interaction for Ant scripts                          *
  *    Copyright (C) 2005 René Ghosh                                           *
@@ -21,19 +21,24 @@ package com.sardak.antform.types;
 
 import javax.swing.JCheckBox;
 
+import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.gui.helpers.CheckValueGetter;
+import com.sardak.antform.interfaces.ActionListenerComponent;
 import com.sardak.antform.interfaces.ValueHandle;
 
 /**
  * Boolean, or true/false, property
+ * 
  * @author René Ghosh
  */
-public class BooleanProperty extends DefaultProperty {
+public class BooleanProperty extends DefaultProperty implements ActionListenerComponent {
+	private JCheckBox checkBox;
+
 	public ValueHandle addToControlPanel(ControlPanel panel) {
-		JCheckBox checkBox = new JCheckBox();
+		checkBox = new JCheckBox();
 		checkBox.setEnabled(isEditable());
 		initComponent(checkBox, panel);
 		panel.getStylesheetHandler().addCheckBox(checkBox);
@@ -41,8 +46,22 @@ public class BooleanProperty extends DefaultProperty {
 		panel.addControl(getProperty(), valueHandle);
 		return valueHandle;
 	}
-	
+
 	public boolean validate(Task task) {
 		return super.validate(task, "BooleanProperty");
+	}
+
+	public void ok() {
+		if (getInitialPropertyValue() == null && !checkBox.isSelected()) {
+			// do not set project property in this case
+		} else if (checkBox.isSelected()) {
+			getProject().setProperty(getProperty(), Boolean.TRUE.toString());
+		} else { // !checkBox.isSelected() && getInitialPropertyValue() != null
+			getProject().setProperty(getProperty(), Boolean.FALSE.toString());
+		}
+	}
+
+	public void reset() {
+		checkBox.setSelected(Project.toBoolean(getInitialPropertyValue()));
 	}
 }

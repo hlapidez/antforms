@@ -139,6 +139,9 @@ public class DateChooser extends JPanel implements ActionListener{
 	 */
 	public void setText(String text){
 		try {
+			if (text == null) {
+				text = formatter.format(new Date());
+			}
 			Date date = formatter.parse(text);
 			if (date!=null) {
 				textField.setText(text);

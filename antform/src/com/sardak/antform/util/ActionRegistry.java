@@ -3,27 +3,20 @@ package com.sardak.antform.util;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Properties;
 
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Project;
 
 import com.sardak.antform.AbstractTaskWindow;
-import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.interfaces.ActionComponent;
 
 public class ActionRegistry implements ActionListener {
 	private Map actionComponents;
 	private AbstractTaskWindow task;
-	private Project project;
-	private ControlPanel panel;
 
 	public ActionRegistry(AbstractTaskWindow task) {
 		actionComponents = new HashMap();
 		this.task = task;
-		this.project = task.getProject();
 	}
 
 	public void register(ActionComponent component) {
@@ -36,30 +29,19 @@ public class ActionRegistry implements ActionListener {
 		if (source == null) {
 			throw new BuildException("Received event from unknown source.");
 		}
-		panel = task.getControl().getPanel();
 		if (source.getActionType() == ActionType.OK) {
-			// save properties
-			setProjectProperties();
-			// close form (unless background)
-			// run target (if set)
+			// notify components
+			task.ok();
+			// close form (unless background) and run target (if set and valid)
 			runTarget(source);
 		} else if (source.getActionType() == ActionType.CANCEL) {
-			// close form, unless background (do not save properties)
-			// run target (if set)
+			// notify components
+			task.cancel();
+			// close form (unless background) and run target (if set and valid)
 			runTarget(source);
 		} else if (source.getActionType() == ActionType.RESET) {
 			// reset form properties
-			panel.initWidgets(panel.getDefaultProperties());
-		}
-	}
-
-	private void setProjectProperties() {
-		Properties fromProperties = panel.getCurrentFormProperties();
-		for (Iterator i = fromProperties.keySet().iterator(); i.hasNext();) {
-			String property = (String) i.next();
-			task.log("Setting project property " + property + " = "
-					+ fromProperties.getProperty(property));
-			project.setProperty(property, fromProperties.getProperty(property));
+			task.reset();
 		}
 	}
 

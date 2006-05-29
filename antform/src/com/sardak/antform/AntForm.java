@@ -389,7 +389,8 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 			}
 			createControlButton(ActionType.OK, okMessage, nextTarget);
 		}
-		if (controlBar != null && !controlBar.isEmpty()) { // do not create if no buttons
+		if (controlBar != null && !controlBar.isEmpty()) {
+			// do not create if no buttons
 			controlBar.setAlign(BorderLayout.EAST);
 			controlBar.setMargins(3, 3, 3, 3);
 			ControlPanel controlPanel = control.getPanel();
@@ -411,10 +412,9 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 		}
 		super.execute();
 		control.initProperties(getProject().getProperties());
+		// widgets are there. Initialize them.
+		reset();
 
-//		if (previousTarget != null) {
-//			control.getPanel().setDisposeOnReset(true);
-//		}
 		if (focus != null) {
 			control.getPanel().focus(focus);
 		}
