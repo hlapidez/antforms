@@ -28,8 +28,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
@@ -231,24 +229,6 @@ public class Control {
 	/**
 	 * @param properties properties to set.
 	 */
-	public void initProperties(Properties properties) {
-		this.properties = properties;
-		panel.setDefaultProperties(properties);
-	}
-
-	/**
-	 * @param propertyNames properties to set.
-	 */
-	public void initProperties(Hashtable propertyNames) {
-		Properties props = new Properties();
-		for (Iterator i = propertyNames.keySet().iterator(); i.hasNext();){
-			String aProperty = (String) i.next();
-			String value= ""+propertyNames.get(aProperty);			
-			props.setProperty(aProperty, value);
-		}
-		initProperties(props);
-	}
-	
 	public JMenuBar getMenuBar() {
 		if (menuBar == null) {
 			menuBar = new JMenuBar();

@@ -108,7 +108,7 @@ public class ControlsTest extends AbstractTaskWindow {
 
 		Properties props = new Properties();
 		props.setProperty("pasv", "true");
-		control.initProperties(props);
+//		control.initProperties(props);
 		g2.setValue("login");
 		control.show();
 		

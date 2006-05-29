@@ -25,6 +25,7 @@ import javax.swing.JLabel;
 import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.ControlPanel;
+import com.sardak.antform.interfaces.PropertyComponent;
 import com.sardak.antform.interfaces.Requirable;
 import com.sardak.antform.interfaces.ValueHandle;
 
@@ -33,7 +34,7 @@ import com.sardak.antform.interfaces.ValueHandle;
  * 
  * @author René Ghosh
  */
-public class DefaultProperty extends BaseType {
+public class DefaultProperty extends BaseType implements PropertyComponent {
     private String label, property, tooltip;
     private String initialPropertyValue;
 

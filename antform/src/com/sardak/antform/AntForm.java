@@ -24,12 +24,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Properties;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
 import com.sardak.antform.gui.CallBack;
 import com.sardak.antform.gui.ControlPanel;
+import com.sardak.antform.interfaces.PropertyComponent;
 import com.sardak.antform.types.BaseType;
 import com.sardak.antform.types.BooleanProperty;
 import com.sardak.antform.types.Button;
@@ -411,7 +414,6 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 			build();
 		}
 		super.execute();
-		control.initProperties(getProject().getProperties());
 		// widgets are there. Initialize them.
 		reset();
 
@@ -420,15 +422,7 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 		}
 		control.show();
 		if (getActionType() == ActionType.OK && save != null) {
-			try {
-				File file = new File(save);
-				FileProperties props = new FileProperties(file);
-				props.store(control.getPanel().getCurrentFormProperties());
-			} catch (FileNotFoundException e) {
-				throw new BuildException(e);
-			} catch (IOException e) {
-				throw new BuildException(e);
-			}
+			save();
 		}
 		if (dynamic) {
 			built = false;
@@ -463,5 +457,33 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 			}
 			controlBar.addConfiguredButton(button);
 		}
+	}
+	
+	private void save() {
+		try {
+			File file = new File(save);
+			FileProperties props = new FileProperties(file);
+			props.store(getFormProperties());
+		} catch (FileNotFoundException e) {
+			throw new BuildException(e);
+		} catch (IOException e) {
+			throw new BuildException(e);
+		}
+	}
+
+	private Properties getFormProperties() {
+		Properties formProperties = null;
+		Iterator iter = widgets.iterator();
+		while (iter.hasNext()) {
+			Object o = iter.next();
+			if (o instanceof PropertyComponent) {
+				if (formProperties == null) {
+					formProperties = new Properties();
+				}
+				String property = ((PropertyComponent) o).getProperty();
+				formProperties.setProperty(property, getProject().getProperty(property));
+			}
+		}
+		return formProperties;
 	}
 }
