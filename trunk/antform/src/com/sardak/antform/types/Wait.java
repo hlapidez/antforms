@@ -169,6 +169,10 @@ public class Wait extends BaseType implements SubBuildListener {
 		public AbstractButton getComponent() {
 			return button;
 		}
+
+		public boolean isLoopExit() {
+			return true; // as this button is used when closewhendone is true
+		}
 		
 	}
 }

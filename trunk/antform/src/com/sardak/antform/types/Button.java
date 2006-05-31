@@ -36,6 +36,7 @@ public class Button extends BaseType implements ActionComponent, Focusable {
 	private JButton button = new JButton();
 	private int type = ActionType.OK;
 	private boolean focus = false;
+	private boolean loopExit = false;
 	
 	public Button() {
 		super();
@@ -80,6 +81,14 @@ public class Button extends BaseType implements ActionComponent, Focusable {
 		this.type = type.getType();
 	}
 	
+	public boolean isLoopExit() {
+		return loopExit;
+	}
+
+	public void setLoopExit(boolean loopExit) {
+		this.loopExit = loopExit;
+	}
+
 	public AbstractButton getComponent() {
 		return button;
 	}

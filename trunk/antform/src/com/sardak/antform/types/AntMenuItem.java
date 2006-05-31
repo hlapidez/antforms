@@ -44,6 +44,7 @@ public class AntMenuItem extends BaseType implements ActionComponent {
 	private boolean background = false;
 	private int type = ActionType.OK;
 	private JMenuItem menuItem;
+	private boolean loopExit = false;
 
 	/**
 	 * get the name
@@ -87,6 +88,14 @@ public class AntMenuItem extends BaseType implements ActionComponent {
 
 	public boolean isBackground() {
 		return background;
+	}
+
+	public boolean isLoopExit() {
+		return loopExit;
+	}
+
+	public void setLoopExit(boolean loopExit) {
+		this.loopExit = loopExit;
 	}
 
 	/**

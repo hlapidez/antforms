@@ -61,6 +61,8 @@ public class ActionRegistry implements ActionListener {
 			task.setActionType(source.getActionType());
 			// tell form/menu which target to run
 			task.setTargetToInvoke(source.getTarget());
+			// tell form/menu if it should exit its internal loop
+			task.setLoop(!source.isLoopExit());
 			// close the form/menu
 			task.getControl().close(null);
 		}
