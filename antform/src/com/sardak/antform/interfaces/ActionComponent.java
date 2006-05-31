@@ -34,4 +34,6 @@ public interface ActionComponent {
 	public boolean isBackground();
 
 	public AbstractButton getComponent();
+	
+	public boolean isLoopExit();
 }

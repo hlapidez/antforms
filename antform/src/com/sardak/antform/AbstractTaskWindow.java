@@ -57,13 +57,14 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	protected Control control;
 	protected boolean needFail = false;
 	protected String lookAndFeel=null;
-	protected List widgets;
+	protected List widgets;	
 	protected List displayedWidgets;	
 	protected boolean dynamic = false;
 	protected boolean tabbed = false;
 	private ActionRegistry actionRegistry;
 	private int actionType = ActionType.UNDEFINED;
 	private String targetToInvoke = null;
+	private boolean loop = false;
 	
 	/**
 	 * get image URL
@@ -174,6 +175,14 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 		widgets.add(label);
 	}
 
+	public boolean isLoop() {
+		return loop;
+	}
+	
+	public void setLoop(boolean loop) {
+		this.loop = loop;
+	}
+	
 	/**
 	 * set preliminary gui operations, such as 
 	 * Look & Feel
@@ -204,7 +213,7 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 			} catch (Exception e) {
 				e.printStackTrace();
 			} 
-		}
+		} 				
 		control.setFocusedComponent(getFocusedComponent());
 	}
 	
@@ -345,7 +354,7 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 				Focusable f = (Focusable) o;
 				if (firstFocusableComponent == null) {
 					firstFocusableComponent = f.getFocusableComponent();
-				}
+}
 				if (f.isFocus()) {
 					focusableComponent = f.getFocusableComponent();
 					break;

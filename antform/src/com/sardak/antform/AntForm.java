@@ -398,26 +398,28 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 	 * @see org.apache.tools.ant.Task#execute()
 	 */
 	public void execute() throws BuildException {
-		preliminaries();
-		if (!built) {
-			build();
-		}
-		super.execute();
-		// widgets are there. Initialize them.
-		reset();
-
-		control.show();
-		if (getActionType() == ActionType.OK && save != null) {
-			save();
-		}
-		if (dynamic) {
-			built = false;
-			control = null;
-		}
-		if (getTargetToInvoke() != null && findTargetByName(getTargetToInvoke()) != null) {
-			TargetInvoker invoker = new TargetInvoker(this, getTargetToInvoke());
-			invoker.perform();
-		}
+		do {
+			preliminaries();
+			if (!built) {
+				build();
+			}
+			super.execute();
+			// widgets are there. Initialize them.
+			reset();
+	
+			control.show();
+			if (getActionType() == ActionType.OK && save != null) {
+				save();
+			}
+			if (dynamic) {
+				built = false;
+				control = null;
+			}
+			if (getTargetToInvoke() != null && findTargetByName(getTargetToInvoke()) != null) {
+				TargetInvoker invoker = new TargetInvoker(this, getTargetToInvoke());
+				invoker.perform();
+			}
+		} while (isLoop());
 	}
 
 	private void controlBarIncompatibilityDetected() {
