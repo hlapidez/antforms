@@ -46,7 +46,6 @@ public class CallBackDialog extends JDialog {
 			public void run() {
 				parentFrame.setSize(0, 0);
 				parentFrame.setLocation(-500, -500);
-				parentFrame.setVisible(true);
 			}
 		});
 	}
@@ -54,7 +53,7 @@ public class CallBackDialog extends JDialog {
 	/**
 	 * dispose() overload
 	 */
-	public void dispose(boolean executeCallBack) {
+	public void dispose() {
 		super.hide();
 		parentFrame.hide();
 	}
@@ -63,22 +62,18 @@ public class CallBackDialog extends JDialog {
 	 * Hide the frame
 	 */
 	public void hide() {
-		dispose(true);
+		dispose();
 	}
-
-	/**
-	 * Dispose the frame and call the callback
-	 */
-	public void dispose(String message) {
-		super.hide();
-		parentFrame.hide();
+	
+	public void display() {
+		parentFrame.setVisible(true);
+		show();
 	}
 
 	public void setTitle(String title) {
 		super.setTitle(title);
 		parentFrame.setTitle(title);
 	}
-	
 
 	public void setIcon(File iconFile) {
 		if (iconFile != null) {
