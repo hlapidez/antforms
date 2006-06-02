@@ -66,7 +66,7 @@ public class ActionRegistry implements ActionListener {
 				task.setLoop(false);
 			}
 			// close the form/menu
-			task.getControl().close(null);
+			task.getControl().close();
 		}
 	}
 }

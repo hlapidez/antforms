@@ -198,7 +198,7 @@ public class Control {
 		if (focusedComponent != null) {
 			focusedComponent.requestFocus();
 		}
-		dialog.show();
+		dialog.display();
 	}
 	
 	/**
@@ -212,18 +212,9 @@ public class Control {
 
 	/**
 	 * Close the control panel and store properties
-	 * @param properties
 	 */
-	public void close(Properties properties, String message) {		
-		this.properties = properties;
-		close(message);
-	}
-	
-	/**
-	 * Close the control panel and store properties
-	 */
-	public void close(String message) {				
-		dialog.dispose(message);
+	public void close() {
+		dialog.dispose();
 	}
 	
 	/**
