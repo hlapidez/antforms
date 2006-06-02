@@ -27,14 +27,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;
 
-import javax.swing.JComponent;
-
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
 import com.sardak.antform.gui.CallBack;
 import com.sardak.antform.gui.ControlPanel;
-import com.sardak.antform.interfaces.Focusable;
 import com.sardak.antform.interfaces.PropertyComponent;
 import com.sardak.antform.types.BaseType;
 import com.sardak.antform.types.BooleanProperty;
