@@ -71,4 +71,33 @@ Date: 07/01/2005.
 	<!-- generate all packages -->
 	<target name="package" depends="package-src, package-bin"/>
 
+	<target name="check-antform">
+		<path id="antform.ui.classpath">
+			<dirset dir="bin" />
+			<fileset dir="lib" includes="antform.jar" />
+		</path>
+		<available classname="com.sardak.antform.AntForm" property="antform.available" classpathref="antform.ui.classpath"/>
+	</target>
+	
+	<target name="ui" depends="check-antform" if="antform.available">
+		<taskdef file="src/com/sardak/antform/taskdefs.properties" classpathref="antform.ui.classpath" />
+		<antmenu title="AntForm" loop="true">
+			<button label="Package" target="package" />
+			<button label="Generate site" target="generate-site" />
+			<button label="Upload site" target="upload-site" />
+			<button label="Exit" loopexit="true" />
+		</antmenu>
+	</target>
+	
+	<target name="check-generate-site">
+		<available file="../sitegenerator" type="dir" property="can.generate.site" />
+	</target>
+		
+	<target name="generate-site" depends="check-generate-site" if="can.generate.site">
+		<ant antfile="site.xml" target="generate" />
+	</target>
+
+	<target name="upload-site">
+		<ant antfile="site.xml" target="port" />
+	</target>
 </project>
