@@ -1,8 +1,8 @@
 <h2>Installation</h2>
-<p>After <a href="download.html">downloading</a> the package, unzip in into a specific folder on your hard disk. Lets call this folder <code>AntForm_home</code>.</p>
-<p>In your Ant build file, create taskdefs with a classpath referring to your
-${antForm_home}/lib/AntForm.jar  file, unless this file is copied into to your
-${ant_home}/lib folder, in which case it doesn't need to be referenced in the
+<p>After <a href="download.html">downloading</a> the package, unzip it into a specific folder on your hard disk. Let's call this folder <code>AntForm_home</code> for what follows.</p>
+<p>In your Ant build file, create <code>taskdef</code> (<i>task definitions</i>) 
+with a classpath referring to your ${antForm_home}/lib/AntForm.jar file, unless this file is copied into the 
+base ${ant_home}/lib folder of your Ant distribution, in which case it doesn't need to be referenced through the
 <code>taskdef</code> classpath attribute. The task definitions should look like this:</p>
 <blockquote><pre>
 &lt;taskdef name="antform" classname="com.sardak.antform.AntForm" 
