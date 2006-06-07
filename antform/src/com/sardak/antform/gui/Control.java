@@ -123,7 +123,7 @@ public class Control {
 		JPanel container = new JPanel();
 		container.setBorder(null);
 		container.setLayout(new BorderLayout());
-		container.setBackground(Color.WHITE);
+		container.setBackground(Color.white);
 		dialog.setContentPane(container);		
 		if (title!=null) {
 			panel.setTitle(title);
