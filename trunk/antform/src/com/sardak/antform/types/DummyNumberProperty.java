@@ -73,7 +73,7 @@ public class DummyNumberProperty extends DefaultProperty implements DummyCompone
 	}
 
 	public boolean validate(Task task) {
-		return false;
+		return super.validate(task, "NumberProperty");
 	}
 
 	public JComponent getFocusableComponent() {

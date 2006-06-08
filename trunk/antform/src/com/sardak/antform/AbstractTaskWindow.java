@@ -35,6 +35,7 @@ import com.sardak.antform.gui.CallBack;
 import com.sardak.antform.gui.Control;
 import com.sardak.antform.interfaces.ActionComponent;
 import com.sardak.antform.interfaces.ActionListenerComponent;
+import com.sardak.antform.interfaces.DummyComponent;
 import com.sardak.antform.interfaces.Focusable;
 import com.sardak.antform.interfaces.Requirable;
 import com.sardak.antform.types.AntMenuItem;
@@ -92,10 +93,14 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	 */
 	protected void build(){
 		displayedWidgets = new ArrayList();
-		for (Iterator iter = widgets.iterator(); iter.hasNext();) {
-			BaseType o = (BaseType) iter.next();
+		for (int i = 0 ; i < widgets.size() ; i++) {
+			BaseType o = (BaseType) widgets.get(i);
 			if (o.validate(this)) {
 				if (o.shouldBeDisplayed(getProject())) {
+					if (o instanceof DummyComponent) {
+						o = ((DummyComponent) o).getRealType();
+						widgets.set(i, o);
+					}
 				    o.addToControlPanel(control.getPanel());
 				    displayedWidgets.add(o);
 				}
@@ -106,6 +111,20 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 				needFail = true;
 			}
 		}
+//		for (Iterator iter = widgets.iterator(); iter.hasNext();) {
+//			BaseType o = (BaseType) iter.next();
+//			if (o.validate(this)) {
+//				if (o.shouldBeDisplayed(getProject())) {
+//				    o.addToControlPanel(control.getPanel());
+//				    displayedWidgets.add(o);
+//				}
+//				if (o.getIf() != null || o.getUnless() != null) {
+//					dynamic = true;
+//				}
+//			} else {
+//				needFail = true;
+//			}
+//		}
 	}
 	
 	/**
