@@ -56,6 +56,7 @@ public class Button extends BaseType implements ActionComponent, Focusable {
 		super();
 		setLabel(text);
 		setTarget(target);
+		type = actionType;
 	}
 	
 	public String getLabel() {
