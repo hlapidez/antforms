@@ -243,14 +243,14 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 	 * add a configured number property
 	 */
 	public void addConfiguredNumberProperty(DummyNumberProperty numberProperty) {
-		widgets.add(numberProperty.getRealType());
+		widgets.add(numberProperty);
 	}
 
 	/**
 	 * add a configured list property
 	 */
 	public void addConfiguredListProperty(DummyListProperty listProperty) {
-		widgets.add(listProperty.getRealType());
+		widgets.add(listProperty);
 	}
 
 	/**

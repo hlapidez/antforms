@@ -65,7 +65,15 @@ public class DummyListProperty extends DefaultProperty implements DummyComponent
 	}
 
 	public boolean validate(Task task) {
-		return false;
+		boolean isValid = super.validate(task, "ListProperty");
+		if (getValues() == null) {
+			task.log("ListProperty : attribute \"values\" missing.");
+			isValid = false;
+		} else if (getValues().length() == 0) {
+			task.log("ListProperty : attribute \"values\" is empty.");
+			isValid = false;
+		}
+		return isValid;
 	}
 
 	public JComponent getFocusableComponent() {
