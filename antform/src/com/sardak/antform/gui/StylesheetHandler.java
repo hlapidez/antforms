@@ -15,10 +15,10 @@ import java.util.Set;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -73,7 +73,7 @@ public class StylesheetHandler {
 		fileChoosers.add(chooser);
 	}
 	
-	public void addSpinner(JSpinner spinner) {
+	public void addSpinner(JComponent spinner) {
 	    numberProperties.add(spinner);
 	}
 	

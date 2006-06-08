@@ -32,8 +32,8 @@ Date: 07/01/2005.
 	<target name="compile">
 		<mkdir dir="${bin}"/>
 		<javac srcdir="${src}" destdir="${bin}" classpath="${lib}/ant.jar"
-			source="1.4" target="1.4" includeantruntime="false"
-			debug="on" debugLevel="lines,vars,source"/>
+			source="1.3" target="1.3" includeantruntime="false"
+			debug="on" debugLevel="lines,vars,source" />
 	</target>
 
 	<target name="backup">
