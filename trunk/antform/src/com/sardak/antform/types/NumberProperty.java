@@ -32,7 +32,7 @@ import com.sardak.antform.interfaces.ActionListenerComponent;
  * @author René Ghosh
  * 2 mars 2005
  */
-public class NumberProperty extends DefaultProperty implements ActionListenerComponent {
+public class NumberProperty extends DummyNumberProperty implements ActionListenerComponent {
 	private double min=0,max=100,step=1;
 	private SpinnerNumberModel model;
 	private JSpinner spinner;

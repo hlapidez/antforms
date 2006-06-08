@@ -40,10 +40,10 @@ import com.sardak.antform.types.ButtonBar;
 import com.sardak.antform.types.Cancel;
 import com.sardak.antform.types.CheckSelectionProperty;
 import com.sardak.antform.types.DateProperty;
+import com.sardak.antform.types.DummyListProperty;
+import com.sardak.antform.types.DummyNumberProperty;
 import com.sardak.antform.types.FileSelectionProperty;
-import com.sardak.antform.types.ListProperty;
 import com.sardak.antform.types.MultilineTextProperty;
-import com.sardak.antform.types.NumberProperty;
 import com.sardak.antform.types.RadioSelectionProperty;
 import com.sardak.antform.types.SelectionProperty;
 import com.sardak.antform.types.Separator;
@@ -242,15 +242,15 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 	/**
 	 * add a configured number property
 	 */
-	public void addConfiguredNumberProperty(NumberProperty numberProperty) {
-		widgets.add(numberProperty);
+	public void addConfiguredNumberProperty(DummyNumberProperty numberProperty) {
+		widgets.add(numberProperty.getRealType());
 	}
 
 	/**
 	 * add a configured list property
 	 */
-	public void addConfiguredListProperty(ListProperty listProperty) {
-		widgets.add(listProperty);
+	public void addConfiguredListProperty(DummyListProperty listProperty) {
+		widgets.add(listProperty.getRealType());
 	}
 
 	/**

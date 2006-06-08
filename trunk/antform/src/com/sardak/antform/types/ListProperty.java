@@ -34,7 +34,7 @@ import com.sardak.antform.util.CSVReader;
 /**
  * @author René Ghosh 2 mars 2005
  */
-public class ListProperty extends DefaultProperty implements ActionListenerComponent {
+public class ListProperty extends DummyListProperty implements ActionListenerComponent {
 	private String values;
 	private String separator = ",";
 	private String escapeSequence = "\\";
