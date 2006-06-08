@@ -36,4 +36,6 @@ public interface ActionComponent {
 	public AbstractButton getComponent();
 	
 	public boolean isLoopExit();
+	
+	public boolean isNewProject();
 }
