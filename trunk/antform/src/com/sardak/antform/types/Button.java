@@ -37,6 +37,16 @@ public class Button extends BaseType implements ActionComponent, Focusable {
 	private int type = ActionType.OK;
 	private boolean focus = false;
 	private boolean loopExit = false;
+	private boolean newProject = true;
+
+	public boolean isNewProject() {
+		return newProject;
+	}
+
+	public void setNewProject(boolean newProject) {
+		this.newProject = newProject;
+	}
+
 	
 	public Button() {
 		super();

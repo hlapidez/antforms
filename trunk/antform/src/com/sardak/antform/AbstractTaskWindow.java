@@ -33,6 +33,7 @@ import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.CallBack;
 import com.sardak.antform.gui.Control;
+import com.sardak.antform.interfaces.ActionComponent;
 import com.sardak.antform.interfaces.ActionListenerComponent;
 import com.sardak.antform.interfaces.Focusable;
 import com.sardak.antform.interfaces.Requirable;
@@ -42,7 +43,6 @@ import com.sardak.antform.types.Button;
 import com.sardak.antform.types.ButtonBar;
 import com.sardak.antform.types.Label;
 import com.sardak.antform.util.ActionRegistry;
-import com.sardak.antform.util.ActionType;
 
 /**
  * @author René Ghosh
@@ -62,9 +62,8 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	protected boolean dynamic = false;
 	protected boolean tabbed = false;
 	private ActionRegistry actionRegistry;
-	private int actionType = ActionType.UNDEFINED;
-	private String targetToInvoke = null;
 	private boolean loop = false;
+	private ActionComponent actionSource = null;
 	
 	/**
 	 * get image URL
@@ -280,22 +279,14 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 		this.iconFile = icon;
 	}
 	
-	public int getActionType() {
-		return actionType;
+	public ActionComponent getActionSource() {
+		return actionSource;
 	}
 	
-	public void setActionType(int actionType) {
-		this.actionType = actionType;
+	public void setActionSource(ActionComponent actionSource) {
+		this.actionSource = actionSource;
 	}
 	
-	public void setTargetToInvoke(String target) {
-		targetToInvoke = target;
-	}
-	
-	public String getTargetToInvoke() {
-		return targetToInvoke;
-	}
-
 	public ActionRegistry getActionRegistry() {
 		if (actionRegistry == null) {
 			actionRegistry = new ActionRegistry(this);

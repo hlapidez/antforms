@@ -173,6 +173,10 @@ public class Wait extends BaseType implements SubBuildListener {
 		public boolean isLoopExit() {
 			return true; // as this button is used when closewhendone is true
 		}
+
+		public boolean isNewProject() {
+			return true; // no target, so not used...
+		}
 		
 	}
 }
