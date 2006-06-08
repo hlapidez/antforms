@@ -45,6 +45,15 @@ public class AntMenuItem extends BaseType implements ActionComponent {
 	private int type = ActionType.OK;
 	private JMenuItem menuItem;
 	private boolean loopExit = false;
+	private boolean newProject = true;
+
+	public boolean isNewProject() {
+		return newProject;
+	}
+
+	public void setNewProject(boolean newProject) {
+		this.newProject = newProject;
+	}
 
 	/**
 	 * get the name

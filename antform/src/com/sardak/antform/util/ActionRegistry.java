@@ -53,18 +53,12 @@ public class ActionRegistry implements ActionListener {
 		if (source.isBackground() && source.getTarget() != null) { // even if CANCEL
 			// invoke target
 			if (task.findTargetByName(source.getTarget()) != null) {
-				TargetInvoker invoker = new TargetInvoker(task, source.getTarget(), true);
+				TargetInvoker invoker = new TargetInvoker(task, source);
 				invoker.perform();
 			}
 		} else {
-			// tell form/menu what kind of action occured
-			task.setActionType(source.getActionType());
-			// tell form/menu which target to run
-			task.setTargetToInvoke(source.getTarget());
-			// tell form/menu if it should exit its internal loop
-			if (source.isLoopExit()) {
-				task.setLoop(false);
-			}
+			// inform form/menu about the action source
+			task.setActionSource(source);
 			// close the form/menu
 			task.getControl().close();
 		}
