@@ -29,6 +29,7 @@ import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.table.TableColumn;
 
+import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.AntTable;
@@ -42,7 +43,7 @@ import com.sardak.antform.util.StringUtil;
  * 1 avr. 2005
  */
 public class Table extends DefaultProperty implements ActionListenerComponent {
-	private String columns, data;
+	private String columns;
 	private String rowSeparator=",", columnSeparator=";";
 	private String escapeSequence = "\\";
 	private String[] cols;
@@ -50,6 +51,7 @@ public class Table extends DefaultProperty implements ActionListenerComponent {
 	private int columnWidth = -1;
 	private boolean bestFitColumns=false;
 	private AntTable table;
+	private boolean setDataCalled = false;
 	
 	public int getColumnWidth() {
 		return columnWidth;
@@ -93,11 +95,8 @@ public class Table extends DefaultProperty implements ActionListenerComponent {
 	public void setColumns(String columns) {
 		this.columns = columns;
 	}
-	public String getData() {
-		return data;
-	}
 	public void setData(String data) {
-		this.data = data;
+		setDataCalled = true;
 	}
 	
 	/**
@@ -106,6 +105,10 @@ public class Table extends DefaultProperty implements ActionListenerComponent {
 	public String[][] splitData(){		
 		CSVReader rowReader = new CSVReader(rowSeparator, escapeSequence);
 		CSVReader columnReader = new CSVReader(columnSeparator, escapeSequence);
+		String data = getProject().getProperty(getProperty());
+		if (data == null) {
+			data = "";
+		}
 		List rowsList = rowReader.digest(data, false);
 		List dataList = new ArrayList();
 		int maxCols = cols.length;
@@ -191,8 +194,8 @@ public class Table extends DefaultProperty implements ActionListenerComponent {
 			task.log("Table : attribute \"columns\" missing.");
 			isValid = false;
 		}
-		if (getData() == null) {
-			task.log("Table : attribute \"data\" missing.");
+		if (setDataCalled) {
+			task.log("Table : attribute \"data\" is deprecated.", Project.MSG_WARN);
 			isValid = false;
 		}
 		return isValid;
