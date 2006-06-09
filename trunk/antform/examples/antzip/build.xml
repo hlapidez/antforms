@@ -9,21 +9,21 @@
 	<taskdef file="${antform.src.dir}/com/sardak/antform/taskdefs.properties" classpath="${antform.classpath}" loaderref="antform.loader" />
 
 	<target name="main" depends="list-zip-file-content">
-		<antform title="AntZip">
+		<antform title="AntZip" loop="true">
 			<antmenuitem name="${file.menu}">
-				<antmenuitem name="${open.menu}" target="open-file" />
-				<antmenuitem name="${extract.menu}" target="extract-file-form" />
-				<antmenuitem name="${preferences.menu}" target="preferences" />
-				<antmenuitem name="${exit.menu}" type="cancel" />
+				<antmenuitem name="${open.menu}" target="open-file" newproject="false" />
+				<antmenuitem name="${extract.menu}" target="extract-file-form" newproject="false" />
+				<antmenuitem name="${preferences.menu}" target="preferences" newproject="false" />
+				<antmenuitem name="${exit.menu}" type="cancel" loopexit="true" />
 			</antmenuitem>
 			<buttonbar>
-				<button label="${open.menu}" target="open-file" />
-				<button label="${extract.menu}" target="extract-file-form" />
-				<button label="${preferences.menu}" target="preferences" />
-				<button label="${exit.menu}" type="cancel" />
+				<button label="${open.menu}" target="open-file" newproject="false" />
+				<button label="${extract.menu}" target="extract-file-form" newproject="false" />
+				<button label="${preferences.menu}" target="preferences" newproject="false" />
+				<button label="${exit.menu}" type="cancel" loopexit="true" />
 			</buttonbar>
 			<textproperty label="" property="zip.file.name" if="zip.file.name" required="false" editable="false" />
-			<table label="" property="zip.file.content" data="${zip.file.content}" columns="${zip.entries.column.name}" columnseparator="°" rowseparator=";" if="zip.file.name" escapesequence="@" editable="false" bestfitcolumns="true" />
+			<table label="" property="zip.file.content" columns="${zip.entries.column.name}" columnseparator="°" rowseparator=";" if="zip.file.name" escapesequence="@" editable="false" bestfitcolumns="true" />
 			<controlbar />
 		</antform>
 	</target>
@@ -41,8 +41,8 @@
 		<antform title="AntZip - ${open.menu}">
 			<fileselectionproperty label="" property="zip.file.name" />
 			<controlbar>
-				<button type="cancel" label="${cancel.button}" target="main" />
-				<button type="ok" label="${ok.button}" target="main" />
+				<button type="cancel" label="${cancel.button}" />
+				<button type="ok" label="${ok.button}" target="list-zip-file-content" newproject="false" />
 			</controlbar>
 		</antform>
 	</target>
@@ -52,7 +52,7 @@
 			<label>select the directory you want to extract to</label>
 			<fileselectionproperty label="" property="extract.dir" directorychooser="true" />
 			<controlbar>
-				<button type="cancel" label="${cancel.button}" target="main" />
+				<button type="cancel" label="${cancel.button}" />
 				<button type="ok" label="${ok.button}" target="extract-file" />
 			</controlbar>
 		</antform>
@@ -68,15 +68,14 @@
 			</wait>
 			<controlbar />
 		</antform>
-		<antcall target="main" />
 	</target>
 
 	<target name="preferences">
 		<antform title="AntZip - ${preferences.menu}" save="${user.name}.properties">
 			<selectionproperty label="${language.label}" property="language" values="francais,english" />
 			<controlbar>
-				<button type="cancel" label="${cancel.button}" target="main" />
-				<button type="ok" label="${ok.button}" target="main" />
+				<button type="cancel" label="${cancel.button}" />
+				<button type="ok" label="${ok.button}" />
 			</controlbar>
 		</antform>
 	</target>
