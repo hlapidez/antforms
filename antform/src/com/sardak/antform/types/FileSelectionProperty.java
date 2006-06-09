@@ -73,7 +73,7 @@ public class FileSelectionProperty extends DefaultProperty implements Requirable
 	}
 
 	public void reset() {
-		chooser.setText(getInitialPropertyValue());
+		chooser.setText(getCurrentProjectPropertyValue());
 	}
 
 	public boolean requiredStatusOk() {

@@ -48,7 +48,7 @@ public class BooleanProperty extends DefaultProperty implements ActionListenerCo
 	}
 
 	public void ok() {
-		if (getInitialPropertyValue() == null && !checkBox.isSelected()) {
+		if (getCurrentProjectPropertyValue() == null && !checkBox.isSelected()) {
 			// do not set project property in this case
 		} else if (checkBox.isSelected()) {
 			getProject().setProperty(getProperty(), Boolean.TRUE.toString());
@@ -58,7 +58,7 @@ public class BooleanProperty extends DefaultProperty implements ActionListenerCo
 	}
 
 	public void reset() {
-		checkBox.setSelected(Project.toBoolean(getInitialPropertyValue()));
+		checkBox.setSelected(Project.toBoolean(getCurrentProjectPropertyValue()));
 	}
 
 	public JComponent getFocusableComponent() {

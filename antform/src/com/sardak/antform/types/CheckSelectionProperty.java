@@ -59,7 +59,7 @@ public class CheckSelectionProperty extends SelectionProperty implements ActionL
 	}
 
 	public void reset() {
-		checkGroupBox.setValue(getInitialPropertyValue());
+		checkGroupBox.setValue(getCurrentProjectPropertyValue());
 	}
 	
 	public JComponent getFocusableComponent() {

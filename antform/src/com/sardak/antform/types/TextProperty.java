@@ -91,7 +91,7 @@ public class TextProperty extends DefaultProperty implements Requirable,
 	}
 	
 	public void reset() {
-		textField.setText(getInitialPropertyValue());
+		textField.setText(getCurrentProjectPropertyValue());
 	}
 
 	public boolean requiredStatusOk() {

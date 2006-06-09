@@ -97,8 +97,8 @@ public class ListProperty extends DummyListProperty implements ActionListenerCom
 	}
 
 	public void reset() {
-		if (model.getList().contains(getInitialPropertyValue())) {
-			spinner.setValue(getInitialPropertyValue());
+		if (model.getList().contains(getCurrentProjectPropertyValue())) {
+			spinner.setValue(getCurrentProjectPropertyValue());
 		} else {
 			spinner.setValue(model.getList().get(0));
 		}
