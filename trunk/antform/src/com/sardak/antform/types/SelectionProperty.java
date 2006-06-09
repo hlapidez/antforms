@@ -134,8 +134,8 @@ public class SelectionProperty extends DefaultProperty implements ActionListener
 	}
 
 	public void reset() {
-		if (isValidValue(getInitialPropertyValue())) {
-			comboBox.setSelectedItem(getInitialPropertyValue());
+		if (isValidValue(getCurrentProjectPropertyValue())) {
+			comboBox.setSelectedItem(getCurrentProjectPropertyValue());
 		} else {
 			comboBox.setSelectedIndex(0);
 		}

@@ -36,7 +36,6 @@ import com.sardak.antform.interfaces.Requirable;
  */
 public abstract class DefaultProperty extends BaseType implements PropertyComponent, Focusable {
     private String label, property, tooltip;
-    private String initialPropertyValue;
     private boolean focus = false;
 
     private boolean editable = true;
@@ -81,9 +80,6 @@ public abstract class DefaultProperty extends BaseType implements PropertyCompon
      */
     public void setProperty(String property) {
         this.property = property;
-        if (getProject() != null) {
-        	initialPropertyValue = getProject().getProperty(property);
-        }
     }
 
     /**
@@ -161,8 +157,11 @@ public abstract class DefaultProperty extends BaseType implements PropertyCompon
 		return attributesAreValid;
 	}
 	
-	public String getInitialPropertyValue() {
-		return initialPropertyValue;
+	public String getCurrentProjectPropertyValue() {
+		if (getProject() == null) {
+			return null;
+		}
+		return getProject().getProperty(getProperty());
 	}
 	
 	//default cancel() implementation: do nothing

@@ -83,8 +83,8 @@ public class NumberProperty extends DummyNumberProperty implements ActionListene
 	}
 
 	public void reset() {
-		if (isDouble(getInitialPropertyValue())) {
-			spinner.setValue(new Double(getInitialPropertyValue()));
+		if (isDouble(getCurrentProjectPropertyValue())) {
+			spinner.setValue(new Double(getCurrentProjectPropertyValue()));
 		} else {
 			spinner.setValue(new Double(0));
 		}

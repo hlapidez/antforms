@@ -61,8 +61,8 @@ public class RadioSelectionProperty extends SelectionProperty implements
 	}
 
 	public void reset() {
-		if (isValidValue(getInitialPropertyValue())) {
-			radioBox.setSelectedValue(getInitialPropertyValue());
+		if (isValidValue(getCurrentProjectPropertyValue())) {
+			radioBox.setSelectedValue(getCurrentProjectPropertyValue());
 		} else {
 			radioBox.setSelectedValue(getSplitValues()[0]);
 		}

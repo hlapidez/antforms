@@ -94,7 +94,7 @@ public class MultilineTextProperty extends DefaultProperty implements Requirable
 	}
 
 	public void reset() {
-		textArea.setText(getInitialPropertyValue());
+		textArea.setText(getCurrentProjectPropertyValue());
 	}
 
 	public boolean requiredStatusOk() {
