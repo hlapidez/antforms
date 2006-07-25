@@ -74,11 +74,11 @@ public class AntMenu extends AbstractTaskWindow implements CallBack{
 				built = false;
 				control = null;
 			}
-			if (getActionSource().getTarget() != null && findTargetByName(getActionSource().getTarget()) != null) {
+			if (getActionSource() != null && getActionSource().getTarget() != null && findTargetByName(getActionSource().getTarget()) != null) {
 				TargetInvoker invoker = new TargetInvoker(this, getActionSource());
 				invoker.perform();
 			}
-		} while (isLoop() && !getActionSource().isLoopExit());
+		} while (isLoop() && getActionSource() != null && !getActionSource().isLoopExit());
 	}
 	
 	/**
