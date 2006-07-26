@@ -108,6 +108,13 @@ public class DateChooser extends JPanel implements ActionListener{
 	}
 	
 	/**
+	 * get the font
+	 */
+	public Font getFont() {
+		return textField == null ? null : textField.getFont();
+	}
+	
+	/**
 	 * set the font
 	 */
 	public void setFont(Font font) {
@@ -115,6 +122,7 @@ public class DateChooser extends JPanel implements ActionListener{
 			textField.setFont(font);
 		}
 	}
+
 	/**
 	 * process button clicks
 	 */

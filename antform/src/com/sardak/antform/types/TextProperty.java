@@ -19,6 +19,8 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
+import java.awt.Font;
+
 import javax.swing.JComponent;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -28,6 +30,7 @@ import org.apache.tools.ant.Task;
 import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.interfaces.ActionListenerComponent;
 import com.sardak.antform.interfaces.Requirable;
+import com.sardak.antform.util.FontStyleAttribute;
 
 /**
  * Text property.
@@ -40,6 +43,9 @@ public class TextProperty extends DefaultProperty implements Requirable,
 	private boolean password = false;
 	private boolean required;
 	private JTextField textField;
+	private String fontName;
+	private int fontSize = -1;
+	private int fontStyle = Font.PLAIN;
 
 	public boolean isRequired() {
 		return required;
@@ -71,6 +77,30 @@ public class TextProperty extends DefaultProperty implements Requirable,
 		this.password = password;
 	}
 
+	public String getFontName() {
+		return fontName;
+	}
+
+	public void setFontName(String fontName) {
+		this.fontName = fontName;
+	}
+
+	public int getFontStyle() {
+		return fontStyle;
+	}
+
+	public void setFontStyle(FontStyleAttribute fsa) {
+		this.fontStyle = fsa.getFontStyle();
+	}
+
+	public int getFontSize() {
+		return fontSize;
+	}
+
+	public void setFontSize(int fontSize) {
+		this.fontSize = fontSize;
+	}
+
 	public void addToControlPanel(ControlPanel panel) {
 		if (!isPassword()) {
 			textField = new JTextField(getColumns());
@@ -79,6 +109,12 @@ public class TextProperty extends DefaultProperty implements Requirable,
 		}
 		panel.getStylesheetHandler().addTextField(textField);
 		textField.setEditable(isEditable());
+		if (fontName != null || fontSize == -1 ) {
+			Font f = textField.getFont();
+			String name = fontName == null ? f.getFontName() : fontName;
+			int size = fontSize > 0 ? fontSize : f.getSize();
+			textField.setFont(new Font(name, fontStyle, size));
+		}
 		initComponent(textField, panel);
 	}
 

@@ -20,14 +20,14 @@ using <code>controlbar</code></p>
 	</tr>
 	<tr>
 		<td valign="top">title</td>
-		<td valign="top">title of the form window and also set in a label at
-		the top of the form. Defaults to <code>Ant Controls</code></td>
+		<td valign="top">title of the form window and also set in a label
+		at the top of the form. Defaults to <code>Ant Controls</code></td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">image</td>
-		<td valign="top">filepath of the image displayed alongside the title
-		in the top panel of the form.</td>
+		<td valign="top">filepath of the image displayed alongside the
+		title in the top panel of the form.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -42,31 +42,32 @@ using <code>controlbar</code></p>
 	</tr>
 	<tr>
 		<td valign="top">okMessage</td>
-		<td valign="top">Label text used for the approval button of the form.
-		If set to an empty string, the button won't be displayed. Defaults to
-		<code>OK</code>.<br>
+		<td valign="top">Label text used for the approval button of the
+		form. If set to an empty string, the button won't be displayed.
+		Defaults to <code>OK</code>.<br>
 		<i><b>Deprecated</b></i>: use buttons in a <a href="#controlbar">controlbar</a>
 		instead.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">resetMessage</td>
-		<td valign="top">Label text used for the cancel button of the form. If
-		set to an empty string, the button won't be displayed. Defaults to <code>Reset</code><br>
+		<td valign="top">Label text used for the cancel button of the
+		form. If set to an empty string, the button won't be displayed.
+		Defaults to <code>Reset</code><br>
 		<i><b>Deprecated</b></i>: use buttons in a <a href="#controlbar">controlbar</a>
 		instead.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">save</td>
-		<td valign="top">Name of a file in which to save the properties edited
-		in the form.</td>
+		<td valign="top">Name of a file in which to save the properties
+		edited in the form.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">editable</td>
-		<td valign="top">Sets property to be editable by default, non-editable
-		otherwise</td>
+		<td valign="top">Sets property to be editable by default,
+		non-editable otherwise</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -76,31 +77,34 @@ using <code>controlbar</code></p>
 	</tr>
 	<tr>
 		<td valign="top">focus</td>
-		<td valign="top">Name of the field on which to focus when the form is
-		shown. Can be not only the name of a a field, but also the name of a
-		button such as the okButton or resetButton.<br />
+		<td valign="top">Name of the field on which to focus when the
+		form is shown. Can be not only the name of a a field, but also the
+		name of a button such as the okButton or resetButton.<br />
 		<b><i>Not supported anymore:</i></b> use nested elements <code>focus</code>
 		attribute instead.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">nextTarget</td>
-		<td valign="top">Next target to call upon validation for wizard mode.<br>
+		<td valign="top">Next target to call upon validation for wizard
+		mode.<br>
 		<i><b>Deprecated</b></i>: use buttons in a <a href="#controlbar">controlbar</a>
 		instead.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">previousTarget</td>
-		<td valign="top">Previous target to call upon reset for wizard mode.<br>
+		<td valign="top">Previous target to call upon reset for wizard
+		mode.<br>
 		<i><b>Deprecated</b></i>: use buttons in a <a href="#controlbar">controlbar</a>
 		instead.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">lookAndFeel</td>
-		<td valign="top">Classname of a java look and feel implementation. The
-		look and feel will carry over to other AntForm tasks if not reset.</td>
+		<td valign="top">Classname of a java look and feel
+		implementation. The look and feel will carry over to other AntForm
+		tasks if not reset.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -110,9 +114,10 @@ using <code>controlbar</code></p>
 	</tr>
 	<tr>
 		<td valign="top">loop</td>
-		<td valign="top">This boolean (true/false) specifies whether the form
-		should be shown again after action (ok, cancel, call target). It can
-		be useful for a main window to which we come back after each action.<br />
+		<td valign="top">This boolean (true/false) specifies whether the
+		form should be shown again after action (ok, cancel, call target). It
+		can be useful for a main window to which we come back after each
+		action.<br />
 		The loop is exited by clicking on a button (or menu) which has its <code>exitloop</code>
 		attribute set to true.<br />
 		Defaults to false.</td>
@@ -143,8 +148,8 @@ for full usage documentation.
 	</tr>
 	<tr>
 		<td valign="top">if</td>
-		<td valign="top">specify a property that must be set for this widget
-		to exist.</td>
+		<td valign="top">specify a property that must be set for this
+		widget to exist.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -156,9 +161,9 @@ for full usage documentation.
 </table>
 
 <h4>label</h4>
-<p>Add a message box to the form. Maps to a non-editable multiline text
-field with automatic line wrapping.The text content of the label tag
-sets the message text.</p>
+<p>Add a message box to the form. Maps to a non-editable multiline
+text field with automatic line wrapping.The text content of the label
+tag sets the message text.</p>
 <table border="0" cellpadding="2" cellspacing="0" width="100%">
 	<tr>
 		<th valign="top" width="10%">Attribute</th>
@@ -167,8 +172,8 @@ sets the message text.</p>
 	</tr>
 	<tr>
 		<td valign="top">if</td>
-		<td valign="top">specify a property that must be set for this widget
-		to exist.</td>
+		<td valign="top">specify a property that must be set for this
+		widget to exist.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -189,8 +194,8 @@ sets the message text.</p>
 	</tr>
 	<tr>
 		<td valign="top">if</td>
-		<td valign="top">specify a property that must be set for this widget
-		to exist.</td>
+		<td valign="top">specify a property that must be set for this
+		widget to exist.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -206,8 +211,8 @@ sets the message text.</p>
 	</tr>
 	<tr>
 		<td valign="top">property</td>
-		<td valign="top">Name of the property to be set by this field of the
-		form</td>
+		<td valign="top">Name of the property to be set by this field of
+		the form</td>
 		<td valign="top">Yes</td>
 	</tr>
 	<tr>
@@ -217,14 +222,34 @@ sets the message text.</p>
 	</tr>
 	<tr>
 		<td valign="top">editable</td>
-		<td valign="top">Sets property to be editable by default, non-editable
-		otherwise</td>
+		<td valign="top">Sets property to be editable by default,
+		non-editable otherwise</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">password</td>
-		<td valign="top">Sets the field to a password field that hides user
-		entry. Defaults5to <code>false</code></td>
+		<td valign="top">Sets the field to a password field that hides
+		user entry. Defaults5to <code>false</code></td>
+		<td valign="top">No</td>
+	</tr>
+	<tr>
+		<td valign="top">fontname</td>
+		<td valign="top">The font to use. The list of avaliable font
+		family on the current platform can be obtained by using the dummy <code><a
+			href="#printavailablefontfamilies">printavailablefontfamilies</a></code>
+		widget</td>
+		<td valign="top">No</td>
+	</tr>
+	<tr>
+		<td valign="top">fontstyle</td>
+		<td valign="top">The font style to use. This is a combination
+		(comma/space separated list) of <code>plain</code>, <code>italic</code>
+		and <code>bold</code>. default is <code>plain</code></td>
+		<td valign="top">No</td>
+	</tr>
+	<tr>
+		<td valign="top">fontsize</td>
+		<td valign="top">The size of the font to use</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -235,15 +260,15 @@ sets the message text.</p>
 	</tr>
 	<tr>
 		<td valign="top">tooltip</td>
-		<td valign="top">Text to display in a tooltip box attached to this
-		widget.</td>
+		<td valign="top">Text to display in a tooltip box attached to
+		this widget.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">focus</td>
-		<td valign="top">Specifies that this widget should get the focus when
-		the form is shown. If several widgets have this set to true, the first
-		one will get the focus.<br />
+		<td valign="top">Specifies that this widget should get the focus
+		when the form is shown. If several widgets have this set to true, the
+		first one will get the focus.<br />
 		Default to false.</td>
 		<td valign="top">No</td>
 	</tr>
@@ -251,8 +276,8 @@ sets the message text.</p>
 
 <h4><a name="numberProperty">numberProperty</a></h4>
 <p>Needs java 1.4 or bove.</p>
-<p>spinner field used to set numeric property values, with controls to
-increment or decrement the value.</p>
+<p>spinner field used to set numeric property values, with controls
+to increment or decrement the value.</p>
 <table border="0" cellpadding="2" cellspacing="0" width="100%">
 	<tr>
 		<th valign="top" width="10%">Attribute</th>
@@ -261,8 +286,8 @@ increment or decrement the value.</p>
 	</tr>
 	<tr>
 		<td valign="top">if</td>
-		<td valign="top">specify a property that must be set for this widget
-		to exist.</td>
+		<td valign="top">specify a property that must be set for this
+		widget to exist.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -278,14 +303,14 @@ increment or decrement the value.</p>
 	</tr>
 	<tr>
 		<td valign="top">property</td>
-		<td valign="top">Name of the property to be set by this field of the
-		form</td>
+		<td valign="top">Name of the property to be set by this field of
+		the form</td>
 		<td valign="top">Yes</td>
 	</tr>
 	<tr>
 		<td valign="top">editable</td>
-		<td valign="top">Sets property to be editable by default, non-editable
-		otherwise</td>
+		<td valign="top">Sets property to be editable by default,
+		non-editable otherwise</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -309,15 +334,15 @@ increment or decrement the value.</p>
 	</tr>
 	<tr>
 		<td valign="top">tooltip</td>
-		<td valign="top">Text to display in a tooltip box attached to this
-		widget.</td>
+		<td valign="top">Text to display in a tooltip box attached to
+		this widget.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">focus</td>
-		<td valign="top">Specifies that this widget should get the focus when
-		the form is shown. If several widgets have this set to true, the first
-		one will get the focus.<br />
+		<td valign="top">Specifies that this widget should get the focus
+		when the form is shown. If several widgets have this set to true, the
+		first one will get the focus.<br />
 		Default to false.</td>
 		<td valign="top">No</td>
 	</tr>
@@ -334,8 +359,8 @@ increment or decrement the value.</p>
 	</tr>
 	<tr>
 		<td valign="top">if</td>
-		<td valign="top">specify a property that must be set for this widget
-		to exist.</td>
+		<td valign="top">specify a property that must be set for this
+		widget to exist.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -351,14 +376,14 @@ increment or decrement the value.</p>
 	</tr>
 	<tr>
 		<td valign="top">property</td>
-		<td valign="top">Name of the property to be set by this field of the
-		form</td>
+		<td valign="top">Name of the property to be set by this field of
+		the form</td>
 		<td valign="top">Yes</td>
 	</tr>
 	<tr>
 		<td valign="top">editable</td>
-		<td valign="top">Sets property to be editable by default, non-editable
-		otherwise</td>
+		<td valign="top">Sets property to be editable by default,
+		non-editable otherwise</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -374,29 +399,29 @@ increment or decrement the value.</p>
 	</tr>
 	<tr>
 		<td valign="top">escapeSequence</td>
-		<td valign="top">The escape sequence that prefixes the separator when
-		the separator is part of a value. Defaults to "\".</td>
+		<td valign="top">The escape sequence that prefixes the separator
+		when the separator is part of a value. Defaults to "\".</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">tooltip</td>
-		<td valign="top">Text to display in a tooltip box attached to this
-		widget.</td>
+		<td valign="top">Text to display in a tooltip box attached to
+		this widget.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">focus</td>
-		<td valign="top">Specifies that this widget should get the focus when
-		the form is shown. If several widgets have this set to true, the first
-		one will get the focus.<br />
+		<td valign="top">Specifies that this widget should get the focus
+		when the form is shown. If several widgets have this set to true, the
+		first one will get the focus.<br />
 		Default to false.</td>
 		<td valign="top">No</td>
 	</tr>
 </table>
 
 <h4>multiLineTextProperty</h4>
-<p>Like <a href="#textProperty">textProperty</a>, only uses a multiline
-text field to edit the targeted property.</p>
+<p>Like <a href="#textProperty">textProperty</a>, only uses a
+multiline text field to edit the targeted property.</p>
 <table border="0" cellpadding="2" cellspacing="0" width="100%">
 	<tr>
 		<th valign="top" width="10%">Attribute</th>
@@ -405,8 +430,8 @@ text field to edit the targeted property.</p>
 	</tr>
 	<tr>
 		<td valign="top">if</td>
-		<td valign="top">specify a property that must be set for this widget
-		to exist.</td>
+		<td valign="top">specify a property that must be set for this
+		widget to exist.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -422,8 +447,8 @@ text field to edit the targeted property.</p>
 	</tr>
 	<tr>
 		<td valign="top">property</td>
-		<td valign="top">Name of the property to be set by this field of the
-		form</td>
+		<td valign="top">Name of the property to be set by this field of
+		the form</td>
 		<td valign="top">Yes</td>
 	</tr>
 	<tr>
@@ -438,8 +463,28 @@ text field to edit the targeted property.</p>
 	</tr>
 	<tr>
 		<td valign="top">editable</td>
-		<td valign="top">Sets property to be editable by default, non-editable
-		otherwise</td>
+		<td valign="top">Sets property to be editable by default,
+		non-editable otherwise</td>
+		<td valign="top">No</td>
+	</tr>
+	<tr>
+		<td valign="top">fontname</td>
+		<td valign="top">The font to use. The list of avaliable font
+		family on the current platform can be obtained by using the dummy <code><a
+			href="#printavailablefontfamilies">printavailablefontfamilies</a></code>
+		widget</td>
+		<td valign="top">No</td>
+	</tr>
+	<tr>
+		<td valign="top">fontstyle</td>
+		<td valign="top">The font style to use. This is a combination
+		(comma/space separated list) of <code>plain</code>, <code>italic</code>
+		and <code>bold</code>. default is <code>plain</code></td>
+		<td valign="top">No</td>
+	</tr>
+	<tr>
+		<td valign="top">fontsize</td>
+		<td valign="top">The size of the font to use</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -450,15 +495,15 @@ text field to edit the targeted property.</p>
 	</tr>
 	<tr>
 		<td valign="top">tooltip</td>
-		<td valign="top">Text to display in a tooltip box attached to this
-		widget.</td>
+		<td valign="top">Text to display in a tooltip box attached to
+		this widget.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">focus</td>
-		<td valign="top">Specifies that this widget should get the focus when
-		the form is shown. If several widgets have this set to true, the first
-		one will get the focus.<br />
+		<td valign="top">Specifies that this widget should get the focus
+		when the form is shown. If several widgets have this set to true, the
+		first one will get the focus.<br />
 		Default to false.</td>
 		<td valign="top">No</td>
 	</tr>
@@ -478,8 +523,8 @@ the &quot;\&quot; character.</p>
 	</tr>
 	<tr>
 		<td valign="top">if</td>
-		<td valign="top">specify a property that must be set for this widget
-		to exist.</td>
+		<td valign="top">specify a property that must be set for this
+		widget to exist.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -495,25 +540,26 @@ the &quot;\&quot; character.</p>
 	</tr>
 	<tr>
 		<td valign="top">property</td>
-		<td valign="top">Name of the property to be set by this field of the
-		form</td>
+		<td valign="top">Name of the property to be set by this field of
+		the form</td>
 		<td valign="top">Yes</td>
 	</tr>
 	<tr>
 		<td valign="top">editable</td>
-		<td valign="top">Specify wether the table can be edited. Defaults to <code>true</code></td>
+		<td valign="top">Specify wether the table can be edited. Defaults
+		to <code>true</code></td>
 		<td valign="top">No.</td>
 	</tr>
 	<tr>
 		<td valign="top">rowSeparator</td>
-		<td valign="top">Character used to separate row data in the property
-		string. defaults to &quot;<code>;</code>&quot;</td>
+		<td valign="top">Character used to separate row data in the
+		property string. defaults to &quot;<code>;</code>&quot;</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">columnSeparator</td>
-		<td valign="top">Character used to separate row data in the property
-		string. defaults to &quot;<code>;</code>&quot;</td>
+		<td valign="top">Character used to separate row data in the
+		property string. defaults to &quot;<code>;</code>&quot;</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -523,44 +569,45 @@ the &quot;\&quot; character.</p>
 	</tr>
 	<tr>
 		<td valign="top">width</td>
-		<td valign="top">Width in pixels to set the preffered table size. Both
-		width and height must be set and &gt; 0 to be effective.</td>
-		<td valign="top">No</td>
-	</tr>
-	<tr>
-		<td valign="top">height</td>
-		<td valign="top">Height in pixels to set the preffered table size.
+		<td valign="top">Width in pixels to set the preffered table size.
 		Both width and height must be set and &gt; 0 to be effective.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
+		<td valign="top">height</td>
+		<td valign="top">Height in pixels to set the preffered table
+		size. Both width and height must be set and &gt; 0 to be effective.</td>
+		<td valign="top">No</td>
+	</tr>
+	<tr>
 		<td valign="top">columnWidth</td>
-		<td valign="top">Size in pixels to set the preffered column width.</td>
+		<td valign="top">Size in pixels to set the preffered column
+		width.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">bestFitColumns</td>
-		<td valign="top">Specify wether to set each column width according to
-		the content. Defaults to <code>false</code>.</td>
+		<td valign="top">Specify wether to set each column width
+		according to the content. Defaults to <code>false</code>.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">data</td>
-		<td valign="top"><b><i>Deprecated</i></b>. Use the specified property
-		value instead (as for other components).</td>
+		<td valign="top"><b><i>Deprecated</i></b>. Use the specified
+		property value instead (as for other components).</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">tooltip</td>
-		<td valign="top">Text to display in a tooltip box attached to this
-		widget.</td>
+		<td valign="top">Text to display in a tooltip box attached to
+		this widget.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">focus</td>
-		<td valign="top">Specifies that this widget should get the focus when
-		the form is shown. If several widgets have this set to true, the first
-		one will get the focus.<br />
+		<td valign="top">Specifies that this widget should get the focus
+		when the form is shown. If several widgets have this set to true, the
+		first one will get the focus.<br />
 		Default to false.</td>
 		<td valign="top">No</td>
 	</tr>
@@ -578,8 +625,8 @@ instead.</p>
 	</tr>
 	<tr>
 		<td valign="top">if</td>
-		<td valign="top">specify a property that must be set for this widget
-		to exist.</td>
+		<td valign="top">specify a property that must be set for this
+		widget to exist.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -590,18 +637,18 @@ instead.</p>
 	</tr>
 	<tr>
 		<td valign="top">label</td>
-		<td valign="top">Text labelling the cancel button. If set to an empty
-		string, the button won't be displayed.</td>
+		<td valign="top">Text labelling the cancel button. If set to an
+		empty string, the button won't be displayed.</td>
 		<td valign="top">Yes</td>
 	</tr>
 </table>
 
 <h4>tab</h4>
 <p>Add a tab pane to which subsequent widgets will be added.</p>
-<p><i>Note: the <code>tab</code> element is not used in the intuitive
-nested sense. Do not try to add widgets directly to the tab, but rather
-add widget property fields after a tab declaration. In a sequential
-manner the property widgets will be added to the tabbed pane.</i></p>
+<p><i>Note: the <code>tab</code> element is not used in the
+intuitive nested sense. Do not try to add widgets directly to the tab,
+but rather add widget property fields after a tab declaration. In a
+sequential manner the property widgets will be added to the tabbed pane.</i></p>
 <table border="0" cellpadding="2" cellspacing="0" width="100%">
 	<tr>
 		<th valign="top" width="10%">Attribute</th>
@@ -610,8 +657,8 @@ manner the property widgets will be added to the tabbed pane.</i></p>
 	</tr>
 	<tr>
 		<td valign="top">if</td>
-		<td valign="top">specify a property that must be set for this widget
-		to exist.</td>
+		<td valign="top">specify a property that must be set for this
+		widget to exist.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -639,8 +686,8 @@ only maps to a drop-down listbox and not a spinner component.</p>
 	</tr>
 	<tr>
 		<td valign="top">if</td>
-		<td valign="top">specify a property that must be set for this widget
-		to exist.</td>
+		<td valign="top">specify a property that must be set for this
+		widget to exist.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -656,46 +703,47 @@ only maps to a drop-down listbox and not a spinner component.</p>
 	</tr>
 	<tr>
 		<td valign="top">property</td>
-		<td valign="top">Name of the property to be set by this field of the
-		form</td>
+		<td valign="top">Name of the property to be set by this field of
+		the form</td>
 		<td valign="top">Yes</td>
 	</tr>
 	<tr>
 		<td valign="top">values</td>
-		<td valign="top">list of values available for selecting the property
-		value. Use commas to separate the values by default, <br />
+		<td valign="top">list of values available for selecting the
+		property value. Use commas to separate the values by default, <br />
 		though you can specify another separator with the <code>separator</code>
 		attribute.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">separator</td>
-		<td valign="top">Specify a different separator from the default comma.</td>
+		<td valign="top">Specify a different separator from the default
+		comma.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">escapeSequence</td>
-		<td valign="top">The escape sequence that prefixes the separator when
-		the separator is part of a value. Defaults to "\".</td>
+		<td valign="top">The escape sequence that prefixes the separator
+		when the separator is part of a value. Defaults to "\".</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">editable</td>
-		<td valign="top">Sets property to be editable by default, non-editable
-		otherwise</td>
+		<td valign="top">Sets property to be editable by default,
+		non-editable otherwise</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">tooltip</td>
-		<td valign="top">Text to display in a tooltip box attached to this
-		widget.</td>
+		<td valign="top">Text to display in a tooltip box attached to
+		this widget.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">focus</td>
-		<td valign="top">Specifies that this widget should get the focus when
-		the form is shown. If several widgets have this set to true, the first
-		one will get the focus.<br />
+		<td valign="top">Specifies that this widget should get the focus
+		when the form is shown. If several widgets have this set to true, the
+		first one will get the focus.<br />
 		Default to false.</td>
 		<td valign="top">No</td>
 	</tr>
@@ -712,8 +760,8 @@ rendered with radio button fields instead of a drop-down list.</p>
 	</tr>
 	<tr>
 		<td valign="top">if</td>
-		<td valign="top">specify a property that must be set for this widget
-		to exist.</td>
+		<td valign="top">specify a property that must be set for this
+		widget to exist.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -729,33 +777,34 @@ rendered with radio button fields instead of a drop-down list.</p>
 	</tr>
 	<tr>
 		<td valign="top">property</td>
-		<td valign="top">Name of the property to be set by this field of the
-		form</td>
+		<td valign="top">Name of the property to be set by this field of
+		the form</td>
 		<td valign="top">Yes</td>
 	</tr>
 	<tr>
 		<td valign="top">values</td>
-		<td valign="top">list of values available for selecting the property
-		value. Use commas to separate the values by default, <br />
+		<td valign="top">list of values available for selecting the
+		property value. Use commas to separate the values by default, <br />
 		though you can specify another separator with the <code>separator</code>
 		attribute.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">separator</td>
-		<td valign="top">Specify a different separator from the default comma.</td>
+		<td valign="top">Specify a different separator from the default
+		comma.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">escapeSequence</td>
-		<td valign="top">The escape sequence that prefixes the separator when
-		the separator is part of a value. Defaults to "\".</td>
+		<td valign="top">The escape sequence that prefixes the separator
+		when the separator is part of a value. Defaults to "\".</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">editable</td>
-		<td valign="top">Sets property to be editable by default, non-editable
-		otherwise</td>
+		<td valign="top">Sets property to be editable by default,
+		non-editable otherwise</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -765,15 +814,15 @@ rendered with radio button fields instead of a drop-down list.</p>
 	</tr>
 	<tr>
 		<td valign="top">tooltip</td>
-		<td valign="top">Text to display in a tooltip box attached to this
-		widget.</td>
+		<td valign="top">Text to display in a tooltip box attached to
+		this widget.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">focus</td>
-		<td valign="top">Specifies that this widget should get the focus when
-		the form is shown. If several widgets have this set to true, the first
-		one will get the focus.<br />
+		<td valign="top">Specifies that this widget should get the focus
+		when the form is shown. If several widgets have this set to true, the
+		first one will get the focus.<br />
 		Default to false.</td>
 		<td valign="top">No</td>
 	</tr>
@@ -793,8 +842,8 @@ Think of the checkSelectionProperty as a multi-select list.</p>
 	</tr>
 	<tr>
 		<td valign="top">if</td>
-		<td valign="top">specify a property that must be set for this widget
-		to exist.</td>
+		<td valign="top">specify a property that must be set for this
+		widget to exist.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -810,33 +859,34 @@ Think of the checkSelectionProperty as a multi-select list.</p>
 	</tr>
 	<tr>
 		<td valign="top">property</td>
-		<td valign="top">Name of the property to be set by this field of the
-		form</td>
+		<td valign="top">Name of the property to be set by this field of
+		the form</td>
 		<td valign="top">Yes</td>
 	</tr>
 	<tr>
 		<td valign="top">values</td>
-		<td valign="top">list of values available for selecting the property
-		value. Use commas to separate the values by default, <br />
+		<td valign="top">list of values available for selecting the
+		property value. Use commas to separate the values by default, <br />
 		though you can specify another separator with the <code>separator</code>
 		attribute.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">separator</td>
-		<td valign="top">Specify a different separator from the default comma.</td>
+		<td valign="top">Specify a different separator from the default
+		comma.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">escapeSequence</td>
-		<td valign="top">The escape sequence that prefixes the separator when
-		the separator is part of a value. Defaults to "\".</td>
+		<td valign="top">The escape sequence that prefixes the separator
+		when the separator is part of a value. Defaults to "\".</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">editable</td>
-		<td valign="top">Sets property to be editable by default, non-editable
-		otherwise</td>
+		<td valign="top">Sets property to be editable by default,
+		non-editable otherwise</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -846,15 +896,15 @@ Think of the checkSelectionProperty as a multi-select list.</p>
 	</tr>
 	<tr>
 		<td valign="top">tooltip</td>
-		<td valign="top">Text to display in a tooltip box attached to this
-		widget.</td>
+		<td valign="top">Text to display in a tooltip box attached to
+		this widget.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">focus</td>
-		<td valign="top">Specifies that this widget should get the focus when
-		the form is shown. If several widgets have this set to true, the first
-		one will get the focus.<br />
+		<td valign="top">Specifies that this widget should get the focus
+		when the form is shown. If several widgets have this set to true, the
+		first one will get the focus.<br />
 		Default to false.</td>
 		<td valign="top">No</td>
 	</tr>
@@ -871,8 +921,8 @@ Think of the checkSelectionProperty as a multi-select list.</p>
 	</tr>
 	<tr>
 		<td valign="top">if</td>
-		<td valign="top">specify a property that must be set for this widget
-		to exist.</td>
+		<td valign="top">specify a property that must be set for this
+		widget to exist.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -888,20 +938,40 @@ Think of the checkSelectionProperty as a multi-select list.</p>
 	</tr>
 	<tr>
 		<td valign="top">property</td>
-		<td valign="top">Name of the property to be set by this field of the
-		form</td>
+		<td valign="top">Name of the property to be set by this field of
+		the form</td>
 		<td valign="top">Yes</td>
 	</tr>
 	<tr>
 		<td valign="top">dateFormat</td>
-		<td valign="top">date format for transforming to and from dates and
-		strings. Defaults to <code>dd/MM/yyyy</code></td>
+		<td valign="top">date format for transforming to and from dates
+		and strings. Defaults to <code>dd/MM/yyyy</code></td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">editable</td>
-		<td valign="top">Sets property to be editable by default, non-editable
-		otherwise</td>
+		<td valign="top">Sets property to be editable by default,
+		non-editable otherwise</td>
+		<td valign="top">No</td>
+	</tr>
+	<tr>
+		<td valign="top">fontname</td>
+		<td valign="top">The font to use. The list of avaliable font
+		family on the current platform can be obtained by using the dummy <code><a
+			href="#printavailablefontfamilies">printavailablefontfamilies</a></code>
+		widget</td>
+		<td valign="top">No</td>
+	</tr>
+	<tr>
+		<td valign="top">fontstyle</td>
+		<td valign="top">The font style to use. This is a combination
+		(comma/space separated list) of <code>plain</code>, <code>italic</code>
+		and <code>bold</code>. default is <code>plain</code></td>
+		<td valign="top">No</td>
+	</tr>
+	<tr>
+		<td valign="top">fontsize</td>
+		<td valign="top">The size of the font to use</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -912,15 +982,15 @@ Think of the checkSelectionProperty as a multi-select list.</p>
 	</tr>
 	<tr>
 		<td valign="top">tooltip</td>
-		<td valign="top">Text to display in a tooltip box attached to this
-		widget.</td>
+		<td valign="top">Text to display in a tooltip box attached to
+		this widget.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">focus</td>
-		<td valign="top">Specifies that this widget should get the focus when
-		the form is shown. If several widgets have this set to true, the first
-		one will get the focus.<br />
+		<td valign="top">Specifies that this widget should get the focus
+		when the form is shown. If several widgets have this set to true, the
+		first one will get the focus.<br />
 		Default to false.</td>
 		<td valign="top">No</td>
 	</tr>
@@ -939,8 +1009,8 @@ checked or <code>false</code> otherwise.</p>
 	</tr>
 	<tr>
 		<td valign="top">if</td>
-		<td valign="top">specify a property that must be set for this widget
-		to exist.</td>
+		<td valign="top">specify a property that must be set for this
+		widget to exist.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -956,27 +1026,27 @@ checked or <code>false</code> otherwise.</p>
 	</tr>
 	<tr>
 		<td valign="top">property</td>
-		<td valign="top">Name of the property to be set by this field of the
-		form</td>
+		<td valign="top">Name of the property to be set by this field of
+		the form</td>
 		<td valign="top">Yes</td>
 	</tr>
 	<tr>
 		<td valign="top">editable</td>
-		<td valign="top">Sets property to be editable by default, non-editable
-		otherwise</td>
+		<td valign="top">Sets property to be editable by default,
+		non-editable otherwise</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">tooltip</td>
-		<td valign="top">Text to display in a tooltip box attached to this
-		widget.</td>
+		<td valign="top">Text to display in a tooltip box attached to
+		this widget.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">focus</td>
-		<td valign="top">Specifies that this widget should get the focus when
-		the form is shown. If several widgets have this set to true, the first
-		one will get the focus.<br />
+		<td valign="top">Specifies that this widget should get the focus
+		when the form is shown. If several widgets have this set to true, the
+		first one will get the focus.<br />
 		Default to false.</td>
 		<td valign="top">No</td>
 	</tr>
@@ -992,8 +1062,8 @@ checked or <code>false</code> otherwise.</p>
 	</tr>
 	<tr>
 		<td valign="top">if</td>
-		<td valign="top">specify a property that must be set for this widget
-		to exist.</td>
+		<td valign="top">specify a property that must be set for this
+		widget to exist.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -1009,14 +1079,14 @@ checked or <code>false</code> otherwise.</p>
 	</tr>
 	<tr>
 		<td valign="top">property</td>
-		<td valign="top">Name of the property to be set by this field of the
-		form</td>
+		<td valign="top">Name of the property to be set by this field of
+		the form</td>
 		<td valign="top">Yes</td>
 	</tr>
 	<tr>
 		<td valign="top">editable</td>
-		<td valign="top">Sets property to be editable by default, non-editable
-		otherwise</td>
+		<td valign="top">Sets property to be editable by default,
+		non-editable otherwise</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -1039,15 +1109,15 @@ checked or <code>false</code> otherwise.</p>
 	</tr>
 	<tr>
 		<td valign="top">tooltip</td>
-		<td valign="top">Text to display in a tooltip box attached to this
-		widget.</td>
+		<td valign="top">Text to display in a tooltip box attached to
+		this widget.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">focus</td>
-		<td valign="top">Specifies that this widget should get the focus when
-		the form is shown. If several widgets have this set to true, the first
-		one will get the focus.<br />
+		<td valign="top">Specifies that this widget should get the focus
+		when the form is shown. If several widgets have this set to true, the
+		first one will get the focus.<br />
 		Default to false.</td>
 		<td valign="top">No</td>
 	</tr>
@@ -1059,8 +1129,8 @@ Deprecated. Use
 instead.
 
 <h4><a name="buttonbar">ButtonBar</a></h4>
-<p>Provide a bar with a horizontal layout of buttons to other targets.
-This type has no attributes and is basically a holder for <a
+<p>Provide a bar with a horizontal layout of buttons to other
+targets. This type has no attributes and is basically a holder for <a
 	href="#button">button</a> types.</p>
 
 <h4>link</h4>
@@ -1078,8 +1148,8 @@ instead
 	</tr>
 	<tr>
 		<td valign="top">if</td>
-		<td valign="top">specify a property that must be set for this widget
-		to exist.</td>
+		<td valign="top">specify a property that must be set for this
+		widget to exist.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -1095,8 +1165,8 @@ instead
 	</tr>
 	<tr>
 		<td valign="top">target</td>
-		<td valign="top">Name of the target to call when clicking this button.
-		Not used when type=&quot;reset&quot;</td>
+		<td valign="top">Name of the target to call when clicking this
+		button. Not used when type=&quot;reset&quot;</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -1105,48 +1175,49 @@ instead
 		button. Valid action types are:
 		<ul>
 			<li><code>ok</code>: validate form properties and close window</li>
-			<li><code>cancel</code>: do not validate form properties and close
-			window</li>
-			<li><code>reset</code>: reset form properties and keep window open</li>
+			<li><code>cancel</code>: do not validate form properties and
+			close window</li>
+			<li><code>reset</code>: reset form properties and keep window
+			open</li>
 		</ul>
 		Default action is &quot;ok&quot;.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">background</td>
-		<td valign="top">Wether to run the target in a separate thread or not.
-		The ant project in which antform is used will not exit until the
+		<td valign="top">Wether to run the target in a separate thread or
+		not. The ant project in which antform is used will not exit until the
 		created thread is finished. Defaults to <code>false</code></td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">newproject</td>
-		<td valign="top">Wether to run the target in a separate project (as <code>antcall</code>
-		does) or not. Setting this attribute to <code>false</code> allows to
-		set properties in the called target that will be reusable in the
-		calling target. Defaults to <code>true</code> (simulates <code>antcall</code>)</td>
+		<td valign="top">Wether to run the target in a separate project
+		(as <code>antcall</code> does) or not. Setting this attribute to <code>false</code>
+		allows to set properties in the called target that will be reusable in
+		the calling target. Defaults to <code>true</code> (simulates <code>antcall</code>)</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">focus</td>
-		<td valign="top">Specifies that this widget should get the focus when
-		the form is shown. If several widgets have this set to true, the first
-		one will get the focus.<br />
+		<td valign="top">Specifies that this widget should get the focus
+		when the form is shown. If several widgets have this set to true, the
+		first one will get the focus.<br />
 		Defaults to false.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">exitloop</td>
-		<td valign="top">When set to true, clicking on this component will
-		exit the form loop (see the loop attribute of antmenu/antform).<br />
+		<td valign="top">When set to true, clicking on this component
+		will exit the form loop (see the loop attribute of antmenu/antform).<br />
 		Defaults to false.</td>
 		<td valign="top">No</td>
 	</tr>
 </table>
 
 <h4>antMenuItem</h4>
-<p>Provide a menu bound to the frame menu bar and recursively hosting
-other AntMenuItems, each of which links to an Ant target.</p>
+<p>Provide a menu bound to the frame menu bar and recursively
+hosting other AntMenuItems, each of which links to an Ant target.</p>
 <table border="0" cellpadding="2" cellspacing="0" width="100%">
 	<tr>
 		<th valign="top" width="10%">Attribute</th>
@@ -1155,8 +1226,8 @@ other AntMenuItems, each of which links to an Ant target.</p>
 	</tr>
 	<tr>
 		<td valign="top">if</td>
-		<td valign="top">specify a property that must be set for this widget
-		to exist.</td>
+		<td valign="top">specify a property that must be set for this
+		widget to exist.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -1167,7 +1238,8 @@ other AntMenuItems, each of which links to an Ant target.</p>
 	</tr>
 	<tr>
 		<td valign="top">target</td>
-		<td valign="top">Name of the target to which the AntMenuItem links.</td>
+		<td valign="top">Name of the target to which the AntMenuItem
+		links.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
@@ -1181,36 +1253,42 @@ other AntMenuItems, each of which links to an Ant target.</p>
 		button. Valid action types are:
 		<ul>
 			<li><code>ok</code>: validate form properties and close window</li>
-			<li><code>cancel</code>: do not validate form properties and close
-			window</li>
-			<li><code>reset</code>: reset form properties and keep window open</li>
+			<li><code>cancel</code>: do not validate form properties and
+			close window</li>
+			<li><code>reset</code>: reset form properties and keep window
+			open</li>
 		</ul>
 		Default action is &quot;ok&quot;.</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">background</td>
-		<td valign="top">Wether to run the target in a separate thread or not.
-		The ant project in which antform is used will not exit until the
+		<td valign="top">Wether to run the target in a separate thread or
+		not. The ant project in which antform is used will not exit until the
 		created thread is finished. Defaults to <code>false</code></td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">newproject</td>
-		<td valign="top">Wether to run the target in a separate project (as <code>antcall</code>
-		does) or not. Setting this attribute to <code>false</code> allows to
-		set properties in the called target that will be reusable in the
-		calling target. Defaults to <code>true</code> (simulates <code>antcall</code>)</td>
+		<td valign="top">Wether to run the target in a separate project
+		(as <code>antcall</code> does) or not. Setting this attribute to <code>false</code>
+		allows to set properties in the called target that will be reusable in
+		the calling target. Defaults to <code>true</code> (simulates <code>antcall</code>)</td>
 		<td valign="top">No</td>
 	</tr>
 	<tr>
 		<td valign="top">exitloop</td>
-		<td valign="top">When set to true, clicking on this component will
-		exit the form loop (see the loop attribute of antmenu/antform).<br />
+		<td valign="top">When set to true, clicking on this component
+		will exit the form loop (see the loop attribute of antmenu/antform).<br />
 		Defaults to false.</td>
 		<td valign="top">No</td>
 	</tr>
 </table>
+
+<h4><a name="printavailablefontfamilies">printAvailableFontFamilies</a></h4>
+<p>This empty element will not display anything on the resulting
+form. Instead, it will print out the list of available font families on
+the console.</p>
 
 <h3>Examples</h3>
 <p>The following example generates properties for sending a mail.</p>
