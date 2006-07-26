@@ -20,6 +20,7 @@
 package com.sardak.antform;
 
 import java.awt.BorderLayout;
+import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -82,8 +83,8 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 		log(
 				"Attribute 'focus' of antform is not supported anymore. Use the widget 'focus' attribute instead.",
 				Project.MSG_WARN);
-//		let's not fail for that and avoid breaking existing build files
-//		needFail = true;
+		// let's not fail for that and avoid breaking existing build files
+		// needFail = true;
 	}
 
 	/**
@@ -354,6 +355,21 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 		buttonBar.register(getActionRegistry());
 	}
 
+	/**
+	 * Utility element which will print out the available font families
+	 * available on the current platform
+	 * 
+	 * @param o
+	 */
+	public void addPrintAvailableFontFamilies(Object o) {
+		String[] f = GraphicsEnvironment.getLocalGraphicsEnvironment()
+				.getAvailableFontFamilyNames();
+		for (int i = 0; i < f.length; i++) {
+			log(f[i]);
+		}
+
+	}
+
 	//
 	// execution
 	//
@@ -403,16 +419,18 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 			super.execute();
 			// widgets are there. Initialize them.
 			reset();
-	
+
 			control.show();
-			if (getActionSource() != null && getActionSource().getActionType() == ActionType.OK && save != null) {
+			if (getActionSource() != null
+					&& getActionSource().getActionType() == ActionType.OK && save != null) {
 				save();
 			}
 			if (dynamic) {
 				built = false;
 				control = null;
 			}
-			if (getActionSource() != null && getActionSource().getTarget() != null && findTargetByName(getActionSource().getTarget()) != null) {
+			if (getActionSource() != null && getActionSource().getTarget() != null
+					&& findTargetByName(getActionSource().getTarget()) != null) {
 				TargetInvoker invoker = new TargetInvoker(this, getActionSource());
 				invoker.perform();
 			}
