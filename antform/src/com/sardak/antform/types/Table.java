@@ -195,8 +195,8 @@ public class Table extends DefaultProperty implements ActionListenerComponent {
 			isValid = false;
 		}
 		if (setDataCalled) {
-			task.log("Table : attribute \"data\" is deprecated.", Project.MSG_WARN);
-			isValid = false;
+			task.log("Table : attribute \"data\" is deprecated. It won't be used.", Project.MSG_WARN);
+//			isValid = false;
 		}
 		return isValid;
 	}
