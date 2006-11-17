@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<project default="wait">
+	<path id="runtime.cp">
+		<pathelement location="../bin/" />
+		<fileset dir="../lib" includes="antform.jar" />
+	</path>
+	<taskdef name="antform" classname="com.sardak.antform.AntForm" classpathref="runtime.cp" loaderref="antform" />
+	<taskdef name="antmenu" classname="com.sardak.antform.AntMenu" classpathref="runtime.cp" loaderref="antform" />
+
+	<target name="wait">
+		<typedef name="wait" classname="com.sardak.antform.types.Wait" classpathref="runtime.cp" loaderref="antform" />
+
+		<antform title="Close when done" okmessage="" resetmessage="">
+			<wait label="Waiting completion..." closeWhenDone="true">
+				<sequential>
+					<echo message="before wait" />
+					<waitfor maxwait="5" maxwaitunit="second">
+						<isset property="toto" />
+					</waitfor>
+					<echo message="after wait" />
+				</sequential>
+			</wait>
+		</antform>
+
+		<antform title="Stay open when done" resetmessage="">
+			<wait label="Waiting completion..." closeWhenDone="false">
+				<sequential>
+					<echo message="before wait" />
+					<waitfor maxwait="5" maxwaitunit="second">
+						<isset property="toto" />
+					</waitfor>
+					<echo message="after wait" />
+				</sequential>
+			</wait>
+		</antform>
+	</target>
+</project>
+
