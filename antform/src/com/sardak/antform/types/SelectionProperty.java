@@ -39,7 +39,7 @@ public class SelectionProperty extends DefaultProperty implements ActionListener
 	private String values;
 	private String separator = ",";
 	private String escapeSequence = "\\";
-	private String[] splitValues;
+	private String[] splitValues = null;
 	private JComboBox comboBox;
 
 	/**
@@ -60,6 +60,9 @@ public class SelectionProperty extends DefaultProperty implements ActionListener
 	 * @return splitValues.
 	 */
 	public String[] getSplitValues() {
+		if (splitValues == null) {
+			split();
+		}
 		return splitValues;
 	}
 
@@ -82,7 +85,6 @@ public class SelectionProperty extends DefaultProperty implements ActionListener
 	 */
 	public void setSeparator(String separator) {
 		this.separator = separator;
-		split();
 	}
 
 	/**
@@ -106,7 +108,6 @@ public class SelectionProperty extends DefaultProperty implements ActionListener
 	 */
 	public void setValues(String values) {
 		this.values = values;
-		split();
 	}
 
 	public void addToControlPanel(ControlPanel panel) {
@@ -143,8 +144,8 @@ public class SelectionProperty extends DefaultProperty implements ActionListener
 	
 	protected boolean isValidValue(String s) {
 		boolean isValidValue = false;
-		for (int i = 0 ; i < splitValues.length ; i++) {
-			if (splitValues[i].equals(s)) {
+		for (int i = 0 ; i < getSplitValues().length ; i++) {
+			if (getSplitValues()[i].equals(s)) {
 				isValidValue = true;
 				break;
 			}
