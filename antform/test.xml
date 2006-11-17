@@ -297,11 +297,5 @@
 		<echo>text2=${text2}</echo>
 		<echo>text3=${text3}</echo>
 	</target>
-
-	<target name="icon" description="test the antform with an icon">
-		<antform title="my title" icon="doc/images/testlogo.jpg" />
-		<antform title="my title" icon="doc/images/valid-xhtml10.png" />
-		<antform title="my title" icon="doc/images/vim_created.gif" />
-	</target>
 </project>
 

@@ -23,24 +23,30 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
-import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import com.sardak.antform.style.HexConverter;
 import com.sardak.antform.types.AntMenuItem;
 import com.sardak.antform.util.MnemonicsUtil;
 import com.sardak.antform.util.StyleUtil;
@@ -49,19 +55,32 @@ import com.sardak.antform.util.StyleUtil;
  * Frame for holding the user form
  * @author René Ghosh
  */
-public class Control {
+public class Control implements ActionListener{
+	private static final boolean TESTMODE = false;
+	private static final boolean VERBOSE = false;
 	private CallBackDialog dialog;
+	private JTabbedPane tabbedPane;	
 	private Properties properties = new Properties();
 	private CallBack callBack;
 	private ControlPanel panel;
+	private JMenuBar menuBar;
+	private HashSet usedLetters;
 	private int width=-1, height= -1;
 	private String title, image;
 	private JScrollPane scrollPane;
 	private boolean firstShow = true;
 	private List menuItems;
-	private JMenuBar menuBar;
-	private JComponent focusedComponent = null;
 		
+	/**
+	 * Process actionEvents
+	 */
+	public void actionPerformed(ActionEvent e) {
+		String actionCommand = e.getActionCommand();
+		if ((actionCommand!=null)&&(actionCommand.trim().length()>0)) {
+			executeTeleport(actionCommand);
+		}
+	}
+	
 	/**
 	 * set window width
 	 */
@@ -86,20 +105,21 @@ public class Control {
 	/**
 	 * Constructor	 
 	 */
-	public Control(final CallBack antCallBack, String title, File iconFile, String image, boolean tabbed){
-		init(antCallBack, title, iconFile, image, tabbed);
+	public Control(final CallBack antCallBack, String title, String image,
+			boolean tabbed){
+		init(antCallBack, title, image, tabbed);
 	}
 	
 	/**
 	 * Manually set the callback method, title and image
 	 */
-	public void init(final CallBack antCallBack, String title, File iconFile, String image,
+	public void init(final CallBack antCallBack, String title, String image,
 			boolean tabbed){
 		this.callBack=antCallBack;
-		if (dialog == null) {
+		if (dialog==null) {
 			dialog = new CallBackDialog();		
+			dialog.setCallBack(antCallBack);
 			dialog.setTitle(title);
-			dialog.setIcon(iconFile);
 			this.title=title;
 			this.image=image;					
 			newPanel(tabbed);
@@ -113,6 +133,7 @@ public class Control {
 	 */
 	public void init() {
 		menuItems = new ArrayList();
+		usedLetters = new HashSet();
 	}
 	
 	/**
@@ -123,7 +144,7 @@ public class Control {
 		JPanel container = new JPanel();
 		container.setBorder(null);
 		container.setLayout(new BorderLayout());
-		container.setBackground(Color.white);
+		container.setBackground(Color.WHITE);
 		dialog.setContentPane(container);		
 		if (title!=null) {
 			panel.setTitle(title);
@@ -162,10 +183,6 @@ public class Control {
 		dialog.setTitle(title);
 	}
 	
-	public void setFocusedComponent(JComponent focusedComponent) {
-		this.focusedComponent = focusedComponent;
-	}
-
 	/**
 	 * pack the frame
 	 *
@@ -194,11 +211,10 @@ public class Control {
 				
 			}			
 			firstShow = false;			
-		}
-		if (focusedComponent != null) {
-			focusedComponent.requestFocus();
-		}
-		dialog.display();
+			dialog.show();			
+		} else {
+			dialog.show();
+		}					
 	}
 	
 	/**
@@ -212,62 +228,117 @@ public class Control {
 
 	/**
 	 * Close the control panel and store properties
+	 * @param properties
 	 */
-	public void close() {
-		dialog.dispose();
+	public void close(Properties properties, String message) {		
+		this.properties = properties;
+		close(message);
 	}
 	
+	/**
+	 * Close the control panel and store properties
+	 * @param properties
+	 */
+	public void close(String message) {				
+		dialog.dispose(message);
+//		getPanel().init();
+	}
+	
+	/**
+	 * execute a target link
+	 */
+	public void executeLink(String target){		
+		callBack.callbackCommand(target);
+		dialog.dispose(true);
+//		getPanel().init();
+	}
+	
+	/**
+	 * execute a target link
+	 */
+	public void executeTeleport(String target){
+		if (callBack!=null) {
+			callBack.callbackLink(target);
+		}
+		dialog.dispose(false);
+//		getPanel().init();
+	}
+
 	/**
 	 * @return the properties.
 	 */
 	public Properties getProperties() {
 		return properties;
 	}
-
 	/**
-	 * @return the menubar. Create it if it does not exist.
+	 * @param properties properties to set.
 	 */
-	public JMenuBar getMenuBar() {
-		if (menuBar == null) {
-			menuBar = new JMenuBar();
-		    dialog.setJMenuBar(menuBar);
+	public void setProperties(Properties properties) {
+		this.properties = properties;
+		panel.setProperties(properties);
+	}
+	/**
+	 * @param properties properties to set.
+	 */
+	public void setProperties(Hashtable properties) {
+		Properties props = new Properties();
+		for (Iterator i=properties.keySet().iterator();i.hasNext();){
+			String aProperty = (String) i.next();
+			String value= ""+properties.get(aProperty);			
+			props.setProperty(aProperty, value);
 		}
-		return menuBar;
+		setProperties(props);
 	}
 	
-	public void addAntMenuItem(AntMenuItem antMenuItem, JMenuItem parentMenu) {
-		//create button
-		JMenuItem item;
-		if (antMenuItem.getSubMenuItems().size() == 0) {
-			item = new JMenuItem();
-		} else {
-			item = new JMenu();
+
+	/**
+	 * add menu item to menu bar
+	 */
+	public void addMenuItem(AntMenuItem menuItem) {
+		this.usedLetters=panel.getUsedLetters();
+		if (menuBar==null) {
+			menuBar = new JMenuBar();
+			dialog.setJMenuBar(menuBar);					
 		}
-		//setup button
-		item.setText(antMenuItem.getName());
-		String sToUse = MnemonicsUtil.newMnemonic(antMenuItem.getName(), panel.getUsedLetters());
-		if (sToUse != null) {
-			item.setMnemonic(sToUse.charAt(0));
+		String name = menuItem.getName();
+		JMenu menu = new JMenu(name);
+		menuItems.add(menu);
+		String sToUse = MnemonicsUtil.newMnemonic(name, usedLetters);
+		if (sToUse!=null) {
+			menu.setMnemonic(sToUse.charAt(0));
 		}
-		//add to parent
-		if (parentMenu == null) {
-			getMenuBar().add(item);
-			if (antMenuItem.getSubMenuItems().size() != 0) {
-				addMenu((JMenu) item);
+		menuBar.add(menu);
+		addMenuItems(menuItem, menu);
+	}
+	
+	/**
+	 * add menu item to menu bar
+	 */
+	public void addMenuItems(AntMenuItem parentItem, JMenuItem parentMenuItem) {
+		HashSet usedLetters = new HashSet(); 
+		for (Iterator iter = parentItem.getSubProperties().iterator(); iter.hasNext();) {
+			AntMenuItem newItem = (AntMenuItem) iter.next();
+			String name = newItem.getName();
+			String sToUse = MnemonicsUtil.newMnemonic(name, usedLetters);					
+			if (newItem.getSubProperties().size()>0) {
+				JMenu newMenu = new JMenu(name);
+				if (sToUse!=null) {
+					newMenu.setMnemonic(sToUse.charAt(0));
+				}				
+				parentMenuItem.add(newMenu);
+				addMenuItems(newItem, newMenu);
+				menuItems.add(newMenu);
+			} else {
+				JMenuItem newMenuItem = new JMenuItem(name);			
+				if (sToUse!=null) {
+					newMenuItem.setMnemonic(sToUse.charAt(0));
+				}				
+				parentMenuItem.add(newMenuItem);
+				menuItems.add(newMenuItem);
+				newMenuItem.addActionListener(this);
+				newMenuItem.setActionCommand(newItem.getTarget());
 			}
-		} else {
-			parentMenu.add(item);
-		}
-		// set behaviour or add children
-		if (antMenuItem.getSubMenuItems().size() == 0) { // action menu
-			antMenuItem.setComponent(item);
-			antMenuItem.register(callBack.getActionRegistry());
-		} else {
-			for (int i = 0 ; i < antMenuItem.getSubMenuItems().size() ; i++) {
-				AntMenuItem childItem = (AntMenuItem) antMenuItem.getSubMenuItems().get(i);
-				addAntMenuItem(childItem, item);
-			}
-		}
+		}		
 	}
 
 	/**
@@ -279,6 +350,9 @@ public class Control {
 	public void setStyleSheet(String styleSheet) throws FileNotFoundException, IOException{
 		Properties props = new Properties();
 		props.load(new FileInputStream(new File(styleSheet)));		
+		Color background = HexConverter.translate(props.getProperty("background.color"), Color.GRAY);
+		Color foreground = HexConverter.translate(props.getProperty("color"), Color.BLACK);		
+		List banners = new ArrayList();
 		StyleUtil.styleComponents("menu", props, menuItems);		
 	}
 
@@ -289,7 +363,4 @@ public class Control {
 		callBack.setFalse(propertyName);
 	}
 	
-	public void addMenu(JMenu menu) {
-	    menuItems.add(menu);
-	}
 }

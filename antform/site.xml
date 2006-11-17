@@ -1,45 +1,35 @@
 <?xml version="1.0"?>
 <project default="generate">
 	<!-- reference to the template generator lib directory -->
-	<property name="templategen" value="../sitegenerator" />
-	<property file="site.properties" />
+	<property name="templategen" value="../sitegenerator"/>
 	<path id="classpath">
-		<fileset dir="${templategen}/lib" includes="*.jar" />
-		<dirset dir="${templategen}/bin" />
+		<fileset dir="${templategen}/lib" includes="*.jar"/>
 	</path>
-	<taskdef name="generate" classname="com.sardak.templatesite.AntGenerate" classpathref="classpath" />
-	<path id="antform.classpath">
-		<dirset dir="bin" />
-		<fileset dir="lib" includes="antform.jar" />
-	</path>
-	<available classname="com.sardak.antform.AntForm" property="antform.available" classpathref="antform.classpath"/>
-
+	<taskdef name="generate" classname="com.sardak.templatesite.AntGenerate" classpathref="classpath"/>
+	
 	<target name="generate">
 		<echo>Generation</echo>
-		<mkdir dir="doc" />
-		<generate inputDir="docContent" skinDir="${templategen}/skin/simple" outputDir="doc" />
+		<mkdir dir="doc"/>
+		<generate inputDir="docContent" skinDir="${templategen}/skin/simple" outputDir="doc"/>
 	</target>
 
-	<target name="port-init">
-		<property file="site.properties" />
+	<target name="port-html">
+		<scp todir="sardak:oldg1psi@shell.sourceforge.net:/home/groups/a/an/antforms/htdocs/">
+    		<fileset dir="doc">
+	        <include name="*.html"/>
+    		</fileset>
+		 </scp>
 	</target>
 
-	<target name="port-ui" depends="port-init" if="antform.available">
-		<taskdef name="antform" classname="com.sardak.antform.AntForm" classpathref="antform.classpath" />
-		<antform title="antform site update">
-			<textProperty label="User" property="user" />
-			<textProperty label="Password" property="password" password="true" />
-			<fileselectionproperty label="Private Key File" property="private.key.file" />
-		</antform>
-	</target>
-
-	<target name="port" depends="port-ui">
-		<scp todir="${user}:${password}@shell.sourceforge.net:/home/groups/a/an/antforms/htdocs" keyfile="${private.key.file}" trust="true">
-			<fileset dir="doc">
-				<include name="*.html" />
-			</fileset>
-		</scp>
-	</target>
-
+	<target name="go">
+		<ant antFile="build.xml" target="package"/>
+	 	<ftp server="upload.sourceforge.net"
+       			userid="anonymous"
+			remotedir="incoming"
+       			password="rene_ghosh@yahoo.com">
+    			<fileset dir="." includes="*.zip"/>
+  		</ftp>
+  	</target>
+	
 </project>
 

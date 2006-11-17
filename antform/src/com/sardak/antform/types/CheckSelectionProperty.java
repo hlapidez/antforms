@@ -19,50 +19,10 @@
   \****************************************************************************/
  package com.sardak.antform.types;
 
-import javax.swing.JComponent;
-
-import org.apache.tools.ant.Task;
-
-import com.sardak.antform.gui.CheckGroupBox;
-import com.sardak.antform.gui.ControlPanel;
-import com.sardak.antform.interfaces.ActionListenerComponent;
-
 /**
  * @author René Ghosh
  * 30 mars 2005
  */
-public class CheckSelectionProperty extends SelectionProperty implements ActionListenerComponent {
-    private int columns = 1;
-    private CheckGroupBox checkGroupBox;
-    
-    public int getColumns() {
-        return columns;
-    }
-    
-    public void setColumns(int columns) {
-        this.columns = columns;
-    }
-    
-	public void addToControlPanel(ControlPanel panel) {
-		checkGroupBox = new CheckGroupBox(getSplitValues(), getSeparator(), getEscapeSequence(), getColumns());		
-		checkGroupBox.setEnabled(isEditable());
-		panel.getStylesheetHandler().addCheckGroupBox(checkGroupBox);
-		initComponent(checkGroupBox, panel);
-	}
-	
-	public boolean validate(Task task) {
-		return super.validate(task, "CheckSelectionProperty");
-	}
-	
-	public void ok() {
-		getProject().setProperty(getProperty(), checkGroupBox.getValue());
-	}
+public class CheckSelectionProperty extends SelectionProperty{
 
-	public void reset() {
-		checkGroupBox.setValue(getCurrentProjectPropertyValue());
-	}
-	
-	public JComponent getFocusableComponent() {
-		return checkGroupBox;
-	}
 }

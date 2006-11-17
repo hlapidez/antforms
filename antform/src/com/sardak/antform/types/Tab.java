@@ -19,15 +19,6 @@
   \****************************************************************************/
 package com.sardak.antform.types;
 
-import java.awt.GridBagLayout;
-
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-
-import org.apache.tools.ant.Task;
-
-import com.sardak.antform.gui.ControlPanel;
-
 /**
  * @author René Ghosh
  * 4 avr. 2005
@@ -46,22 +37,5 @@ public class Tab extends BaseType{
 	 */
 	public void setLabel(String label) {
 		this.label = label;
-	}
-
-	public void addToControlPanel(ControlPanel panel) {
-		GridBagLayout aLayout = new GridBagLayout();
-		JPanel tabPanel  = new JPanel();	
-		tabPanel.setBorder(BorderFactory.createEmptyBorder(15,5,15,5));
-		tabPanel.setLayout(aLayout);
-		panel.addToTabbedPane(label, tabPanel, aLayout);
-	}
-	
-	public boolean validate(Task task) {
-		boolean attributesAreValid = true;
-		if (getLabel() == null) {
-			task.log("Tab : attribute \"label\" missing.");
-			attributesAreValid = false;
-		}		
-		return attributesAreValid;
 	}
 }

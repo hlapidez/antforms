@@ -1,4 +1,4 @@
-/***************************************************************************\*
+ /***************************************************************************\*
  *                                                                            *
  *    AntForm form-based interaction for Ant scripts                          *
  *    Copyright (C) 2005 René Ghosh                                           *
@@ -19,56 +19,12 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
-import javax.swing.JComponent;
-
-import org.apache.tools.ant.Task;
-
-import com.sardak.antform.gui.ControlPanel;
-import com.sardak.antform.gui.RadioGroupBox;
-import com.sardak.antform.interfaces.ActionListenerComponent;
 
 /**
  * Selection property using radio fields
- * 
- * @author René Ghosh 13 mars 2005
+ * @author René Ghosh
+ * 13 mars 2005
  */
-public class RadioSelectionProperty extends SelectionProperty implements
-		ActionListenerComponent {
-	private int columns = 1;
-	private RadioGroupBox radioBox;
+public class RadioSelectionProperty extends SelectionProperty{
 
-	public void addToControlPanel(ControlPanel panel) {
-		radioBox = new RadioGroupBox(getSplitValues(), getColumns());
-		radioBox.setEnabled(isEditable());
-		panel.getStylesheetHandler().addRadioGroupBox(radioBox);
-		initComponent(radioBox, panel);
-	}
-
-	public int getColumns() {
-		return columns;
-	}
-
-	public void setColumns(int columns) {
-		this.columns = columns;
-	}
-
-	public boolean validate(Task task) {
-		return super.validate(task, "RadioSelectionProperty");
-	}
-	
-	public void ok() {
-		getProject().setProperty(getProperty(), radioBox.getSelectedValue());
-	}
-
-	public void reset() {
-		if (isValidValue(getCurrentProjectPropertyValue())) {
-			radioBox.setSelectedValue(getCurrentProjectPropertyValue());
-		} else {
-			radioBox.setSelectedValue(getSplitValues()[0]);
-		}
-	}
-	
-	public JComponent getFocusableComponent() {
-		return radioBox;
-	}
 }

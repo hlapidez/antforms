@@ -1,4 +1,4 @@
-/***************************************************************************\*
+ /***************************************************************************\*
  *                                                                            *
  *    AntForm form-based interaction for Ant scripts                          *
  *    Copyright (C) 2005 René Ghosh                                           *
@@ -22,26 +22,28 @@ package com.sardak.antform.util;
 import java.util.HashSet;
 
 /**
- * @author René Ghosh 11 mars 2005
+ * @author René Ghosh
+ * 11 mars 2005
  */
 public abstract class MnemonicsUtil {
 
-    /**
-     * get a new mnemonic for a list of used letters and a label
-     */
-    public static String newMnemonic(String labelText, HashSet usedLetters) {
-        char toUse = 'a';
-        String sToUse = null;
-        for (int i = 0; i < labelText.length(); i++) {
-            toUse = labelText.charAt(i);
-            sToUse = ("" + toUse).toUpperCase();
-            if (usedLetters.contains(sToUse) || !Character.isLetter(toUse)) {
-                continue;
-            }
-            usedLetters.add(sToUse);
-            return sToUse;
-        }
-        return null;
-    }
+	/**
+	 * get a new mnemonic for a list 
+	 * of used letters and a label
+	 */
+	public static String newMnemonic(String labelText, HashSet usedLetters) {
+		char toUse = 'a';
+		String sToUse = null;
+		for (int i=0;i<labelText.length();i++){
+			toUse = labelText.charAt(i);
+			sToUse = (""+toUse).toUpperCase();
+			if (usedLetters.contains(sToUse)){
+				continue;
+			}			
+			usedLetters.add(sToUse);
+			return sToUse;								
+		}
+		return null;
+	}
 
 }

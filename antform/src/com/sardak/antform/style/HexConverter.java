@@ -28,6 +28,14 @@ import java.awt.Color;
 public class HexConverter {
 
 	/**
+	 * get a number from 0 to 255 from it's hexadecimal
+	 * representation
+	 */
+	private static int hexAtom(String hex) {
+		return 0;
+	}
+	
+	/**
 	 * get an rgb Color from a hexadecimal string 
 	 */
 	public static Color translate(String hexString, Color defaultColor) {

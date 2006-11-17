@@ -19,23 +19,10 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
-import javax.swing.JSeparator;
-
-import org.apache.tools.ant.Task;
-
-import com.sardak.antform.gui.ControlPanel;
-
 /**
  * @author René Ghosh
  * 20 mars 2005
  */
 public class Separator extends BaseType{
-	public void addToControlPanel(ControlPanel panel) {
-	    panel.addCentered(new JSeparator(JSeparator.HORIZONTAL));
-	}
 
-	public boolean validate(Task task) {
-		// Nothing to check here
-		return true;
-	}
 }

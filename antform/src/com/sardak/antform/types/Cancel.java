@@ -19,18 +19,12 @@
   \****************************************************************************/
 package com.sardak.antform.types;
 
-import org.apache.tools.ant.Task;
-
-import com.sardak.antform.gui.ControlPanel;
-
-
 /**
  * @author René Ghosh
  * 3 avr. 2005
  */
 public class Cancel extends BaseType {
 	private String label;
-
 	/**
 	 * get the cancel label
 	 */
@@ -42,17 +36,5 @@ public class Cancel extends BaseType {
 	 */
 	public void setLabel(String label) {
 		this.label = label;
-	}
-
-	public void addToControlPanel(ControlPanel panel) {
-	}
-	
-	public boolean validate(Task task) {
-		boolean attributesAreValid = true;
-		if (getLabel() == null) {
-            task.log("Cancel : attribute \"label\" missing.");
-            attributesAreValid = false;
-        }		
-		return attributesAreValid;
 	}
 }

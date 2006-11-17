@@ -20,7 +20,6 @@
 package com.sardak.antform.test;
 
 import com.sardak.antform.gui.CallBack;
-import com.sardak.antform.util.ActionRegistry;
 
 /**
  * @author René Ghosh
@@ -37,16 +36,9 @@ public class CallbackTest implements CallBack{
 	/**
 	 * test implementation
 	 */
-//	public void callbackCommand(String message, boolean background) {
-//		System.out.println("Message: "+message+". Background: "+background);
-//	}
-	
-	/**
-	 * test implementation
-	 */
-//	public void callbackLink(String message) {
-//		System.out.println("Link message: "+message);
-//	}
+	public void callbackLink(String message) {
+		System.out.println("Link message: "+message);
+	}
 	
 	/**
 	 * test implementation
@@ -55,10 +47,4 @@ public class CallbackTest implements CallBack{
 		//do nothing
 	}
 
-//	public void invokeTarget(String target, boolean background) {
-//	}
-
-	public ActionRegistry getActionRegistry() {
-		return new ActionRegistry(null);
-	}
 }

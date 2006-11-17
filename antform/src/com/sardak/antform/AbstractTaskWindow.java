@@ -19,13 +19,9 @@
  \****************************************************************************/
 package com.sardak.antform;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
-
-import javax.swing.JComponent;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Target;
@@ -33,17 +29,8 @@ import org.apache.tools.ant.Task;
 
 import com.sardak.antform.gui.CallBack;
 import com.sardak.antform.gui.Control;
-import com.sardak.antform.interfaces.ActionComponent;
-import com.sardak.antform.interfaces.ActionListenerComponent;
-import com.sardak.antform.interfaces.DummyComponent;
-import com.sardak.antform.interfaces.Focusable;
-import com.sardak.antform.interfaces.Requirable;
 import com.sardak.antform.types.AntMenuItem;
 import com.sardak.antform.types.BaseType;
-import com.sardak.antform.types.Button;
-import com.sardak.antform.types.ButtonBar;
-import com.sardak.antform.types.Label;
-import com.sardak.antform.util.ActionRegistry;
 
 /**
  * @author René Ghosh
@@ -53,18 +40,15 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	protected String title = null;
 	private String stylesheet = null;
 	protected String image = null;
-	private File iconFile = null;
 	private int height=-1, width=-1; 
 	protected Control control;
 	protected boolean needFail = false;
+	private boolean keepAlive = false;
 	protected String lookAndFeel=null;
-	protected List widgets;	
-	protected List displayedWidgets;	
+	protected volatile boolean quit = false;	
+	protected List properties;	
 	protected boolean dynamic = false;
 	protected boolean tabbed = false;
-	private ActionRegistry actionRegistry;
-	private boolean loop = false;
-	private ActionComponent actionSource = null;
 	
 	/**
 	 * get image URL
@@ -91,40 +75,27 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	/**
 	 * construct the gui widgets
 	 */
-	protected void build(){
-		displayedWidgets = new ArrayList();
-		for (int i = 0 ; i < widgets.size() ; i++) {
-			BaseType o = (BaseType) widgets.get(i);
-			if (o.validate(this)) {
-				if (o.shouldBeDisplayed(getProject())) {
-					if (o instanceof DummyComponent) {
-						o = ((DummyComponent) o).getRealType();
-						widgets.set(i, o);
-					}
-				    o.addToControlPanel(control.getPanel());
-				    displayedWidgets.add(o);
-				}
-				if (o.getIf() != null || o.getUnless() != null) {
+	protected void build(){		
+		for (Iterator iter = properties.iterator(); iter.hasNext();) {
+			BaseType o = (BaseType) iter.next();
+			if (o.getIf()!=null){
+				if (!getProject().getProperties().containsKey(o.getIf())){
 					dynamic = true;
+					continue;
 				}
-			} else {
-				needFail = true;
 			}
+			if (o.getUnless()!=null) {
+				if (getProject().getProperties().containsKey(o.getUnless())){
+					dynamic = true;
+					continue;
+				}			
+			}
+			if (o instanceof AntMenuItem) {
+				AntMenuItem antMenuItem = (AntMenuItem) o;
+				control.addMenuItem(antMenuItem);			
+			}  			
 		}
-//		for (Iterator iter = widgets.iterator(); iter.hasNext();) {
-//			BaseType o = (BaseType) iter.next();
-//			if (o.validate(this)) {
-//				if (o.shouldBeDisplayed(getProject())) {
-//				    o.addToControlPanel(control.getPanel());
-//				    displayedWidgets.add(o);
-//				}
-//				if (o.getIf() != null || o.getUnless() != null) {
-//					dynamic = true;
-//				}
-//			} else {
-//				needFail = true;
-//			}
-//		}
+		
 	}
 	
 	/**
@@ -145,6 +116,7 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	public int getWidth() {
 		return width;
 	}
+	
 	/**
 	 * set window width
 	 */
@@ -152,62 +124,25 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 		this.width = width;
 	}
 	
-	public Control getControl() {
-		return control;
-	}
-	
 	/**
-	 * add a menu
+	 * add a configured menuProperty
 	 */
 	public void addConfiguredAntMenuItem(AntMenuItem menuItem){
-		if (menuItem.validate(this)) {
-			widgets.add(menuItem);
-		} else {
+		if (menuItem.getName()==null) {
+			super.log("name attribute of the property "+menuItem.getClass().getName()+" cannot be null.");
 			needFail = true;
+		}		
+		if (needFail==false) {
+			properties.add(menuItem);
 		}
 	}
-	
-	/**
-	 * add a button bar
-	 */
-	public void addConfiguredButtonBar(ButtonBar buttonBar) {
-		widgets.add(buttonBar);
-		buttonBar.register(getActionRegistry());
-	}
-	
-	/**
-	 * add a button
-	 */
-	public void addConfiguredButton(Button button) {
-		ButtonBar buttonBar = new ButtonBar();
-		buttonBar.setProject(getProject());
-		buttonBar.addConfiguredButton(button);
-		buttonBar.setMargins(0, 100, 0, 100);
-		addConfiguredButtonBar(buttonBar);
-	}
-	
-	/**
-	 * add a label
-	 */
-	public void addConfiguredLabel(Label label) {
-		widgets.add(label);
-	}
-
-	public boolean isLoop() {
-		return loop;
-	}
-	
-	public void setLoop(boolean loop) {
-		this.loop = loop;
-	}
-	
 	/**
 	 * set preliminary gui operations, such as 
 	 * Look & Feel
 	 */
 	public void preliminaries(){
 		if (control==null){
-			control = new Control(this, title, iconFile, image, tabbed);			
+			control = new Control(this, title, image, tabbed);			
 			if (lookAndFeel!=null) {
 				control.updateLookAndFeel(lookAndFeel);
 			}
@@ -232,7 +167,7 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 				e.printStackTrace();
 			} 
 		} 				
-		control.setFocusedComponent(getFocusedComponent());
+		quit = false;	
 	}
 	
 	/**
@@ -252,7 +187,7 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	/**
 	 * Find a target amid the projet targets
 	 */
-	public Target findTargetByName(String target) {
+	protected Target findTargetByName(String target) {
 		Target targetToFind = null;
 		Hashtable targets = getProject().getTargets();
 		for (Iterator i=targets.keySet().iterator();i.hasNext();) {
@@ -290,90 +225,17 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 		this.stylesheet = stylesheet;
 	}
 	
-	public File getIcon() {
-		return iconFile;
+	/**
+	 * is keep frame alive property true
+	 */
+	public boolean isKeepAlive() {
+		return keepAlive;
 	}
 	
-	public void setIcon(File icon) {
-		this.iconFile = icon;
-	}
-	
-	public ActionComponent getActionSource() {
-		return actionSource;
-	}
-	
-	public void setActionSource(ActionComponent actionSource) {
-		this.actionSource = actionSource;
-	}
-	
-	public ActionRegistry getActionRegistry() {
-		if (actionRegistry == null) {
-			actionRegistry = new ActionRegistry(this);
-		}
-		return actionRegistry;
-	}
-	
-	public boolean requiredStatusOk() {
-		Iterator iter = displayedWidgets.iterator();
-		while (iter.hasNext()) {
-			Object o = iter.next();
-			if (o instanceof Requirable && !((Requirable) o).requiredStatusOk()) {
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	public void ok() {
-		Iterator iter = displayedWidgets.iterator();
-		while (iter.hasNext()) {
-			Object o = iter.next();
-			if (o instanceof ActionListenerComponent) {
-				((ActionListenerComponent) o).ok();
-			}
-		}
-	}
-	
-	public void cancel() {
-		Iterator iter = displayedWidgets.iterator();
-		while (iter.hasNext()) {
-			Object o = iter.next();
-			if (o instanceof ActionListenerComponent) {
-				((ActionListenerComponent) o).cancel();
-			}
-		}
-	}
-	
-	public void reset() {
-		Iterator iter = displayedWidgets.iterator();
-		while (iter.hasNext()) {
-			Object o = iter.next();
-			if (o instanceof ActionListenerComponent) {
-				((ActionListenerComponent) o).reset();
-			}
-		}
-	}
-
-	private JComponent getFocusedComponent() {
-		JComponent focusableComponent = null;
-		JComponent firstFocusableComponent = null;
-		Iterator iter = displayedWidgets.iterator();
-		while (iter.hasNext()) {
-			Object o = iter.next();
-			if (o instanceof Focusable) {
-				Focusable f = (Focusable) o;
-				if (firstFocusableComponent == null) {
-					firstFocusableComponent = f.getFocusableComponent();
-}
-				if (f.isFocus()) {
-					focusableComponent = f.getFocusableComponent();
-					break;
-				}
-			}
-		}
-		if (focusableComponent == null && firstFocusableComponent != null) {
-			focusableComponent = firstFocusableComponent;
-		}
-		return focusableComponent;
+	/**
+	 * set keep alive behaviour
+	 */
+	public void setKeepAlive(boolean keepAlive) {
+		this.keepAlive = keepAlive;
 	}
 }

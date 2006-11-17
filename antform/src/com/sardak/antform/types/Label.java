@@ -19,13 +19,6 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
-import javax.swing.JLabel;
-import javax.swing.JTextArea;
-
-import org.apache.tools.ant.Task;
-
-import com.sardak.antform.gui.ControlPanel;
-
 /**
  * @author René Ghosh
  * 10 janv. 2005
@@ -35,9 +28,6 @@ public class Label extends BaseType{
 	private int columns=-1, rows=-1;
 
 	public void addText(String text) {
-		if (null != getProject()) {
-			text = getProject().replaceProperties(text);
-		}
 		this.text = text;
 	}
 	/**
@@ -65,32 +55,5 @@ public class Label extends BaseType{
 	}
 	public void setRows(int rows) {
 		this.rows = rows;
-	}
-
-	public void addToControlPanel(ControlPanel panel) {
-		JTextArea textArea = new JTextArea(text);
-		JLabel getFont = new JLabel("");		
-		if ((columns>0)&&(rows>0)) {
-			textArea = new JTextArea(rows, columns);
-		} else {
-			textArea = new JTextArea();
-		}
-		textArea.setFont(getFont.getFont());
-		textArea.setText(text);
-		textArea.setEditable(false);
-		textArea.setLineWrap(true);
-		textArea.setOpaque(false);		
-		textArea.setWrapStyleWord(true);
-		if ((columns>0)&&(rows>0)) {
-			panel.addCenteredNoFill(textArea);
-		} else {
-		    panel.addCentered(textArea);
-		}		
-		panel.getStylesheetHandler().addMessage(textArea);
-	}
-	
-	public boolean validate(Task task) {
-		// Let's allow empty labels.
-		return true;
 	}
 }

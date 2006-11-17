@@ -20,13 +20,20 @@
 package com.sardak.antform;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Iterator;
 
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.Target;
+import org.apache.tools.ant.taskdefs.CallTarget;
 
 import com.sardak.antform.gui.CallBack;
-import com.sardak.antform.types.Button;
+import com.sardak.antform.types.BaseType;
+import com.sardak.antform.types.Label;
+import com.sardak.antform.types.Link;
 import com.sardak.antform.types.Separator;
-import com.sardak.antform.util.TargetInvoker;
 
 /**
  * AntMenu task definition class.
@@ -34,19 +41,42 @@ import com.sardak.antform.util.TargetInvoker;
  * 12 janv. 2005
  */
 public class AntMenu extends AbstractTaskWindow implements CallBack{
+	private Target nextTarget = null;
 	private boolean built = false;
 	/**
 	 * Initialisation
 	 */
 	public void init() throws BuildException {
 		super.init();
-		widgets = new ArrayList();		
+		properties = new ArrayList();		
 	}
 	/**
 	 * build the visual components
 	 */
 	protected void build(){
 		super.build();		
+		for (Iterator iter = properties.iterator(); iter.hasNext();) {
+			BaseType o = (BaseType) iter.next();
+			if (o.getIf()!=null){
+				if (!getProject().getProperties().containsKey(o.getIf())){
+					continue;
+				}
+			}
+			if (o.getUnless()!=null) {
+				if (getProject().getProperties().containsKey(o.getUnless())){
+					continue;
+				}			
+			}
+			if (o instanceof Label) {
+				Label label = (Label) o;
+				control.getPanel().addLabel(label.getText(), label.getColumns(), label.getRows());
+			} else if (o instanceof Link) {
+				Link link = (Link) o;
+				control.getPanel().addLink(link.getLabel(), link.getTarget());
+			} else if (o instanceof Separator) {
+				control.getPanel().addSeparator();
+			}			
+		}
 		control.getPanel().addBlankSouthPanel();
 		built = true;
 	}
@@ -56,36 +86,102 @@ public class AntMenu extends AbstractTaskWindow implements CallBack{
 	 * @param textProperty
 	 */
 	public void addConfiguredSeparator(Separator separator){		
-		widgets.add(separator);
+		properties.add(separator);
 	}
 	
 	/**
 	 * execute method
 	 */
 	public void execute() throws BuildException {
-		do {
-			preliminaries();
-			if (!built) {
-				build();
-			}
-			super.execute();		
-			control.show();
-			if (dynamic) {
-				built = false;
-				control = null;
-			}
-			if (getActionSource() != null && getActionSource().getTarget() != null && findTargetByName(getActionSource().getTarget()) != null) {
-				TargetInvoker invoker = new TargetInvoker(this, getActionSource());
-				invoker.perform();
-			}
-		} while (isLoop() && getActionSource() != null && !getActionSource().isLoopExit());
+		preliminaries();
+		if (!built) {
+			build();
+		}
+		super.execute();		
+		control.show();
+		if (dynamic) {
+			built = false;
+			control = null;
+		}
+		if (nextTarget!=null) {					
+			CallTarget callee = (CallTarget) getProject().createTask("antcall");
+			callee.setOwningTarget(getOwningTarget());
+			callee.setTaskName(getTaskName());
+			callee.setLocation(getLocation());
+			callee.setTarget(nextTarget.getName());
+			callee.execute();
+		}
+	}
+	
+	/**
+	 * implement a callback that ports to a 
+	 * target by autumatically setting okMessage and nextTarget
+	 * values 
+	 */
+	public void callbackLink(String target) {		
+		nextTarget=findTargetByName(target);
+		quit = true;		
 	}
 	
 	/**
 	 * add a configured link
 	 */
-	public void addConfiguredLink(Button button) {
-		log("<link> nested elements are deprecated. Use <button> or <buttonbar> instead.");
-		addConfiguredButton(button);
+	public void addConfiguredLink(Link link) {
+		checkBaseAttributes(link);
+		properties.add(link);
 	}
+	
+	/**
+	 * add a configured link
+	 */
+	public void addConfiguredLabel(Label label) {
+		checkBaseAttributes(label);
+		properties.add(label);
+	}
+		
+	
+	/**
+	 * callback for control panel
+	 */
+	public void callbackCommand(String message){
+		if (message==null) {
+			quit = true;
+			return;
+		}
+		Hashtable targets = getProject().getTargets();		
+		for (Iterator i=targets.keySet().iterator();i.hasNext();) {
+			String targetName = (String) i.next();			
+			Target target = (Target) targets.get(targetName);
+			if (target.getName().equals(message)) {
+				quit = true;
+				nextTarget = target;
+			}
+		}
+	}
+
+	/**
+	 * Check that the base properties are correctly set
+	 */
+	private void checkBaseAttributes(Label label) {
+		if (label.getText()==null) {
+			super.log("text attribute of the label property "+label.getClass().getName()+" cannot be null.");
+			needFail = true;
+		}
+	}
+	
+	/**
+	 * check that the base properties are correctly set.
+	 */
+	private void checkBaseAttributes(Link link) {
+		if (link.getLabel()==null) {
+			super.log("label attribute of the property "+link.getClass().getName()+" cannot be null.");
+			needFail = true;
+		}
+		if (link.getTarget()==null) {
+			super.log("property attribute of the property "+link.getClass().getName()+" cannot be null.");
+			needFail = true;
+		}		
+	}
+
+	
 }

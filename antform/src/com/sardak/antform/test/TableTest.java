@@ -4,7 +4,6 @@ import javax.swing.UIManager;
 
 import com.sardak.antform.gui.Control;
 import com.sardak.antform.gui.ControlPanel;
-import com.sardak.antform.types.Table;
 
 /**
  * @author René Ghosh
@@ -18,18 +17,11 @@ public static void main(String[] args) {
 		e.printStackTrace();
 	}
 	
-	Control control = new Control(new CallbackTest(), "Table test", null, null, false);
+	Control control = new Control(new CallbackTest(), "Table test", null, false);
 	ControlPanel panel = control.getPanel();
-	Table t = new Table();
-	t.setLabel("a table");
-	t.setProperty("prop");
-	t.setEditable(true);
-	t.setColumns("col1,col2,col3");
-	t.setData("d1,d2,d3;d1,d2,d3;d1,d2,d3");
-	t.setRowSeparator(";");
-	t.setColumnSeparator(",");
-	t.setEscapeSequence("\\");
-	t.addToControlPanel(panel);
+	panel.addTableProperty("a table", "prop", true, new String[]{"col1", "col2", "col3"},
+			new String[][]{{"d1", "d2", "d3"},{"d1", "d2", "d3"},{"d1", "d2", "d3"}},
+			";", ",", "\\", -1, -1,-1);
 	control.show();
 	System.exit(0);
 }

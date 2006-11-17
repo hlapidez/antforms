@@ -19,11 +19,25 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author René Ghosh
  * 13 mars 2005
  */
-public class LinkBar extends ButtonBar {
-	// Keep it just to avoid breaking user code
+public class LinkBar extends BaseType{
+	private List links = new ArrayList(); 
+	/**
+	 * add a link to the link bar
+	 */
+	public void addConfiguredLink(Link link) {
+		links.add(link);
+	}
+	/**
+	 * get links
+	 */
+	public List getLinks() {
+		return links;
+	}
 }

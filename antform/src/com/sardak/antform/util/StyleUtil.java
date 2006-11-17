@@ -27,6 +27,8 @@ import java.util.Properties;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
@@ -45,25 +47,39 @@ public class StyleUtil {
 	 * set style to components
 	 */
 	public static void styleComponents(String componentId, Properties props, Collection components) {
-		String componentBCString = props.getProperty(componentId+".background.color", props.getProperty("*.background.color"));
-		String componentFCString = props.getProperty(componentId+".color", props.getProperty("*.color"));		
-		String componentFFamilyString = props.getProperty(componentId+".font.family", props.getProperty("*.font.family"));
-		String componentFSizeString = props.getProperty(componentId+".font.size", props.getProperty("*.font.size"));
-		String componentFWeightString = props.getProperty(componentId+".font.weight", props.getProperty("*.font.weight"));
-		String componentBStyleString = props.getProperty(componentId+".border.style", props.getProperty("*.border.style"));
-		String componentBWidthString = props.getProperty(componentId+".border.width", props.getProperty("*.border.width"));
-		String componentBColorString = props.getProperty(componentId+".border.color", props.getProperty("*.border.color"));		
+		String componentBCString = props.getProperty(componentId+".background.color");
+		String componentFCString = props.getProperty(componentId+".color");		
+		String componentFFamilyString = props.getProperty(componentId+".font.family");
+		String componentFSizeString = props.getProperty(componentId+".font.size");
+		String componentFWeightString = props.getProperty(componentId+".font.weight");
+		String componentBStyleString = props.getProperty(componentId+".border.style");
+		String componentBWidthString = props.getProperty(componentId+".border.width");
+		String componentSelectedColorString = props.getProperty(componentId+".selected.background.color");
+		String componentBSelectedColorString = props.getProperty(componentId+".border.width");
 		int componentBWidth = 1;
+		String componentBColorString = props.getProperty(componentId+".border.color");		
 		Color componentBC = null;
 		Color componentFC = null;
 		Color componentBorderC = null;
+		Color componentSelectedColor = null;
+		Color componentSelectedBackgroundColor = null;
+		Font componentFont = null;
 		Border componentBorder = null;
+		if (componentSelectedColorString!=null) {
+			componentSelectedColor = HexConverter.translate(componentSelectedColorString, null);
+		}
+		if (componentBSelectedColorString!=null) {
+			componentSelectedBackgroundColor = HexConverter.translate(componentBSelectedColorString, null);
+		}		
 		if (componentBCString!=null) {
 			componentBC = HexConverter.translate(componentBCString, null);
 		}		
 		if (componentFCString!=null) {
 			componentFC = HexConverter.translate(componentFCString, null);
 		}		
+		if ((componentFFamilyString!=null)&&(componentFSizeString!=null)&&(componentFWeightString!=null)) {		
+			componentFont = new Font(componentFFamilyString, FontConverter.convert(componentFWeightString),Integer.parseInt(componentFSizeString));
+		}
 		if ((componentBWidthString!=null)&&(componentBColorString!=null)&&(componentBStyleString!=null)) {
 			componentBWidth = Integer.parseInt(componentBWidthString);
 			componentBorderC = HexConverter.translate(componentBColorString, null);
@@ -92,25 +108,21 @@ public class StyleUtil {
 					textComp.setSelectionColor(inverseColor.darker());					
 				}				
 			}
-			setFont(comp, componentFFamilyString, componentFSizeString, componentFWeightString);
+			if (componentFont!=null) {
+				comp.setFont(componentFont);
+			}
 			if ((componentBorder!=null)&&(componentBStyleString.trim().toLowerCase().equals("solid"))) {
 				if (comp instanceof JButton) {
 					comp.setBorder(new CompoundBorder(componentBorder,BorderFactory.createEmptyBorder(5,5,5,5)));
-//				} else if (comp instanceof JCheckBox){									
-//				} else if (comp instanceof JComboBox){
-//					JComboBox combo = (JComboBox) comp;
+				} else if (comp instanceof JCheckBox){									
+				} else if (comp instanceof JComboBox){
+					JComboBox combo = (JComboBox) comp;
 				} else {
 					comp.setBorder(componentBorder);
 				}
 			}			
 		}
+
 	}
-	
-	private static void setFont(JComponent component, String componentFFamilyString, String componentFSizeString, String componentFWeightString) {
-		Font currentFont = component.getFont();
-		String family = componentFFamilyString == null ? currentFont.getFamily() : componentFFamilyString;
-		int size = componentFSizeString == null ? currentFont.getSize() : Integer.parseInt(componentFSizeString);
-		int style = componentFWeightString == null ? currentFont.getStyle() : FontConverter.convert(componentFWeightString);
-		component.setFont(new Font(family, style, size));
-	}
+
 }

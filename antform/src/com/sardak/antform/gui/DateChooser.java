@@ -21,7 +21,6 @@ package com.sardak.antform.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -58,12 +57,6 @@ public class DateChooser extends JPanel implements ActionListener{
 		button.setEnabled(enabled);
 	}
 	
-	public void setTooltipText(String tooltip) {
-		super.setToolTipText(tooltip);
-		button.setToolTipText(tooltip);
-		textField.setToolTipText(tooltip);
-	}
-	
 	/**
 	 * Constructor
 	 */
@@ -71,11 +64,10 @@ public class DateChooser extends JPanel implements ActionListener{
 		super();		
 		textField = new JFormattedTextField(new SimpleDateFormat(format));		
 		button = new JButton("...");
-		button.addActionListener(this);
-		button.setPreferredSize(new Dimension(button.getPreferredSize().width, textField.getPreferredSize().height));
 		setLayout(new BorderLayout());
 		add(textField, BorderLayout.CENTER);
 		add(button, BorderLayout.EAST);
+		button.addActionListener(this);
 		formatter = new SimpleDateFormat(format);
 		textField.setText(formatter.format(date));				
 	}
@@ -108,13 +100,6 @@ public class DateChooser extends JPanel implements ActionListener{
 	}
 	
 	/**
-	 * get the font
-	 */
-	public Font getFont() {
-		return textField == null ? null : textField.getFont();
-	}
-	
-	/**
 	 * set the font
 	 */
 	public void setFont(Font font) {
@@ -122,7 +107,6 @@ public class DateChooser extends JPanel implements ActionListener{
 			textField.setFont(font);
 		}
 	}
-
 	/**
 	 * process button clicks
 	 */
@@ -147,9 +131,6 @@ public class DateChooser extends JPanel implements ActionListener{
 	 */
 	public void setText(String text){
 		try {
-			if (text == null) {
-				text = formatter.format(new Date());
-			}
 			Date date = formatter.parse(text);
 			if (date!=null) {
 				textField.setText(text);
@@ -188,7 +169,4 @@ public class DateChooser extends JPanel implements ActionListener{
 		return textField.getText();
 	}
 
-	public void requestFocus() {
-		textField.requestFocus();
-	}
 }

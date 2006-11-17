@@ -1,4 +1,4 @@
-/***************************************************************************\*
+ /***************************************************************************\*
  *                                                                            *
  *    AntForm form-based interaction for Ant scripts                          *
  *    Copyright (C) 2005 René Ghosh                                           *
@@ -19,10 +19,10 @@
  \****************************************************************************/
 package com.sardak.antform;
 
-import java.awt.BorderLayout;
-import java.awt.GraphicsEnvironment;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -30,99 +30,482 @@ import java.util.Properties;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
+import org.apache.tools.ant.Target;
+import org.apache.tools.ant.taskdefs.CallTarget;
 
 import com.sardak.antform.gui.CallBack;
-import com.sardak.antform.gui.ControlPanel;
-import com.sardak.antform.interfaces.PropertyComponent;
 import com.sardak.antform.types.BaseType;
 import com.sardak.antform.types.BooleanProperty;
-import com.sardak.antform.types.Button;
-import com.sardak.antform.types.ButtonBar;
 import com.sardak.antform.types.Cancel;
 import com.sardak.antform.types.CheckSelectionProperty;
 import com.sardak.antform.types.DateProperty;
-import com.sardak.antform.types.DummyListProperty;
-import com.sardak.antform.types.DummyNumberProperty;
+import com.sardak.antform.types.DefaultProperty;
 import com.sardak.antform.types.FileSelectionProperty;
+import com.sardak.antform.types.Label;
+import com.sardak.antform.types.LinkBar;
+import com.sardak.antform.types.ListProperty;
 import com.sardak.antform.types.MultilineTextProperty;
+import com.sardak.antform.types.NumberProperty;
 import com.sardak.antform.types.RadioSelectionProperty;
 import com.sardak.antform.types.SelectionProperty;
 import com.sardak.antform.types.Separator;
 import com.sardak.antform.types.Tab;
 import com.sardak.antform.types.Table;
 import com.sardak.antform.types.TextProperty;
-import com.sardak.antform.util.ActionType;
-import com.sardak.antform.util.FileProperties;
-import com.sardak.antform.util.TargetInvoker;
 
 /**
  * Ant task for empowering form-based user interaction
- * 
  * @author René Ghosh
  */
-public class AntForm extends AbstractTaskWindow implements CallBack {
+public class AntForm extends AbstractTaskWindow implements CallBack{
 	private String okMessage = "OK";
-	private boolean okMessageChanged = false;
-	private String resetMessage = "Reset";
-	private boolean resetMessageChanged = false;
-	private String cancelMessage = null;
+	private String resetMessage = "Reset";	
 	private String save = null;
-	private String nextTarget, previousTarget = null;
+	private String nextTarget,previousTarget;
+	private String message = null;
+	private String focus=null;
 	private boolean built = false;
-	private ButtonBar controlBar = null;
-	private boolean controlBarIncompatibilityDetected = false;
-
-	//
-	// antform attributes
-	//
-
+			
+		
+	/**
+	 * get the focus property
+	 */
+	public String getFocus() {
+		return focus;
+	}
+	
 	/**
 	 * set the focus property
 	 */
 	public void setFocus(String focus) {
-		log(
-				"Attribute 'focus' of antform is not supported anymore. Use the widget 'focus' attribute instead.",
-				Project.MSG_WARN);
-		// let's not fail for that and avoid breaking existing build files
-		// needFail = true;
+		this.focus = focus;
 	}
-
+	
 	/**
 	 * get the next target
 	 */
 	public String getNextTarget() {
 		return nextTarget;
 	}
-
+	
 	/**
 	 * set the next target
 	 */
 	public void setNextTarget(String nextTarget) {
-		log("nexttarget attribute is deprecated. Use <controlbar> instead.",
-				Project.MSG_WARN);
-		if (controlBar != null) {
-			controlBarIncompatibilityDetected();
-		}
-		this.nextTarget = nextTarget;
+		this.nextTarget = nextTarget;		
 	}
-
+	
 	/**
 	 * get the previous target
 	 */
 	public String getPreviousTarget() {
 		return previousTarget;
 	}
-
+	
 	/**
 	 * set the previous target
 	 */
 	public void setPreviousTarget(String previousTarget) {
-		log("previoustarget attribute is deprecated. Use <controlbar> instead.",
-				Project.MSG_WARN);
-		if (controlBar != null) {
-			controlBarIncompatibilityDetected();
-		}
 		this.previousTarget = previousTarget;
+	}
+	
+	/**
+	 * check that the base properties are correctly set.
+	 */
+	private void checkBaseProperties(DefaultProperty property) {
+		if (property.getLabel()==null) {
+			super.log("label attribute of the property "+property.getClass().getName()+" cannot be null.");
+			needFail = true;
+		}
+		if (property.getProperty()==null) {
+			super.log("property attribute of the property "+property.getClass().getName()+" cannot be null.");
+			needFail = true;
+		}
+	}
+	/**
+	 * add a configured text property
+	 * @param textProperty
+	 */
+	public void addConfiguredTextProperty(TextProperty textProperty){
+		checkBaseProperties(textProperty);
+		properties.add(textProperty);
+	}
+	
+	/**
+	 * Add a cancel button
+	 */
+	public void addConfiguredCancel(Cancel cancel){
+		if (cancel.getLabel()==null) {
+			log("No label on cancel button");
+			needFail = true;
+		}
+		properties.add(cancel);
+	}
+	
+	/**
+	 * add a configured separator
+	 * @param textProperty
+	 */
+	public void addConfiguredSeparator(Separator separator){		
+		properties.add(separator);
+	}
+	
+	/**
+	 * add a configured text property
+	 * @param dateProperty
+	 */
+	public void addConfiguredDateProperty(DateProperty dateProperty){
+		checkBaseProperties(dateProperty);
+		properties.add(dateProperty);
+	}
+	
+	/**
+	 * add a configured number property
+	 */
+	public void addConfiguredNumberProperty(NumberProperty numberProperty){		
+		properties.add(numberProperty);
+	}
+	
+	/**
+	 * add a configured list property
+	 */
+	public void addConfiguredListProperty(ListProperty listProperty){
+		checkBaseProperties(listProperty);
+		if (listProperty.getValues()==null) {
+			super.log("values attribute of the property "+listProperty.getClass().getName()+" cannot be null.");
+		}
+		properties.add(listProperty);
+	}
+	/**
+	 * add a configured multiline text property
+	 * @param multilineTextProperty
+	 */
+	public void addConfiguredMultilineTextProperty(MultilineTextProperty multilineTextProperty){
+		checkBaseProperties(multilineTextProperty);
+		properties.add(multilineTextProperty);
+	}
+	/**
+	 * add a configured selection property
+	 * @param textProperty
+	 */
+	public void addConfiguredSelectionProperty(SelectionProperty selectionProperty){
+		checkBaseProperties(selectionProperty);
+		properties.add(selectionProperty);
+	}
+	
+	/**
+	 * add a configured selection property
+	 * @param textProperty
+	 */
+	public void addConfiguredTab(Tab tab){
+		if (tab.getLabel()==null) {
+			log("tab must have a label");
+			needFail=true;
+		}
+		properties.add(tab);
+		tabbed=true;
+	}
+	
+	/**
+	 * add a configured selection property
+	 * @param textProperty
+	 */
+	public void addConfiguredRadioSelectionProperty(RadioSelectionProperty radioSelectionProperty){
+		checkBaseProperties(radioSelectionProperty);
+		properties.add(radioSelectionProperty);
+	}
+	
+	/**
+	 * add a configured checkGroup property
+	 * @param textProperty
+	 */
+	public void addConfiguredCheckSelectionProperty(CheckSelectionProperty checkSelectionProperty){
+		checkBaseProperties(checkSelectionProperty);
+		properties.add(checkSelectionProperty);
+	}
+
+	/**
+	 * add a configured boolean property
+	 * @param textProperty
+	 */
+	public void addConfiguredBooleanProperty(BooleanProperty booleanProperty){
+		checkBaseProperties(booleanProperty);
+		properties.add(booleanProperty);		
+	}
+	
+	
+	/**
+	 * add a configured link bar
+	 */
+	public void addConfiguredLinkBar(LinkBar linkBar) {
+		properties.add(linkBar);
+	}
+	
+	/**
+	 * Construct the gui
+	 */
+	public void build(){		
+		control.getPanel().addButtonControls(okMessage, resetMessage);
+		control.getPanel().setOkMessage(okMessage);
+		control.getPanel().setResetMessage(resetMessage);
+		super.build();
+		for (Iterator iter = properties.iterator(); iter.hasNext();) {
+			BaseType o = (BaseType) iter.next();
+			if (o.getIf()!=null){
+				if (!getProject().getProperties().containsKey(o.getIf())){
+					continue;
+				}
+			}
+			if (o.getUnless()!=null) {
+				if (getProject().getProperties().containsKey(o.getUnless())){
+					continue;
+				}			
+			}
+			if (o instanceof Tab) {
+				Tab tab= (Tab) o;
+				control.getPanel().addTab(tab.getLabel());
+			} else if (o instanceof NumberProperty) {
+				NumberProperty np = (NumberProperty) o;
+				control.getPanel().addNumberProperty(
+						np.getLabel(),
+						np.getProperty(),
+						np.isEditable(),
+						np.getMin(),
+						np.getMax(),
+						np.getStep()
+						
+						);
+			} else if (o instanceof Cancel) {
+				Cancel cancel = (Cancel) o;
+				control.getPanel().addCancel(cancel.getLabel());
+				
+			} else if (o instanceof FileSelectionProperty) {
+				FileSelectionProperty fileSelectionProperty = (FileSelectionProperty) o;
+				control.getPanel().addFileSelectionProperty(fileSelectionProperty.getLabel(),
+						fileSelectionProperty.getProperty(), fileSelectionProperty.isEditable(),
+						fileSelectionProperty.getColumns(), fileSelectionProperty.isDirectoryChooser(),
+						fileSelectionProperty.isRequired());
+			} else if (o instanceof LinkBar) {
+				LinkBar linkBar = (LinkBar) o;
+				control.getPanel().addLinkBar(linkBar);
+			} else if (o instanceof Separator) {
+				control.getPanel().addSeparator();
+			} else if (o instanceof Label) {
+				Label label = (Label) o;
+				control.getPanel().makeAddLabel(label.getText(), label.getColumns(), label.getRows());
+			} else if (o instanceof Table) {
+				Table table = (Table) o;
+				String[] cols = table.splitColumns();
+				String[][] data = table.splitData();
+				control.getPanel().addTableProperty(table.getLabel(),
+						table.getProperty(), table.isEditable(),
+						cols, data, table.getRowSeparator(), 
+						table.getColumnSeparator(),
+						table.getEscapeSequence(), table.getWidth(), 
+						table.getHeight(), table.getColumnWidth());
+			}else if (o instanceof RadioSelectionProperty) {
+				RadioSelectionProperty radioSelectionProperty = (RadioSelectionProperty) o;
+				control.getPanel().addConstrainedRadioProperty(radioSelectionProperty.getLabel(),
+						radioSelectionProperty.getProperty(), 
+						radioSelectionProperty.getSplitValues(),
+						radioSelectionProperty.isEditable()
+						);
+			} else if (o instanceof CheckSelectionProperty) {
+				CheckSelectionProperty checkSelectionProperty = (CheckSelectionProperty) o;
+				control.getPanel().addMultiCheckProperty(checkSelectionProperty.getLabel(),
+						checkSelectionProperty.getProperty(), 
+						checkSelectionProperty.getSplitValues(),
+						checkSelectionProperty.getSeparator(),
+						checkSelectionProperty.getEscapeSequence(),
+						checkSelectionProperty.isEditable()
+						);
+			} else if (o instanceof SelectionProperty) {
+				SelectionProperty selectionProperty = (SelectionProperty) o;
+				control.getPanel().addConstrainedProperty(selectionProperty.getLabel(),
+						selectionProperty.getProperty(), 
+						selectionProperty.getSplitValues(),
+						selectionProperty.isEditable()
+						);	
+			} else if (o instanceof DateProperty) {
+				DateProperty dateProperty = (DateProperty) o;
+				control.getPanel().addDateProperty(
+						dateProperty.getLabel(),
+						dateProperty.getProperty(),
+						dateProperty.isEditable(),
+						dateProperty.getDateFormat(),
+						dateProperty.isRequired()
+						);		
+			} else if (o instanceof ListProperty) {
+				ListProperty listProperty = (ListProperty) o;
+				control.getPanel().addListProperty(
+						listProperty.getLabel(),
+						listProperty.getProperty(),				
+						listProperty.isEditable(),
+						listProperty.asList()	
+						);				
+			} else if (o instanceof MultilineTextProperty) {
+				MultilineTextProperty multilineTextProperty = (MultilineTextProperty) o;
+				control.getPanel().addMultiLineTextProperty(
+						multilineTextProperty.getLabel(),
+						multilineTextProperty.getProperty(),
+						multilineTextProperty.getColumns(),
+						multilineTextProperty.getRows(),
+						multilineTextProperty.isEditable(),
+						multilineTextProperty.isRequired());	
+			} else if (o instanceof BooleanProperty){
+				BooleanProperty booleanProperty = (BooleanProperty) o;
+				control.getPanel().addBooleanProperty(booleanProperty.getLabel(),
+						booleanProperty.getProperty(), booleanProperty.isEditable());
+			} else if (o instanceof TextProperty){
+				TextProperty textProperty = (TextProperty) o;
+				control.getPanel().addTextProperty(
+						textProperty.getLabel(),
+						textProperty.getProperty(),
+						textProperty.getColumns(),
+						textProperty.isEditable(),
+						textProperty.isPassword(),
+						textProperty.isRequired());
+			}
+		}				
+		built = true;
+	}
+	
+	/**
+	 * add a configured table
+	 */
+	public void addConfiguredTable(Table table) {
+		checkBaseProperties(table);
+		if (table.getData()==null) {
+			super.log("data attribute of the property "+table.getClass().getName()+" cannot be null.");
+			needFail = true;
+		}
+		if (table.getColumns()==null) {
+			super.log("columns attribute of the property "+table.getClass().getName()+" cannot be null.");
+			needFail = true;
+		}
+		properties.add(table);
+	}
+	
+	/**
+	 * add a configured boolean property
+	 * @param textProperty
+	 */
+	public void addConfiguredFileSelectionProperty(FileSelectionProperty fileSelectionProperty){
+		checkBaseProperties(fileSelectionProperty);
+		properties.add(fileSelectionProperty);		
+	}	
+	
+	/**
+	 * add a configured label
+	 * @param textProperty
+	 */
+	public void addConfiguredLabel(Label label){
+		label.addText(getProject().replaceProperties(label.getText()));
+		properties.add(label);
+	}
+
+	/**
+	 * initialize the properties
+	 */
+	public void init() throws BuildException {		
+		properties = new ArrayList();
+	}
+	
+	/**
+	 * Map properties from the control back to the project
+	 */
+	private void getProperties(){
+		Properties props = control.getProperties();
+		Project p = getProject();
+		for (Iterator i=props.keySet().iterator();i.hasNext();){
+			String property = (String) i.next();
+			p.setProperty(property, props.getProperty(property));
+		}			
+	}
+	
+	/**
+	 * callback method
+	 * @see architecture.integration.tests.CallBack#callback()
+	 */
+	public void callbackCommand(String message){			
+		quit = true;
+		this.message = message;
+	}
+	
+	
+	/**
+	 * implement a callback that ports to a 
+	 * target by autumatically setting okMessage and nextTarget
+	 * values 
+	 */
+	public void callbackLink(String target) {		
+		quit = true;
+		this.message=okMessage;
+		nextTarget=target;
+	}
+	
+	
+
+	/**
+	 * @see org.apache.tools.ant.Task#execute()
+	 */
+	public void execute() throws BuildException {		
+		preliminaries();
+		if (!built) {
+			build();
+		}
+		super.execute();		
+		control.setProperties(getProject().getProperties());			
+		if (previousTarget!=null) {
+			control.getPanel().setDisposeOnReset(true);
+		}
+		if (focus!=null) {
+			control.getPanel().focus(focus);
+		}		
+		control.show();
+		getProperties();
+		if (save!=null) {
+			try {
+				File file = new File(save);
+				if (file.exists()) {
+					Properties props = new Properties();
+					props.load(new FileInputStream(file));
+					for (Iterator iter = props.keySet().iterator(); iter.hasNext();) {
+						String key = (String) iter.next();
+						if (!control.getProperties().containsKey(key)) {
+							control.getProperties().setProperty(key, props.getProperty(key));
+						}
+						
+					}
+				}
+				control.getProperties().save(new FileOutputStream(save), "");
+			} catch (FileNotFoundException e) {
+				throw new BuildException(e);
+			} catch (IOException e) {
+				throw new BuildException(e);
+			}
+		}
+		Target theNextTarget = findTargetByName(nextTarget);
+		Target thePreviousTarget = findTargetByName(previousTarget);
+		if (dynamic) {
+			built = false;
+			control = null;
+		}		
+		if (message!=null){		
+			CallTarget callee = (CallTarget) getProject().createTask("antcall");
+			callee.setOwningTarget(getOwningTarget());
+			callee.setTaskName(getTaskName());
+			callee.setLocation(getLocation());									
+			if ((message.equals(okMessage))&&(theNextTarget!=null)) {
+				callee.setTarget(nextTarget);
+				callee.init();
+				callee.execute();
+			} else if ((message.equals(resetMessage))&&(thePreviousTarget!=null)) {
+				callee.setTarget(previousTarget);
+				callee.init();
+				callee.execute();
+			} 
+		}				
 	}
 
 	/**
@@ -131,362 +514,36 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 	public String getOkMessage() {
 		return okMessage;
 	}
-
 	/**
 	 * @param okMessage.
 	 */
 	public void setOkMessage(String okMessage) {
-		log("okmessage attribute is deprecated. Use <controlbar> instead.",
-				Project.MSG_WARN);
-		if (controlBar != null) {
-			controlBarIncompatibilityDetected();
-		}
 		this.okMessage = okMessage;
-		okMessageChanged = true;
 	}
-
 	/**
 	 * @return resetMessage.
 	 */
 	public String getResetMessage() {
 		return resetMessage;
 	}
-
 	/**
 	 * @param resetMessage.
 	 */
 	public void setResetMessage(String resetMessage) {
-		log("resetmessage attribute is deprecated. Use <controlbar> instead.",
-				Project.MSG_WARN);
-		if (controlBar != null) {
-			controlBarIncompatibilityDetected();
-		}
 		this.resetMessage = resetMessage;
-		resetMessageChanged = true;
 	}
-
-	/**
-	 * @return cancelMessage.
-	 */
-	public String getCancelMessage() {
-		return cancelMessage;
-	}
-
-	/**
-	 * @param cancelMessage.
-	 */
-	public void setCancelMessage(String cancelMessage) {
-		log("cancelmessage attribute is deprecated. Use <controlbar> instead.",
-				Project.MSG_WARN);
-		if (controlBar != null) {
-			controlBarIncompatibilityDetected();
-		}
-		this.cancelMessage = cancelMessage;
-	}
-
+	
 	/**
 	 * @return save.
 	 */
 	public String getSave() {
 		return save;
 	}
-
+	
 	/**
 	 * @param save.
 	 */
 	public void setSave(String save) {
 		this.save = save;
-	}
-
-	//
-	// antform widgets
-	//
-
-	/**
-	 * add a configured text property
-	 * 
-	 * @param textProperty
-	 */
-	public void addConfiguredTextProperty(TextProperty textProperty) {
-		widgets.add(textProperty);
-	}
-
-	/**
-	 * Add a cancel button
-	 */
-	public void addConfiguredCancel(Cancel cancel) {
-		log("<cancel> element is deprecated. Use <controlbar> instead.", Project.MSG_WARN);
-		if (controlBar != null) {
-			controlBarIncompatibilityDetected();
-		}
-		cancelMessage = cancel.getLabel();
-	}
-
-	/**
-	 * add a configured separator
-	 * 
-	 * @param textProperty
-	 */
-	public void addConfiguredSeparator(Separator separator) {
-		widgets.add(separator);
-	}
-
-	/**
-	 * add a configured date property
-	 * 
-	 * @param dateProperty
-	 */
-	public void addConfiguredDateProperty(DateProperty dateProperty) {
-		widgets.add(dateProperty);
-	}
-
-	/**
-	 * add a configured number property
-	 */
-	public void addConfiguredNumberProperty(DummyNumberProperty numberProperty) {
-		widgets.add(numberProperty);
-	}
-
-	/**
-	 * add a configured list property
-	 */
-	public void addConfiguredListProperty(DummyListProperty listProperty) {
-		widgets.add(listProperty);
-	}
-
-	/**
-	 * add a configured multiline text property
-	 * 
-	 * @param multilineTextProperty
-	 */
-	public void addConfiguredMultilineTextProperty(
-			MultilineTextProperty multilineTextProperty) {
-		widgets.add(multilineTextProperty);
-	}
-
-	/**
-	 * add a configured selection property
-	 * 
-	 * @param textProperty
-	 */
-	public void addConfiguredSelectionProperty(SelectionProperty selectionProperty) {
-		widgets.add(selectionProperty);
-	}
-
-	/**
-	 * add a configured tab
-	 * 
-	 * @param textProperty
-	 */
-	public void addConfiguredTab(Tab tab) {
-		widgets.add(tab);
-		tabbed = true;
-	}
-
-	/**
-	 * add a configured radio selection property
-	 * 
-	 * @param textProperty
-	 */
-	public void addConfiguredRadioSelectionProperty(
-			RadioSelectionProperty radioSelectionProperty) {
-		widgets.add(radioSelectionProperty);
-	}
-
-	/**
-	 * add a configured check selection property
-	 * 
-	 * @param textProperty
-	 */
-	public void addConfiguredCheckSelectionProperty(
-			CheckSelectionProperty checkSelectionProperty) {
-		widgets.add(checkSelectionProperty);
-	}
-
-	/**
-	 * add a configured boolean property
-	 * 
-	 * @param textProperty
-	 */
-	public void addConfiguredBooleanProperty(BooleanProperty booleanProperty) {
-		widgets.add(booleanProperty);
-	}
-
-	/**
-	 * add a configured custom widget
-	 * 
-	 * @param textProperty
-	 */
-	public void addConfigured(BaseType widget) {
-		widgets.add(widget);
-	}
-
-	/**
-	 * add a configured link bar
-	 */
-	public void addConfiguredLinkBar(ButtonBar buttonBar) {
-		log("<linkbar> nested elements are deprecated. Use <buttonbar> instead.");
-		addConfiguredButtonBar(buttonBar);
-	}
-
-	/**
-	 * add a configured table
-	 */
-	public void addConfiguredTable(Table table) {
-		widgets.add(table);
-	}
-
-	/**
-	 * add a configured file selection property
-	 * 
-	 * @param textProperty
-	 */
-	public void addConfiguredFileSelectionProperty(
-			FileSelectionProperty fileSelectionProperty) {
-		widgets.add(fileSelectionProperty);
-	}
-
-	public void addConfiguredControlBar(ButtonBar buttonBar) {
-		if (okMessageChanged || resetMessageChanged || nextTarget != null
-				|| previousTarget != null || cancelMessage != null) {
-			controlBarIncompatibilityDetected();
-		}
-		controlBar = buttonBar;
-		buttonBar.register(getActionRegistry());
-	}
-
-	/**
-	 * Utility element which will print out the available font families
-	 * available on the current platform
-	 * 
-	 * @param o
-	 */
-	public void addPrintAvailableFontFamilies(Object o) {
-		String[] f = GraphicsEnvironment.getLocalGraphicsEnvironment()
-				.getAvailableFontFamilyNames();
-		for (int i = 0; i < f.length; i++) {
-			log(f[i]);
-		}
-
-	}
-
-	//
-	// execution
-	//
-
-	/**
-	 * initialize the properties
-	 */
-	public void init() throws BuildException {
-		widgets = new ArrayList();
-	}
-
-	/**
-	 * Construct the gui
-	 */
-	public void build() {
-		if (controlBar == null) {
-			createControlButton(ActionType.CANCEL, cancelMessage, null);
-			if (previousTarget == null) {
-				createControlButton(ActionType.RESET, resetMessage, null);
-			} else {
-				createControlButton(ActionType.OK, resetMessage, previousTarget);
-			}
-			createControlButton(ActionType.OK, okMessage, nextTarget);
-		}
-		if (controlBar != null && !controlBar.isEmpty()) {
-			// do not create if no buttons
-			controlBar.setAlign(BorderLayout.EAST);
-			controlBar.setMargins(3, 3, 3, 3);
-			ControlPanel controlPanel = control.getPanel();
-			controlBar.applyStylesheet(controlPanel);
-			controlPanel.addButtonPanel(controlBar.getPanel());
-			controlBar.register(getActionRegistry());
-		}
-		super.build();
-		built = true;
-	}
-
-	/**
-	 * @see org.apache.tools.ant.Task#execute()
-	 */
-	public void execute() throws BuildException {
-		do {
-			preliminaries();
-			if (!built) {
-				build();
-			}
-			super.execute();
-			// widgets are there. Initialize them.
-			reset();
-
-			control.show();
-			if (getActionSource() != null
-					&& getActionSource().getActionType() == ActionType.OK && save != null) {
-				save();
-			}
-			if (dynamic) {
-				built = false;
-				control = null;
-			}
-			if (getActionSource() != null && getActionSource().getTarget() != null
-					&& findTargetByName(getActionSource().getTarget()) != null) {
-				TargetInvoker invoker = new TargetInvoker(this, getActionSource());
-				invoker.perform();
-			}
-		} while (isLoop() && getActionSource() != null && !getActionSource().isLoopExit());
-	}
-
-	private void controlBarIncompatibilityDetected() {
-		if (!controlBarIncompatibilityDetected) {
-			log(
-					"<controlbar> is incompatible with attributes okmessage, resetmessage, nexttarget, previoustarget and with <cancel> element. Use <controlbar> only.",
-					Project.MSG_ERR);
-			needFail = true;
-			controlBarIncompatibilityDetected = true;
-		}
-	}
-
-	private void createControlButton(int type, String label, String target) {
-		if (label != null && !label.equals("")) {
-			Button button = new Button();
-			ActionType actionType = new ActionType();
-			actionType.setValue(ActionType.getType(type));
-			button.setType(actionType);
-			button.setLabel(label);
-			button.setTarget(target);
-			if (controlBar == null) {
-				controlBar = new ButtonBar();
-			}
-			controlBar.addConfiguredButton(button);
-		}
-	}
-
-	private void save() {
-		try {
-			File file = new File(save);
-			FileProperties props = new FileProperties(file);
-			props.store(getFormProperties());
-		} catch (FileNotFoundException e) {
-			throw new BuildException(e);
-		} catch (IOException e) {
-			throw new BuildException(e);
-		}
-	}
-
-	private Properties getFormProperties() {
-		Properties formProperties = null;
-		Iterator iter = displayedWidgets.iterator();
-		while (iter.hasNext()) {
-			Object o = iter.next();
-			if (o instanceof PropertyComponent) {
-				if (formProperties == null) {
-					formProperties = new Properties();
-				}
-				String property = ((PropertyComponent) o).getProperty();
-				formProperties.setProperty(property, getProject().getProperty(property));
-			}
-		}
-		return formProperties;
 	}
 }

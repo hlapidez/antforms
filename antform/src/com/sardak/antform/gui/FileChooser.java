@@ -21,7 +21,6 @@ package com.sardak.antform.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -47,12 +46,10 @@ public class FileChooser extends JPanel implements ActionListener{
 	/**
 	 * Constructor
 	 */
-	public FileChooser(int columns, boolean directoryChooser){
+	public FileChooser(int columns, boolean directoryChooser){		
 		textField = new JTextField(columns);
 		button = new JButton("...");
 		button.addActionListener(this);
-		button.setPreferredSize(new Dimension(button.getPreferredSize().width, textField.getPreferredSize().height));
-		setLayout(new BorderLayout());
 		add(textField, BorderLayout.CENTER);
 		add(button, BorderLayout.EAST);
 		this.directoryChooser=directoryChooser;

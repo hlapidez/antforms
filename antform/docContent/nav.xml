@@ -2,15 +2,23 @@
 <navigation>
 	<menu title="Main">		
 		<item label="About" href="index.html" title="About AntForms"/>
-		<item label="Installation" href="installation.html" title="Installation"/>
-		<item label="Usage - AntForm" href="usageaf.html" title="Usage - AntForm"/>
-		<item label="Usage - AntMenu" href="usageam.html" title="Usage - AntMenu"/>
-<!--
-		<item label="Requirements" href="requirements.html"/>
--->
-		<item label="Screenshots" href="screenshots.html" title="Screenshots"/>
+		<item label="Installation &amp;amp; samples"
+			href="installation.html" title="Installation &amp;amp;
+			samples"/>
+		<item label="Documentation" href="documentation.html"
+			title="Documentation"/>
+		<item label="Using the API" href="api.html"
+			title="Using the api"/>
+		<item label="Usage - AntForm" href="usageaf.html" title="Usage -
+			AntForm"/>
+		<item label="Usage - AntMenu" href="usageam.html" title="Usage
+			- AntMenu"/>
+		<item label="Usage - stylesheets" href="stylesheets.html" title="Usage
+			- stylesheets"/>
+		<item label="Screenshots" href="screenshots.html"
+			title="Screenshots"/>
 		<item label="Downloading" href="download.html" title="Downloading"/>
-		<item label="Getting help" href="help.html" title="Getting help"/>
+		<item label="Acknowledgements" href="ackowledgements.html" title="Acknowledgements"/>
 	</menu>
 	<menu title="News">		
 		<item label="Recent" href="news.html" title="Recent news"/>

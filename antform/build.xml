@@ -6,99 +6,63 @@ Date: 07/01/2005.
 -->
 <project name="antform" default="package">
 	<!-- build properties -->
-	<property name="bin" value="bin" />
-	<property name="src" value="src" />
-	<property name="lib" value="lib" />
-	<property name="dist" value="dist" />
-	<property name="doc" value="doc" />
-	<property name="version" value="2.0beta1" />
-	<property name="backup" value="../bakantform" />
+	<property name="bin" value="bin"/>
+	<property name="src" value="src"/>
+	<property name="lib" value="lib"/>
+	<property name="doc" value="doc"/>
+	<property name="version" value="1.4.5"/>
+	<property name="backup" value="../bakantform"/>
 
 	<!-- clean up the class folder -->
 	<target name="clean">
-		<mkdir dir="${bin}" />
+		<mkdir dir="${bin}"/>
 		<delete>
-			<fileset dir="${bin}" includes="**/*.*" />
+			<fileset dir="${bin}" includes="**/*.*"/>
 		</delete>
 	</target>
 
 	<!-- generate the  javadoc from the java source code into the ${doc}/api folder -->
 	<target name="doc">
-		<mkdir dir="${doc}/api" />
+		<mkdir dir="${doc}/api"/>
 		<javadoc sourcepath="${src}" destdir="${doc}/api" packagenames="*" />
 	</target>
 
 	<!-- compile antform classes -->
 	<target name="compile">
-		<mkdir dir="${bin}" />
-		<javac srcdir="${src}" destdir="${bin}" classpath="${lib}/ant.jar" source="1.3" target="1.3" includeantruntime="false" debug="on" debugLevel="lines,vars,source" />
+		<mkdir dir="${bin}"/>
+		<javac srcdir="${src}" destdir="${bin}" classpath="${lib}/ant.jar"
+			debug="on" debugLevel="lines,vars,source"/>
 	</target>
 
 	<target name="backup">
-		<mkdir dir="${backup}" />
+		<mkdir dir="${backup}"/>
 		<copy todir="${backup}">
-			<fileset dir="." />
+			<fileset dir="."/>
 		</copy>
 	</target>
 
 	<!-- construct the antform jar file -->
 	<target name="jar" depends="compile">
-		<mkdir dir="${lib}" />
-		<jar destfile="${lib}/antform.jar">
-			<fileset dir="${bin}" />
-			<fileset dir="${src}" includes="com/sardak/antform/taskdefs.properties" />
-			<manifest>
-				<attribute name="AntForm-Version" value="${version}" />
-			</manifest>
-		</jar>
+		<mkdir dir="${lib}"/>
+		<jar destfile="${lib}/antform.jar" basedir="${bin}"/>
 	</target>
 
 	<!-- package the application for deployment, with sources -->
 	<target name="package-src" depends="clean,doc,jar">
-		<mkdir dir="${dist}" />
-		<zip destfile="${dist}/antform-src-${version}.zip" update="false">
+		<zip destfile="antform-src-${version}.zip" update="false">
 			<zipfileset dir="." prefix="antform-src-${version}" includes="LICENSE build.xml test.xml
-				style.test test.cmd doc/**/*.* src/**/*.java lib/antform.jar" excludes="*.zip" />
-		</zip>
+				style.test test.cmd doc/**/*.* src/**/*.java lib/antform.jar" excludes="*.zip"/>
+		</zip>			
 	</target>
-
+	
 	<!-- package the application for deployment, without sources -->
 	<target name="package-bin" depends="clean,doc,jar">
-		<zip destfile="${dist}/antform-bin-${version}.zip" update="false">
-			<zipfileset dir="." prefix="antform-bin-${version}" includes="LICENSE test.xml test.cmd style.test doc/** lib/antform.jar" excludes="*.zip" />
-		</zip>
+		<zip destfile="antform-bin-${version}.zip" update="false">
+			<zipfileset dir="." prefix="antform-bin-${version}" includes="LICENSE test.xml test.cmd style.test doc/**/*.* lib/antform.jar" excludes="*.zip"/>
+		</zip>			
 	</target>
 
 	<!-- generate all packages -->
-	<target name="package" depends="package-src, package-bin" />
+	<target name="package" depends="package-src, package-bin"/>
 
-	<target name="check-antform">
-		<path id="antform.ui.classpath">
-			<dirset dir="bin" />
-			<fileset dir="lib" includes="antform.jar" />
-		</path>
-		<available classname="com.sardak.antform.AntForm" property="antform.available" classpathref="antform.ui.classpath" />
-	</target>
-
-	<target name="ui" depends="check-antform" if="antform.available">
-		<taskdef file="src/com/sardak/antform/taskdefs.properties" classpathref="antform.ui.classpath" />
-		<antmenu title="AntForm" loop="true">
-			<button label="Package" target="package" />
-			<button label="Generate site" target="generate-site" />
-			<button label="Upload site" target="upload-site" />
-			<button label="Exit" loopexit="true" />
-		</antmenu>
-	</target>
-
-	<target name="check-generate-site">
-		<available file="../sitegenerator" type="dir" property="can.generate.site" />
-	</target>
-
-	<target name="generate-site" depends="check-generate-site" if="can.generate.site">
-		<ant antfile="site.xml" target="generate" />
-	</target>
-
-	<target name="upload-site">
-		<ant antfile="site.xml" target="port" />
-	</target>
 </project>

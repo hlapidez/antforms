@@ -19,13 +19,6 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
-import javax.swing.JComponent;
-
-import org.apache.tools.ant.Task;
-
-import com.sardak.antform.gui.ControlPanel;
-import com.sardak.antform.gui.FileChooser;
-import com.sardak.antform.interfaces.ActionListenerComponent;
 import com.sardak.antform.interfaces.Requirable;
 
 /**
@@ -33,11 +26,12 @@ import com.sardak.antform.interfaces.Requirable;
  * @author René Ghosh
  * 4 mars 2005
  */
-public class FileSelectionProperty extends DefaultProperty implements Requirable, ActionListenerComponent { 
+public class FileSelectionProperty extends DefaultProperty implements Requirable{ 
 	private int columns = 34;
 	private boolean directoryChooser;
 	private boolean required;
-	private FileChooser chooser;
+	
+	
 
 	public boolean isRequired() {
 		return required;
@@ -56,36 +50,5 @@ public class FileSelectionProperty extends DefaultProperty implements Requirable
 	}
 	public void setDirectoryChooser(boolean directoryChooser) {
 		this.directoryChooser = directoryChooser;
-	}
-
-	public void addToControlPanel(ControlPanel panel) {
-		chooser = new FileChooser(columns, directoryChooser);
-		panel.getStylesheetHandler().addFileChooser(chooser);
-		initComponent(chooser, panel);
-	}
-	
-	public boolean validate(Task task) {
-		return super.validate(task, "FileSelectionProperty");
-	}
-
-	public void ok() {
-		getProject().setProperty(getProperty(), chooser.getText());
-	}
-
-	public void reset() {
-		chooser.setText(getCurrentProjectPropertyValue());
-	}
-
-	public boolean requiredStatusOk() {
-		boolean ok = true;
-		if (isRequired() && "".equals(chooser.getText())) {
-			ok = false;
-			chooser.requestFocus();
-		}
-		return ok;
-	}
-
-	public JComponent getFocusableComponent() {
-		return chooser;
 	}
 }

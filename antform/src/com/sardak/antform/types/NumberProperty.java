@@ -19,23 +19,13 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
-import javax.swing.JComponent;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
-
-import org.apache.tools.ant.Task;
-
-import com.sardak.antform.gui.ControlPanel;
-import com.sardak.antform.interfaces.ActionListenerComponent;
-
 /**
  * @author René Ghosh
  * 2 mars 2005
  */
-public class NumberProperty extends DummyNumberProperty implements ActionListenerComponent {
+public class NumberProperty extends DefaultProperty{
 	private double min=0,max=100,step=1;
-	private SpinnerNumberModel model;
-	private JSpinner spinner;
+	private boolean editable = true;
 	
 	/**
 	 * get Max
@@ -64,43 +54,5 @@ public class NumberProperty extends DummyNumberProperty implements ActionListene
 	}
 	public void setStep(double step) {
 		this.step = step;
-	}
-
-	public void addToControlPanel(ControlPanel panel) {
-		model = new SpinnerNumberModel(min,min, max, step); 
-		spinner = new JSpinner(model);
-		panel.getStylesheetHandler().addSpinner(spinner);
-		spinner.setEnabled(isEditable());
-		initComponent(spinner, panel);
-	}
-	
-	public boolean validate(Task task) {
-		return super.validate(task, "NumberProperty");
-	}
-	
-	public void ok() {
-		getProject().setProperty(getProperty(), spinner.getValue().toString());
-	}
-
-	public void reset() {
-		if (isDouble(getCurrentProjectPropertyValue())) {
-			spinner.setValue(new Double(getCurrentProjectPropertyValue()));
-		} else {
-			spinner.setValue(new Double(0));
-		}
-	}
-	
-	private boolean isDouble(String s) {
-		boolean isDouble = true;
-		try {
-			Double.parseDouble(s);
-		} catch (Exception e) { // NumberFormatException or NullPointerException
-			isDouble = false;
-		}
-		return isDouble;
-	}
-
-	public JComponent getFocusableComponent() {
-		return spinner;
 	}
 }

@@ -1,4 +1,4 @@
-/***************************************************************************\*
+ /***************************************************************************\*
  *                                                                            *
  *    AntForm form-based interaction for Ant scripts                          *
  *    Copyright (C) 2005 René Ghosh                                           *
@@ -19,151 +19,47 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-
-import org.apache.tools.ant.Task;
-
-import com.sardak.antform.gui.ControlPanel;
-import com.sardak.antform.interfaces.Focusable;
-import com.sardak.antform.interfaces.PropertyComponent;
-import com.sardak.antform.interfaces.Requirable;
-
 /**
  * Default property attributes: include the label and target property.
- * 
  * @author René Ghosh
  */
-public abstract class DefaultProperty extends BaseType implements PropertyComponent, Focusable {
-    private String label, property, tooltip;
-    private boolean focus = false;
-
-    private boolean editable = true;
-
-    /**
-     * true if property is editable
-     */
-    public boolean isEditable() {
-        return editable;
-    }
-
-    /**
-     * set property editable
-     */
-    public void setEditable(boolean editable) {
-        this.editable = editable;
-    }
-
-    /**
-     * @return label.
-     */
-    public String getLabel() {
-        return label;
-    }
-
-    /**
-     * @param label.
-     */
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-    /**
-     * @return property.
-     */
-    public String getProperty() {
-        return property;
-    }
-
-    /**
-     * @param property.
-     */
-    public void setProperty(String property) {
-        this.property = property;
-    }
-
-    /**
-     * @return tooltip.
-     */
-    public String getTooltip() {
-        return tooltip;
-    }
-
-    /**
-     * @param property.
-     */
-    public void setTooltip(String tooltip) {
-        this.tooltip = tooltip;
-    }
-
-    public boolean isFocus() {
-		return focus;
+public class DefaultProperty extends BaseType{
+	private String label, property;
+	private boolean editable = true;
+	/**
+	 * true if property is editable
+	 */
+	public boolean isEditable() {
+		return editable;
 	}
-
-	public void setFocus(boolean focus) {
-		this.focus = focus;
+	/**
+	 * set property editable
+	 */
+	public void setEditable(boolean editable) {
+		this.editable = editable;
 	}
-
-	public abstract void addToControlPanel(ControlPanel panel);
-	
-	public abstract JComponent getFocusableComponent();
-
-    /**
-     * Apply tooltip text to the specified JComponent (and optionnaly its label)
-     */
-    private void applyTooltip(JComponent component, JLabel label,
-            String tooltipText) {
-        if (null != tooltipText && !tooltipText.equals("")) {
-            component.setToolTipText(tooltipText);
-            if (label != null) {
-                label.setToolTipText(tooltipText);
-            }
-            for (int i = 0; i < component.getComponentCount(); i++) {
-                if (component.getComponent(i) instanceof JComponent) {
-                    applyTooltip((JComponent) component.getComponent(i), null,
-                            tooltipText);
-                }
-            }
-        }
-    }
-
-    /**
-     * Add the specified component to the control panel, creating a JLabel and
-     * adding tooltip info
-     */
-    protected void initComponent(JComponent component, ControlPanel panel) {
-        if (this instanceof Requirable && ((Requirable) this).isRequired())
-            setLabel("*" + getLabel());
-        JLabel labelComponent = panel.makeLabel(label);
-        labelComponent.setLabelFor(component);
-        applyTooltip(component, labelComponent, tooltip);
-        panel.addRight(component);
-    }
-
-	public boolean validate(Task task) {
-		return validate(task, getClass().getName());
-    }
-
-	public boolean validate(Task task, String widget) {
-		boolean attributesAreValid = true;
-		if (getLabel() == null) {
-			task.log(widget + " : attribute \"label\" missing.");
-			attributesAreValid = false;
-		}		
-		if (getProperty() == null) {
-			task.log(widget + " : attribute \"property\" missing.");
-			attributesAreValid = false;
-		}		
-		return attributesAreValid;
+	/**
+	 * @return label.
+	 */
+	public String getLabel() {
+		return label;
 	}
-	
-	public String getCurrentProjectPropertyValue() {
-		if (getProject() == null) {
-			return null;
-		}
-		return getProject().getProperty(getProperty());
+	/**
+	 * @param label.
+	 */
+	public void setLabel(String label) {
+		this.label = label;
 	}
-	
-	//default cancel() implementation: do nothing
-	public void cancel() {}
+	/**
+	 * @return property.
+	 */
+	public String getProperty() {
+		return property;
+	}
+	/**
+	 * @param property.
+	 */
+	public void setProperty(String property) {
+		this.property = property;
+	}
 }

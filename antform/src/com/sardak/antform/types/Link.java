@@ -19,11 +19,37 @@
  \****************************************************************************/
 package com.sardak.antform.types;
 
-
 /**
  * @author René Ghosh
  * 12 janv. 2005
  */
-public class Link extends Button {
-	// Keep it just to avoid breaking user code
+public class Link extends BaseType{
+	private String label, target;
+	
+	/**
+	 * Constructor
+	 */
+	public Link(String label, String target){
+		this.label=label;
+		this.target=target;
+	}
+	
+	/**
+	 * Constructor
+	 */
+	public Link(){	
+	}
+	
+	public String getLabel() {
+		return label;
+	}
+	public void setLabel(String label) {
+		this.label = label;
+	}
+	public String getTarget() {
+		return target;
+	}
+	public void setTarget(String target) {
+		this.target = target;
+	}
 }
