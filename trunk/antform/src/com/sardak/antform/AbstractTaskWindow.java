@@ -65,6 +65,7 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	private ActionRegistry actionRegistry;
 	private boolean loop = false;
 	private ActionComponent actionSource = null;
+	private boolean showWhenEmpty = false;
 	
 	/**
 	 * get image URL
@@ -296,6 +297,28 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	
 	public void setIcon(File icon) {
 		this.iconFile = icon;
+	}
+	
+	/**
+	 * @return the showWhenEmpty
+	 */
+	public boolean showWhenEmpty() {
+		return showWhenEmpty;
+	}
+	
+	/**
+	 * @param showWhenEmpty the showWhenEmpty to set
+	 */
+	public void setShowWhenEmpty(boolean showWhenEmpty) {
+		this.showWhenEmpty = showWhenEmpty;
+	}
+	
+	/*
+	 * Returns true if the form should be shown
+	 * Must be called after build() so that displayedWidgets is set
+	 */
+	protected boolean shouldShow() {
+		return showWhenEmpty() || !displayedWidgets.isEmpty();
 	}
 	
 	public ActionComponent getActionSource() {
