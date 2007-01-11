@@ -280,6 +280,9 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 	 */
 	public void addConfiguredTab(Tab tab) {
 		widgets.add(tab);
+		if (!(widgets.get(0) instanceof Tab)) {
+			throw new BuildException("Missing first tab element");
+		}
 		tabbed = true;
 	}
 
