@@ -195,7 +195,7 @@ public class Control {
 			}			
 			firstShow = false;			
 		}
-		if (focusedComponent != null) {
+		if (focusedComponent != null && focusedComponent.getComponent() != null) {
 			getPanel().activateTab(focusedComponent.getTabIndex());
 			focusedComponent.getComponent().requestFocus();
 		}
