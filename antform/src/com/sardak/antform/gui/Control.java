@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -42,6 +41,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import com.sardak.antform.types.AntMenuItem;
+import com.sardak.antform.util.FocusedComponent;
 import com.sardak.antform.util.MnemonicsUtil;
 import com.sardak.antform.util.StyleUtil;
 
@@ -60,7 +60,7 @@ public class Control {
 	private boolean firstShow = true;
 	private List menuItems;
 	private JMenuBar menuBar;
-	private JComponent focusedComponent = null;
+	private FocusedComponent focusedComponent = null;
 		
 	/**
 	 * set window width
@@ -162,7 +162,7 @@ public class Control {
 		dialog.setTitle(title);
 	}
 	
-	public void setFocusedComponent(JComponent focusedComponent) {
+	public void setFocusedComponent(FocusedComponent focusedComponent) {
 		this.focusedComponent = focusedComponent;
 	}
 
@@ -196,7 +196,8 @@ public class Control {
 			firstShow = false;			
 		}
 		if (focusedComponent != null) {
-			focusedComponent.requestFocus();
+			getPanel().activateTab(focusedComponent.getTabIndex());
+			focusedComponent.getComponent().requestFocus();
 		}
 		dialog.display();
 	}

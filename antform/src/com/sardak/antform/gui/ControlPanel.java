@@ -330,6 +330,12 @@ public class ControlPanel extends JPanel {
 		layout = aLayout;
 	}
 	
+	public void activateTab(int tabIndex) {
+		if (tabbedPane != null && tabIndex > -1 && tabIndex < tabbedPane.getTabCount()) {
+			tabbedPane.setSelectedIndex(tabIndex);
+		}
+	}
+	
 	private void debugBorders(JComponent jComponent, Color borderColor) {
 		jComponent.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1), jComponent.getBorder()));
 	}

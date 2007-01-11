@@ -1,4 +1,4 @@
- /***************************************************************************\*
+/***************************************************************************\*
  *                                                                            *
  *    AntForm form-based interaction for Ant scripts                          *
  *    Copyright (C) 2005 René Ghosh                                           *
@@ -43,58 +43,60 @@ import com.sardak.antform.types.BaseType;
 import com.sardak.antform.types.Button;
 import com.sardak.antform.types.ButtonBar;
 import com.sardak.antform.types.Label;
+import com.sardak.antform.types.Tab;
 import com.sardak.antform.util.ActionRegistry;
+import com.sardak.antform.util.FocusedComponent;
 
 /**
- * @author René Ghosh
- * 12 janv. 2005
+ * @author René Ghosh 12 janv. 2005
  */
-public abstract class AbstractTaskWindow extends Task implements CallBack{
+public abstract class AbstractTaskWindow extends Task implements CallBack {
 	protected String title = null;
 	private String stylesheet = null;
 	protected String image = null;
 	private File iconFile = null;
-	private int height=-1, width=-1; 
+	private int height = -1, width = -1;
 	protected Control control;
 	protected boolean needFail = false;
-	protected String lookAndFeel=null;
-	protected List widgets;	
-	protected List displayedWidgets;	
+	protected String lookAndFeel = null;
+	protected List widgets;
+	protected List displayedWidgets;
 	protected boolean dynamic = false;
 	protected boolean tabbed = false;
 	private ActionRegistry actionRegistry;
 	private boolean loop = false;
 	private ActionComponent actionSource = null;
 	private boolean showWhenEmpty = false;
-	
+
 	/**
 	 * get image URL
 	 */
 	public String getImage() {
 		return image;
 	}
+
 	/**
 	 * set image URL
 	 */
 	public void setImage(String image) {
 		this.image = image;
 	}
-		
+
 	/**
 	 * set a property to false if it has been set
 	 */
-	public void setFalse(String propertyName){
+	public void setFalse(String propertyName) {
 		if (getProject().getProperties().containsKey(propertyName)) {
-			getProject().setProperty(propertyName, Boolean.FALSE+"");
+			getProject().setProperty(propertyName, Boolean.FALSE + "");
 		}
 	}
-	
+
 	/**
 	 * construct the gui widgets
 	 */
-	protected void build(){
+	protected void build() {
 		displayedWidgets = new ArrayList();
-		for (int i = 0 ; i < widgets.size() ; i++) {
+		for (int i = 0; i < widgets.size(); i++) {
 			BaseType o = (BaseType) widgets.get(i);
 			if (o.validate(this)) {
 				if (o.shouldBeDisplayed(getProject())) {
@@ -102,8 +104,8 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 						o = ((DummyComponent) o).getRealType();
 						widgets.set(i, o);
 					}
-				    o.addToControlPanel(control.getPanel());
-				    displayedWidgets.add(o);
+					o.addToControlPanel(control.getPanel());
+					displayedWidgets.add(o);
 				}
 				if (o.getIf() != null || o.getUnless() != null) {
 					dynamic = true;
@@ -112,62 +114,65 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 				needFail = true;
 			}
 		}
-//		for (Iterator iter = widgets.iterator(); iter.hasNext();) {
-//			BaseType o = (BaseType) iter.next();
-//			if (o.validate(this)) {
-//				if (o.shouldBeDisplayed(getProject())) {
-//				    o.addToControlPanel(control.getPanel());
-//				    displayedWidgets.add(o);
-//				}
-//				if (o.getIf() != null || o.getUnless() != null) {
-//					dynamic = true;
-//				}
-//			} else {
-//				needFail = true;
-//			}
-//		}
+		// for (Iterator iter = widgets.iterator(); iter.hasNext();) {
+		// BaseType o = (BaseType) iter.next();
+		// if (o.validate(this)) {
+		// if (o.shouldBeDisplayed(getProject())) {
+		// o.addToControlPanel(control.getPanel());
+		// displayedWidgets.add(o);
+		// }
+		// if (o.getIf() != null || o.getUnless() != null) {
+		// dynamic = true;
+		// }
+		// } else {
+		// needFail = true;
+		// }
+		// }
 	}
-	
+
 	/**
 	 * get window height
 	 */
 	public int getHeight() {
 		return height;
 	}
+
 	/**
 	 * set window height
 	 */
 	public void setHeight(int height) {
 		this.height = height;
 	}
+
 	/**
 	 * get window width
 	 */
 	public int getWidth() {
 		return width;
 	}
+
 	/**
 	 * set window width
 	 */
 	public void setWidth(int width) {
 		this.width = width;
 	}
-	
+
 	public Control getControl() {
 		return control;
 	}
-	
+
 	/**
 	 * add a menu
 	 */
-	public void addConfiguredAntMenuItem(AntMenuItem menuItem){
+	public void addConfiguredAntMenuItem(AntMenuItem menuItem) {
 		if (menuItem.validate(this)) {
 			widgets.add(menuItem);
 		} else {
 			needFail = true;
 		}
 	}
-	
+
 	/**
 	 * add a button bar
 	 */
@@ -175,7 +180,7 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 		widgets.add(buttonBar);
 		buttonBar.register(getActionRegistry());
 	}
-	
+
 	/**
 	 * add a button
 	 */
@@ -186,7 +191,7 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 		buttonBar.setMargins(0, 100, 0, 100);
 		addConfiguredButtonBar(buttonBar);
 	}
-	
+
 	/**
 	 * add a label
 	 */
@@ -197,145 +202,148 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 	public boolean isLoop() {
 		return loop;
 	}
-	
+
 	public void setLoop(boolean loop) {
 		this.loop = loop;
 	}
-	
+
 	/**
-	 * set preliminary gui operations, such as 
-	 * Look & Feel
+	 * set preliminary gui operations, such as Look & Feel
 	 */
-	public void preliminaries(){
-		if (control==null){
-			control = new Control(this, title, iconFile, image, tabbed);			
-			if (lookAndFeel!=null) {
+	public void preliminaries() {
+		if (control == null) {
+			control = new Control(this, title, iconFile, image, tabbed);
+			if (lookAndFeel != null) {
 				control.updateLookAndFeel(lookAndFeel);
 			}
-		} 				
+		}
 	}
-	
+
 	/**
 	 * check that the task can continue and set the look and feel
 	 */
-	public void execute() throws BuildException {		
+	public void execute() throws BuildException {
 		control.setWidth(width);
 		control.setHeight(height);
 		if (needFail) {
 			throw new BuildException("certain properties where not correctly set.");
-		}				
-		control.setTitle(getTitle());				
-		if (stylesheet!=null) {
-			try {				
+		}
+		control.setTitle(getTitle());
+		if (stylesheet != null) {
+			try {
 				control.setStyleSheet(stylesheet);
 				control.getPanel().setStyleSheet(stylesheet);
 			} catch (Exception e) {
 				e.printStackTrace();
-			} 
-		} 				
+			}
+		}
 		control.setFocusedComponent(getFocusedComponent());
 	}
-	
+
 	/**
 	 * @return lookAndFeel.
 	 */
 	public String getLookAndFeel() {
 		return lookAndFeel;
 	}
+
 	/**
 	 * @param lookAndFeel.
 	 */
 	public void setLookAndFeel(String lookAndFeel) {
 		this.lookAndFeel = lookAndFeel;
 	}
-	
-	
+
 	/**
 	 * Find a target amid the projet targets
 	 */
 	public Target findTargetByName(String target) {
 		Target targetToFind = null;
 		Hashtable targets = getProject().getTargets();
-		for (Iterator i=targets.keySet().iterator();i.hasNext();) {
+		for (Iterator i = targets.keySet().iterator(); i.hasNext();) {
 			String targetName = (String) i.next();
 			Target aTarget = (Target) targets.get(targetName);
-			if (aTarget.getName().equals(target)) {				
+			if (aTarget.getName().equals(target)) {
 				targetToFind = aTarget;
 			}
 		}
 		return targetToFind;
 	}
-	
+
 	/**
 	 * @return title.
 	 */
 	public String getTitle() {
 		return title;
 	}
+
 	/**
 	 * @param title.
 	 */
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
 	/**
 	 * get the styelsheet reference
 	 */
 	public String getStylesheet() {
 		return stylesheet;
 	}
+
 	/**
-	 * set the styelsheet reference 
+	 * set the styelsheet reference
 	 */
 	public void setStylesheet(String stylesheet) {
 		this.stylesheet = stylesheet;
 	}
-	
+
 	public File getIcon() {
 		return iconFile;
 	}
-	
+
 	public void setIcon(File icon) {
 		this.iconFile = icon;
 	}
-	
+
 	/**
 	 * @return the showWhenEmpty
 	 */
 	public boolean showWhenEmpty() {
 		return showWhenEmpty;
 	}
-	
+
 	/**
-	 * @param showWhenEmpty the showWhenEmpty to set
+	 * @param showWhenEmpty
+	 *            the showWhenEmpty to set
 	 */
 	public void setShowWhenEmpty(boolean showWhenEmpty) {
 		this.showWhenEmpty = showWhenEmpty;
 	}
-	
+
 	/*
-	 * Returns true if the form should be shown
-	 * Must be called after build() so that displayedWidgets is set
+	 * Returns true if the form should be shown Must be called after build() so
+	 * that displayedWidgets is set
 	 */
 	protected boolean shouldShow() {
 		return showWhenEmpty() || !displayedWidgets.isEmpty();
 	}
-	
+
 	public ActionComponent getActionSource() {
 		return actionSource;
 	}
-	
+
 	public void setActionSource(ActionComponent actionSource) {
 		this.actionSource = actionSource;
 	}
-	
+
 	public ActionRegistry getActionRegistry() {
 		if (actionRegistry == null) {
 			actionRegistry = new ActionRegistry(this);
 		}
 		return actionRegistry;
 	}
-	
+
 	public boolean requiredStatusOk() {
 		Iterator iter = displayedWidgets.iterator();
 		while (iter.hasNext()) {
@@ -346,7 +354,7 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 		}
 		return true;
 	}
-	
+
 	public void ok() {
 		Iterator iter = displayedWidgets.iterator();
 		while (iter.hasNext()) {
@@ -356,7 +364,7 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 			}
 		}
 	}
-	
+
 	public void cancel() {
 		Iterator iter = displayedWidgets.iterator();
 		while (iter.hasNext()) {
@@ -366,7 +374,7 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 			}
 		}
 	}
-	
+
 	public void reset() {
 		Iterator iter = displayedWidgets.iterator();
 		while (iter.hasNext()) {
@@ -377,17 +385,21 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 		}
 	}
 
-	private JComponent getFocusedComponent() {
+	private FocusedComponent getFocusedComponent() {
 		JComponent focusableComponent = null;
 		JComponent firstFocusableComponent = null;
+		int tabIndex = -1;
 		Iterator iter = displayedWidgets.iterator();
 		while (iter.hasNext()) {
 			Object o = iter.next();
+			if (o instanceof Tab) {
+				tabIndex++;
+			}
 			if (o instanceof Focusable) {
 				Focusable f = (Focusable) o;
 				if (firstFocusableComponent == null) {
 					firstFocusableComponent = f.getFocusableComponent();
-}
+				}
 				if (f.isFocus()) {
 					focusableComponent = f.getFocusableComponent();
 					break;
@@ -396,7 +408,10 @@ public abstract class AbstractTaskWindow extends Task implements CallBack{
 		}
 		if (focusableComponent == null && firstFocusableComponent != null) {
 			focusableComponent = firstFocusableComponent;
+			if (tabIndex >= 0) {
+				tabIndex = 0;
+			}
 		}
-		return focusableComponent;
+		return new FocusedComponent(tabIndex, focusableComponent);
 	}
 }
