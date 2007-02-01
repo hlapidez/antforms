@@ -489,7 +489,9 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 					formProperties = new Properties();
 				}
 				String property = ((PropertyComponent) o).getProperty();
-				formProperties.setProperty(property, getProject().getProperty(property));
+				if (getProject().getProperty(property) != null) {
+					formProperties.setProperty(property, getProject().getProperty(property));
+				}
 			}
 		}
 		return formProperties;
