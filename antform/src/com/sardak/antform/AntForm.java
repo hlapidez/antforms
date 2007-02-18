@@ -66,7 +66,7 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 	private String resetMessage = "Reset";
 	private boolean resetMessageChanged = false;
 	private String cancelMessage = null;
-	private String save = null;
+	private File save = null;
 	private String nextTarget, previousTarget = null;
 	private boolean built = false;
 	private ButtonBar controlBar = null;
@@ -187,14 +187,14 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 	/**
 	 * @return save.
 	 */
-	public String getSave() {
+	public File getSave() {
 		return save;
 	}
 
 	/**
 	 * @param save.
 	 */
-	public void setSave(String save) {
+	public void setSave(File save) {
 		this.save = save;
 	}
 
@@ -469,8 +469,7 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 
 	private void save() {
 		try {
-			File file = new File(save);
-			FileProperties props = new FileProperties(file);
+			FileProperties props = new FileProperties(save);
 			props.store(getFormProperties());
 		} catch (FileNotFoundException e) {
 			throw new BuildException(e);
