@@ -1,7 +1,7 @@
  /***************************************************************************\*
  *                                                                            *
  *    AntForm form-based interaction for Ant scripts                          *
- *    Copyright (C) 2005 René Ghosh                                           *
+ *    Copyright (C) 2005 Renï¿½ Ghosh                                           *
  *                                                                            *
  *   This library is free software; you can redistribute it and/or modify it  *
  *   under the terms of the GNU Lesser General Public License as published by *
@@ -26,6 +26,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
@@ -50,7 +51,7 @@ import com.sardak.antform.util.MnemonicsUtil;
 /**
  * Panel that holds the user form and lays out labels and
  * input fields in two side-by-side columns
- * @author René Ghosh
+ * @author Renï¿½ Ghosh
  */
 public class ControlPanel extends JPanel {
 	private GridBagLayout layout;	
@@ -298,17 +299,17 @@ public class ControlPanel extends JPanel {
 	 * @throws IOException
 	 * @throws FileNotFoundException
 	 */
-	public void setStyleSheet(String stylesheetFileName) throws FileNotFoundException, IOException{
-		stylesheetHandler.apply(stylesheetFileName, this);
+	public void setStyleSheet(File stylesheet) throws IOException{
+		stylesheetHandler.apply(stylesheet, this);
 	}
 
 	/**
 	 * set the form title
 	 * @param title
 	 */
-	public void setImage(String image){		
+	public void setImage(File image){		
 		if (image!=null) {
-			overPanel.add(new JLabel(new ImageIcon(image)), BorderLayout.WEST);
+			overPanel.add(new JLabel(new ImageIcon(image.getAbsolutePath())), BorderLayout.WEST);
 		}
 	}
 

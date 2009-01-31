@@ -109,9 +109,9 @@ public class StylesheetHandler {
 	    panels.add(panel);
 	}
 	
-	public void apply(String stylesheetFileName, ControlPanel controlPanel) throws FileNotFoundException, IOException {
+	public void apply(File stylesheet, ControlPanel controlPanel) throws IOException {
 		Properties props = new Properties();
-		props.load(new FileInputStream(new File(stylesheetFileName)));
+		props.load(new FileInputStream(stylesheet));
 		Color background = HexConverter.translate(props.getProperty("background.color"), controlPanel.getCurrentPanel().getBackground());
 		if (controlPanel.getSouthPanel() != null) {
 			controlPanel.getSouthPanel().setBackground(background);
