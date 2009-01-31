@@ -1,7 +1,7 @@
  /***************************************************************************\*
  *                                                                            *
  *    AntForm form-based interaction for Ant scripts                          *
- *    Copyright (C) 2005 René Ghosh                                           *
+ *    Copyright (C) 2005 Renï¿½ Ghosh                                           *
  *                                                                            *
  *   This library is free software; you can redistribute it and/or modify it  *
  *   under the terms of the GNU Lesser General Public License as published by *
@@ -47,7 +47,7 @@ import com.sardak.antform.util.StyleUtil;
 
 /**
  * Frame for holding the user form
- * @author René Ghosh
+ * @author Renï¿½ Ghosh
  */
 public class Control {
 	private CallBackDialog dialog;
@@ -55,7 +55,8 @@ public class Control {
 	private CallBack callBack;
 	private ControlPanel panel;
 	private int width=-1, height= -1;
-	private String title, image;
+	private String title;
+	private File image;
 	private JScrollPane scrollPane;
 	private boolean firstShow = true;
 	private List menuItems;
@@ -86,14 +87,14 @@ public class Control {
 	/**
 	 * Constructor	 
 	 */
-	public Control(final CallBack antCallBack, String title, File iconFile, String image, boolean tabbed){
+	public Control(final CallBack antCallBack, String title, File iconFile, File image, boolean tabbed){
 		init(antCallBack, title, iconFile, image, tabbed);
 	}
 	
 	/**
 	 * Manually set the callback method, title and image
 	 */
-	public void init(final CallBack antCallBack, String title, File iconFile, String image,
+	public void init(final CallBack antCallBack, String title, File iconFile, File image,
 			boolean tabbed){
 		this.callBack=antCallBack;
 		if (dialog == null) {
@@ -277,10 +278,11 @@ public class Control {
 	 * @throws IOException
 	 * @throws FileNotFoundException
 	 */
-	public void setStyleSheet(String styleSheet) throws FileNotFoundException, IOException{
+	public void setStyleSheet(File stylesheet) throws FileNotFoundException, IOException{
 		Properties props = new Properties();
-		props.load(new FileInputStream(new File(styleSheet)));		
-		StyleUtil.styleComponents("menu", props, menuItems);		
+		props.load(new FileInputStream(stylesheet));		
+		StyleUtil.styleComponents("menu", props, menuItems);
+		getPanel().setStyleSheet(stylesheet);
 	}
 
 	/**

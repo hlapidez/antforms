@@ -52,8 +52,8 @@ import com.sardak.antform.util.FocusedComponent;
  */
 public abstract class AbstractTaskWindow extends Task implements CallBack {
 	protected String title = null;
-	private String stylesheet = null;
-	protected String image = null;
+	private File stylesheet = null;
+	protected File image = null;
 	private File iconFile = null;
 	private int height = -1, width = -1;
 	protected Control control;
@@ -71,14 +71,14 @@ public abstract class AbstractTaskWindow extends Task implements CallBack {
 	/**
 	 * get image URL
 	 */
-	public String getImage() {
+	public File getImage() {
 		return image;
 	}
 
 	/**
 	 * set image URL
 	 */
-	public void setImage(String image) {
+	public void setImage(File image) {
 		this.image = image;
 	}
 
@@ -237,7 +237,6 @@ public abstract class AbstractTaskWindow extends Task implements CallBack {
 		if (stylesheet != null) {
 			try {
 				control.setStyleSheet(stylesheet);
-				control.getPanel().setStyleSheet(stylesheet);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -292,14 +291,14 @@ public abstract class AbstractTaskWindow extends Task implements CallBack {
 	/**
 	 * get the styelsheet reference
 	 */
-	public String getStylesheet() {
+	public File getStylesheet() {
 		return stylesheet;
 	}
 
 	/**
 	 * set the styelsheet reference
 	 */
-	public void setStylesheet(String stylesheet) {
+	public void setStylesheet(File stylesheet) {
 		this.stylesheet = stylesheet;
 	}
 
