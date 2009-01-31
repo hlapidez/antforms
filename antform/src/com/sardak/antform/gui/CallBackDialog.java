@@ -1,7 +1,7 @@
 /***************************************************************************\*
  *                                                                            *
  *    AntForm form-based interaction for Ant scripts                          *
- *    Copyright (C) 2005 René Ghosh                                           *
+ *    Copyright (C) 2005 Renï¿½ Ghosh                                           *
  *                                                                            *
  *   This library is free software; you can redistribute it and/or modify it  *
  *   under the terms of the GNU Lesser General Public License as published by *
@@ -26,28 +26,37 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import sun.awt.PlatformFont;
+
 /**
- * A frame for implementing custim behaviour once the dispose is called: calls a
+ * A frame for implementing custom behaviour once the dispose is called: calls a
  * callback function after disposing.
  * 
- * @author René Ghosh 24 févr. 2005
+ * @author Renï¿½ Ghosh 24 fï¿½vr. 2005
  */
 public class CallBackDialog extends JDialog {
 
-	private JFrame parentFrame;
+	private JFrame parentFrame = null;
 
 	/**
 	 * Constructor
 	 */
 	public CallBackDialog() {
-		super(new JFrame(), true);
-		parentFrame = (JFrame) getOwner();
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				parentFrame.setSize(0, 0);
-				parentFrame.setLocation(-500, -500);
-			}
-		});
+		// BUG 2498317: the parentFrame.setLocation(-500, -500) does not work on non-windows systems.
+		super(isWindowsSystem() ? new JFrame() : null, true);
+		if (isWindowsSystem()) {
+			parentFrame = (JFrame) getOwner();
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					parentFrame.setSize(0, 0);
+					parentFrame.setLocation(-500, -500);
+				}
+			});
+		}
+	}
+	
+	private static boolean isWindowsSystem() {
+		return System.getProperty("os.name").toLowerCase().indexOf("windows") != -1;
 	}
 
 	/**
@@ -55,7 +64,8 @@ public class CallBackDialog extends JDialog {
 	 */
 	public void dispose() {
 		super.hide();
-		parentFrame.hide();
+		if (parentFrame != null)
+			parentFrame.hide();
 	}
 
 	/**
@@ -66,17 +76,19 @@ public class CallBackDialog extends JDialog {
 	}
 	
 	public void display() {
-		parentFrame.setVisible(true);
+		if (parentFrame != null)
+			parentFrame.setVisible(true);
 		show();
 	}
 
 	public void setTitle(String title) {
 		super.setTitle(title);
-		parentFrame.setTitle(title);
+		if (parentFrame != null)
+			parentFrame.setTitle(title);
 	}
 
 	public void setIcon(File iconFile) {
-		if (iconFile != null) {
+		if (iconFile != null && parentFrame != null) {
 			parentFrame.setIconImage(new ImageIcon(iconFile.getAbsolutePath()).getImage());
 		}
 	}
