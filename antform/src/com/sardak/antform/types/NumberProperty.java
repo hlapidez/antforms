@@ -1,7 +1,7 @@
  /***************************************************************************\*
  *                                                                            *
  *    AntForm form-based interaction for Ant scripts                          *
- *    Copyright (C) 2005 René Ghosh                                           *
+ *    Copyright (C) 2005 Renï¿½ Ghosh                                           *
  *                                                                            *
  *   This library is free software; you can redistribute it and/or modify it  *
  *   under the terms of the GNU Lesser General Public License as published by *
@@ -29,7 +29,7 @@ import com.sardak.antform.gui.ControlPanel;
 import com.sardak.antform.interfaces.ActionListenerComponent;
 
 /**
- * @author René Ghosh
+ * @author Renï¿½ Ghosh
  * 2 mars 2005
  */
 public class NumberProperty extends DummyNumberProperty implements ActionListenerComponent {
@@ -67,7 +67,7 @@ public class NumberProperty extends DummyNumberProperty implements ActionListene
 	}
 
 	public void addToControlPanel(ControlPanel panel) {
-		model = new SpinnerNumberModel(min,min, max, step); 
+		model = new SpinnerNumberModel(min, min, max, step); 
 		spinner = new JSpinner(model);
 		panel.getStylesheetHandler().addSpinner(spinner);
 		spinner.setEnabled(isEditable());
@@ -84,9 +84,15 @@ public class NumberProperty extends DummyNumberProperty implements ActionListene
 
 	public void reset() {
 		if (isDouble(getCurrentProjectPropertyValue())) {
-			spinner.setValue(new Double(getCurrentProjectPropertyValue()));
+			double resetValue = Double.parseDouble(getCurrentProjectPropertyValue());
+			if (resetValue < min) {
+				resetValue = min;
+			} else if (resetValue > max) {
+				resetValue = max;
+			}
+			spinner.setValue(new Double(resetValue));
 		} else {
-			spinner.setValue(new Double(0));
+			spinner.setValue(new Double(min));
 		}
 	}
 	
