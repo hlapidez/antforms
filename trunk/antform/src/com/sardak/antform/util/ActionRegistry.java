@@ -60,7 +60,7 @@ public class ActionRegistry implements ActionListener {
 			// inform form/menu about the action source
 			task.setActionSource(source);
 			// close the form/menu
-			task.getControl().close();
+			task.close();
 		}
 	}
 }
