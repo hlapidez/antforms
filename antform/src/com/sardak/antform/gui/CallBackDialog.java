@@ -26,8 +26,6 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import sun.awt.PlatformFont;
-
 /**
  * A frame for implementing custom behaviour once the dispose is called: calls a
  * callback function after disposing.
