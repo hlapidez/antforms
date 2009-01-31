@@ -1,7 +1,7 @@
 /***************************************************************************\*
  *                                                                            *
  *    AntForm form-based interaction for Ant scripts                          *
- *    Copyright (C) 2005 René Ghosh                                           *
+ *    Copyright (C) 2005 Renï¿½ Ghosh                                           *
  *                                                                            *
  *   This library is free software; you can redistribute it and/or modify it  *
  *   under the terms of the GNU Lesser General Public License as published by *
@@ -48,7 +48,7 @@ import com.sardak.antform.util.ActionRegistry;
 import com.sardak.antform.util.FocusedComponent;
 
 /**
- * @author René Ghosh 12 janv. 2005
+ * @author Renï¿½ Ghosh 12 janv. 2005
  */
 public abstract class AbstractTaskWindow extends Task implements CallBack {
 	protected String title = null;
@@ -158,8 +158,13 @@ public abstract class AbstractTaskWindow extends Task implements CallBack {
 		this.width = width;
 	}
 
-	public Control getControl() {
-		return control;
+ 	public void close() {
+ 		// make copy and test;
+		// otherwise need to synchronize access
+ 		Control controlCopy= control;
+ 		if(controlCopy!=null) {
+ 			controlCopy.close();
+ 		}
 	}
 
 	/**
