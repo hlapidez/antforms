@@ -11,7 +11,7 @@ Date: 07/01/2005.
 	<property name="lib" value="lib" />
 	<property name="dist" value="dist" />
 	<property name="doc" value="doc" />
-	<property name="version" value="2.0beta2" />
+	<property name="version" value="2.0" />
 	<property name="backup" value="../bakantform" />
 
 	<!-- clean up the class folder -->
