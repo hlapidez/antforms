@@ -1,0 +1,5 @@
+# user and password values for porting the antform documentation on shell.sourceforge.net
+
+user=myuser
+password=mypassword
+private.key.file=c:/my/private/key/file

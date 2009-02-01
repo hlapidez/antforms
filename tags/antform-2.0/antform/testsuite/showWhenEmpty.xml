@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<project default="show-when-empty">
+	<path id="runtime.cp">
+		<pathelement location="../bin/" />
+		<fileset dir="../lib" includes="antform.jar" />
+	</path>
+	<taskdef name="antform" classname="com.sardak.antform.AntForm" classpathref="runtime.cp" loaderref="antform" />
+	<taskdef name="antmenu" classname="com.sardak.antform.AntMenu" classpathref="runtime.cp" loaderref="antform" />
+
+	<target name="show-when-empty">
+
+		<echo message="Empty form shown" />
+		<antform title="Empty form shown" showwhenempty="true">
+		</antform>
+		
+		<echo message="Empty form hidden" />
+		<antform title="Empty form shown" showwhenempty="false">
+		</antform>
+		
+		<echo message="Empty form default behaviour" />
+		<antform title="Empty form shown">
+		</antform>
+		
+		<property name="p" value="v" />
+		
+		<echo message="Empty form shown" />
+		<antform title="Empty form shown" showwhenempty="true">
+			<textproperty label="" property="p" unless="p"/>
+		</antform>
+		
+		<echo message="Empty form hidden" />
+		<antform title="Empty form shown" showwhenempty="false">
+			<textproperty label="" property="p" unless="p"/>
+		</antform>
+		
+		<echo message="Empty form default behaviour" />
+		<antform title="Empty form shown">
+			<textproperty label="" property="p" unless="p"/>
+		</antform>
+		
+	</target>
+</project>
+

@@ -1,0 +1,36 @@
+<h2>Installation</h2>
+<p>After <a href="download.html">downloading</a> the package, unzip it into a specific folder on your hard disk. Let's call this folder <code>AntForm_home</code> for what follows.</p>
+<p>In your Ant build file, create <code>taskdef</code> (<i>task definitions</i>) 
+with a classpath referring to your ${antForm_home}/lib/AntForm.jar file, unless this file is copied into the 
+base ${ant_home}/lib folder of your Ant distribution, in which case it doesn't need to be referenced through the
+<code>taskdef</code> classpath attribute. The task definitions should look like this:</p>
+<blockquote><pre>
+&lt;taskdef name="antform" classname="com.sardak.antform.AntForm" 
+            classpath="${antform.home}/lib/antform.jar"/&gt;
+&lt;taskdef name="antmenu" classname="com.sardak.antform.AntMenu" 
+            classpath="${antform.home}/lib/antform.jar"/&gt;
+</pre></blockquote>
+<p>
+	You can also use the provided taskdefs.properties:
+</p>
+<p>
+	<blockquote><pre>
+&lt;taskdef resource="com/sardak/antform/taskdefs.properties"
+            classpath="${antform.home}/lib/antform.jar"/&gt;
+	</pre></blockquote>
+</p>
+
+<p>You're ready to use the freshly-defined tasks in other ant targets. See <a href="usageaf.html">AntForm</a> and <a href="usageam.html">AntMenu</a> for more information on the specificities if the <code>antform</code> and <code>antmenu</code> tasks.</p>
+
+<h2>Samples</h2>
+<p>There's a sample and build file named test.xml in the root folder. If your
+<code>ant_home</code> and <code>path</code> environment variables are correctly
+set, you should be able to test the samples with the following command:</p>
+<blockquote><pre>
+	ant -f test.xml test testmenu testne spinners password wizard1
+</pre></blockquote>
+<p>Use <code>ant -f test.xml -p</code> to see a list of other tests. These tests
+use other properties or behavioural characteristics and will show you more of
+what AntForm/AntMenu can do.</p>
+
+
