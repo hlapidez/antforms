@@ -17,9 +17,12 @@ Date: 07/01/2005.
 	<!-- clean up the class folder -->
 	<target name="clean">
 		<mkdir dir="${bin}" />
-		<delete>
-			<fileset dir="${bin}" includes="**/*.*" />
+		<delete includeemptydirs="true">
+			<fileset dir="${bin}" includes="**" />
 		</delete>
+    <delete includeemptydirs="true">
+      <fileset dir="." includes="dist/**" />
+    </delete>
 	</target>
 
 	<!-- generate the  javadoc from the java source code into the ${doc}/api folder -->
