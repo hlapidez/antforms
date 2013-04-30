@@ -1,7 +1,7 @@
 /***************************************************************************\*
  *                                                                            *
  *    AntForm form-based interaction for Ant scripts                          *
- *    Copyright (C) 2005 René Ghosh                                           *
+ *    Copyright (C) 2005 Renï¿½ Ghosh                                           *
  *                                                                            *
  *   This library is free software; you can redistribute it and/or modify it  *
  *   under the terms of the GNU Lesser General Public License as published by *
@@ -31,9 +31,10 @@ import com.sardak.antform.interfaces.ActionListenerComponent;
 /**
  * Boolean, or true/false, property
  * 
- * @author René Ghosh
+ * @author Renï¿½ Ghosh
  */
-public class BooleanProperty extends DefaultProperty implements ActionListenerComponent {
+public class BooleanProperty extends DefaultProperty implements
+		ActionListenerComponent {
 	private JCheckBox checkBox;
 
 	public void addToControlPanel(ControlPanel panel) {
@@ -48,17 +49,25 @@ public class BooleanProperty extends DefaultProperty implements ActionListenerCo
 	}
 
 	public void ok() {
-		if (getCurrentProjectPropertyValue() == null && !checkBox.isSelected()) {
-			// do not set project property in this case
-		} else if (checkBox.isSelected()) {
+		if (checkBox.isSelected()) {
+			log("Setting " + getProperty() + " to true", Project.MSG_VERBOSE);
 			getProject().setProperty(getProperty(), Boolean.TRUE.toString());
-		} else { // !checkBox.isSelected() && getInitialPropertyValue() != null
+		} else if (getCurrentProjectPropertyValue() != null) {
+			log("Setting " + getProperty()
+					+ " to false. It was previously set to "
+					+ getCurrentProjectPropertyValue(), Project.MSG_VERBOSE);
 			getProject().setProperty(getProperty(), Boolean.FALSE.toString());
+		} else {
+			log("Not setting "
+					+ getProperty()
+					+ " as it was not previously set and the checkbox remained unchecked",
+					Project.MSG_VERBOSE);
 		}
 	}
 
 	public void reset() {
-		checkBox.setSelected(Project.toBoolean(getCurrentProjectPropertyValue()));
+		checkBox.setSelected(Project
+				.toBoolean(getCurrentProjectPropertyValue()));
 	}
 
 	public JComponent getFocusableComponent() {
