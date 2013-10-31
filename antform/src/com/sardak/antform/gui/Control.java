@@ -141,6 +141,8 @@ public class Control {
 	 * @param lookAndFeel
 	 */
 	public void updateLookAndFeel(String lookAndFeel) {
+		if(lookAndFeel.equalsIgnoreCase("NATIVE"))
+		    lookAndFeel = UIManager.getSystemLookAndFeelClassName();
 		try {
 			UIManager.setLookAndFeel(lookAndFeel);			
 		} catch (ClassNotFoundException e) {
