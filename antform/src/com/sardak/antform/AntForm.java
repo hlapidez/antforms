@@ -410,9 +410,9 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 					control.setDefaultButton(button);
 				}
 			}
+			needFail = !controlBar.validate(this);
 			controlBar.register(getActionRegistry());
 		}
-		needFail = !controlBar.validate(this);
 		super.build();
 		built = true;
 	}
