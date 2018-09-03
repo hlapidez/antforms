@@ -35,6 +35,7 @@ public class Button extends BaseType implements ActionComponent, Focusable {
 	private boolean background = false;
 	private JButton button = new JButton();
 	private int type = ActionType.OK;
+	private boolean defaultButton = false;
 	private boolean focus = false;
 	private boolean loopExit = false;
 	private boolean newProject = true;
@@ -120,7 +121,8 @@ public class Button extends BaseType implements ActionComponent, Focusable {
 	public String toString() {
 		return super.toString() + " [label:" + getLabel() +
 				", type:" + ActionType.getType(getActionType()) +
-				", target:" + getTarget() + ", background:" + isBackground() + "]";
+				", target:" + getTarget() + ", background:" + isBackground() +
+				", defaultButton:" + isDefaultButton() + "]";
 	}
 
 	public void setFocus(boolean focus) {
@@ -133,5 +135,13 @@ public class Button extends BaseType implements ActionComponent, Focusable {
 
 	public JComponent getFocusableComponent() {
 		return button;
+	}
+
+	public boolean isDefaultButton() {
+		return defaultButton;
+	}
+
+	public void setDefaultButton(boolean defaultButton) {
+		this.defaultButton = defaultButton;
 	}
 }

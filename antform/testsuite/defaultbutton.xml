@@ -1,0 +1,20 @@
+<project default="test">
+
+	<path id="runtime.cp">
+		<pathelement location="../bin/" />
+		<fileset dir="../lib" includes="antform.jar" />
+	</path>
+	<taskdef name="antform" classname="com.sardak.antform.AntForm" classpathref="runtime.cp" />
+	<taskdef name="antmenu" classname="com.sardak.antform.AntMenu" classpathref="runtime.cp" />
+
+	<target name="test">
+		<antform title="Password Request">
+			<textProperty label="Input password and press &lt;Enter&gt;" property="password" required="true" password="true"/>
+			<controlbar>
+				<button type="reset" label="Reset"/>
+				<button type="ok" label="OK" defaultButton="true"/>
+			</controlbar>
+		</antform>
+		<echo message="password = ${password}" />
+	</target>
+</project>
