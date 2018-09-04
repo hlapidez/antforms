@@ -1,7 +1,7 @@
  /***************************************************************************\*
  *                                                                            *
  *    AntForm form-based interaction for Ant scripts                          *
- *    Copyright (C) 2005 Ren� Ghosh                                           *
+ *    Copyright (C) 2005 René Ghosh                                           *
  *                                                                            *
  *   This library is free software; you can redistribute it and/or modify it  *
  *   under the terms of the GNU Lesser General Public License as published by *
@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -40,14 +41,16 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+
 import com.sardak.antform.types.AntMenuItem;
+import com.sardak.antform.types.Button;
 import com.sardak.antform.util.FocusedComponent;
 import com.sardak.antform.util.MnemonicsUtil;
 import com.sardak.antform.util.StyleUtil;
 
 /**
  * Frame for holding the user form
- * @author Ren� Ghosh
+ * @author René Ghosh
  */
 public class Control {
 	private CallBackDialog dialog;
@@ -296,5 +299,9 @@ public class Control {
 	
 	public void addMenu(JMenu menu) {
 	    menuItems.add(menu);
+	}
+
+	public void setDefaultButton(Button button) {
+		dialog.getRootPane().setDefaultButton((JButton)button.getComponent());
 	}
 }

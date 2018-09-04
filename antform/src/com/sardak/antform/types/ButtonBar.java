@@ -1,7 +1,7 @@
  /***************************************************************************\*
  *                                                                            *
  *    AntForm form-based interaction for Ant scripts                          *
- *    Copyright (C) 2005 René Ghosh                                           *
+ *    Copyright (C) 2005 RenÃ© Ghosh                                           *
  *                                                                            *
  *   This library is free software; you can redistribute it and/or modify it  *
  *   under the terms of the GNU Lesser General Public License as published by *
@@ -57,15 +57,22 @@ public class ButtonBar extends BaseType implements Focusable {
 	}
 	
 	public boolean validate(Task task) {
-		boolean valid = true;
+		boolean valid = true, hasDefault = false;
 		if (buttons.isEmpty()) {
 			task.log("ButtonBar : no button configured.");
 			valid = false;
 		}
-		for (Iterator iter = buttons.iterator(); iter.hasNext();) {
+		for (Iterator iter = buttons.iterator(); iter.hasNext() && valid;) {
 			Button button = (Button) iter.next();
 			if (!button.validate(task)) {
 				valid = false;
+			}
+			if (button.isDefaultButton()) {
+				if (hasDefault) {
+					task.log("There is more than one default button on the bar.");
+					valid = false;
+				}
+				hasDefault = true;
 			}
 		}
 		return valid;

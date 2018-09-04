@@ -96,7 +96,7 @@ public abstract class AbstractTaskWindow extends Task implements CallBack {
 	 */
 	protected void build() {
 		displayedWidgets = new ArrayList();
-		for (int i = 0; i < widgets.size(); i++) {
+		for (int i = 0; i < widgets.size() && !needFail; i++) {
 			BaseType o = (BaseType) widgets.get(i);
 			if (o.validate(this)) {
 				if (o.shouldBeDisplayed(getProject())) {

@@ -404,6 +404,13 @@ public class AntForm extends AbstractTaskWindow implements CallBack {
 			ControlPanel controlPanel = control.getPanel();
 			controlBar.applyStylesheet(controlPanel);
 			controlPanel.addButtonPanel(controlBar.getPanel());
+			for (Iterator iter = controlBar.getButtons().iterator(); iter.hasNext();) {
+				Button button = (Button) iter.next();
+				if (button.isDefaultButton()) {
+					control.setDefaultButton(button);
+				}
+			}
+			needFail = !controlBar.validate(this);
 			controlBar.register(getActionRegistry());
 		}
 		super.build();
